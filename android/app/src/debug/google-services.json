@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "814243492688",
+    "firebase_url": "https://bebkeler-89a5e-default-rtdb.firebaseio.com",
     "project_id": "bebkeler-89a5e",
     "storage_bucket": "bebkeler-89a5e.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "814243492688-8j0uecbq9rk50pfmhqqnj0d50gjljb56.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bebkeler",
+            "certificate_hash": "0c031bcf048c7bb23becc743c026426fce1dab74"
+          }
+        },
         {
           "client_id": "814243492688-ctvj8at0tm1g87rnvsnem1jkcj4568u4.apps.googleusercontent.com",
           "client_type": 3
