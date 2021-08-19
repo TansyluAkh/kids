@@ -1,22 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:moochild/models/user.dart';
-import 'package:moochild/services/database_service.dart';
+import 'package:bebkeler/models/user.dart' as models;
+import 'package:bebkeler/services/database_service.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   // !Setup User object based on FirebaseUser object
-  User _userFromFirebaseUser(FirebaseUser user) {
+  models.User _userFromFirebaseUser(User user) {
     return user != null
-        ? User(uid: user.uid, displayName: user.displayName)
+        ? models.User(uid: user.uid, displayName: user.displayName)
         : null;
   }
 
   // !Stream to notify auth changes
-  Stream<User> get user {
-    return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
+  Stream<models.User> get user {
+    return _auth.authStateChanges().map(_userFromFirebaseUser);
   }
 
   // !Sign in with Google Account
@@ -27,14 +27,14 @@ class AuthService {
       final GoogleSignInAuthentication googleSignInAuthentication =
           await googleSignInAccount.authentication;
 
-      final AuthCredential credential = GoogleAuthProvider.getCredential(
+      final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
       );
 
-      final AuthResult authResult =
+      final UserCredential authResult =
           await _auth.signInWithCredential(credential);
-      final FirebaseUser user = authResult.user;
+      final User user = authResult.user;
 
       await DatabaseService(uid: user.uid).updateSBSettings(1, 5);
       await DatabaseService(uid: user.uid)

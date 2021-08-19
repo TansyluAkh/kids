@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moochild/screens/math_ninja/game.dart';
-import 'package:moochild/screens/math_ninja/leaderboard.dart';
-import 'package:moochild/screens/math_ninja/settings.dart';
+import 'package:bebkeler/screens/math_ninja/game.dart';
+import 'package:bebkeler/screens/math_ninja/leaderboard.dart';
+import 'package:bebkeler/screens/math_ninja/settings.dart';
 
 class MNHomePage extends StatelessWidget {
   @override

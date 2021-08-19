@@ -1,13 +1,13 @@
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:flutter/material.dart';
-import 'package:moochild/models/user.dart';
-import 'package:moochild/screens/home_screen.dart';
-import 'package:moochild/screens/spelling_bee/summary.dart';
-import 'package:moochild/services/spelling_bee_service.dart';
+import 'package:bebkeler/models/user.dart';
+import 'package:bebkeler/screens/home_screen.dart';
+import 'package:bebkeler/screens/spelling_bee/summary.dart';
+import 'package:bebkeler/services/spelling_bee_service.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
-import 'package:moochild/services/database_service.dart';
-import 'package:moochild/components/loading.dart';
+import 'package:bebkeler/services/database_service.dart';
+import 'package:bebkeler/components/loading.dart';
 
 class SBInitPage extends StatelessWidget {
   @override
@@ -225,7 +225,7 @@ class _SBGamePageState extends State<SBGamePage> {
             context: context,
             builder: (context) => AlertDialog(
                   title: Text(
-                    "Moochild",
+                    "bebkeler",
                   ),
                   content: Text("Quit the game?"),
                   actions: <Widget>[

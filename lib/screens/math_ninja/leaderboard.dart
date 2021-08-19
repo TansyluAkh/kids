@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moochild/services/database_service.dart';
+import 'package:bebkeler/services/database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:moochild/components/loading.dart';
+import 'package:bebkeler/components/loading.dart';
 
 class MNLeaderboard extends StatefulWidget {
   @override
@@ -20,8 +20,8 @@ class _MNLeaderboardState extends State<MNLeaderboard> {
 
   Future<void> _initData() async {
     await DatabaseService().getMnLeaderboardData().then((QuerySnapshot docs) {
-      if (docs.documents.isNotEmpty) {
-        List<DocumentSnapshot> gamedata = docs.documents;
+      if (docs.docs.isNotEmpty) {
+        List<DocumentSnapshot> gamedata = docs.docs;
 
         for (int i = 0; i < gamedata.length; i++) {
           datas.add(gamedata[i].data);

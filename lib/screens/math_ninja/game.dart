@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:moochild/components/loading.dart';
-import 'package:moochild/components/mn_answer_button.dart';
-import 'package:moochild/models/user.dart';
-import 'package:moochild/screens/home_screen.dart';
-import 'package:moochild/screens/math_ninja/summary.dart';
-import 'package:moochild/services/database_service.dart';
-import 'package:moochild/services/math_ninja_service.dart';
+import 'package:bebkeler/components/loading.dart';
+import 'package:bebkeler/components/mn_answer_button.dart';
+import 'package:bebkeler/models/user.dart';
+import 'package:bebkeler/screens/home_screen.dart';
+import 'package:bebkeler/screens/math_ninja/summary.dart';
+import 'package:bebkeler/services/database_service.dart';
+import 'package:bebkeler/services/math_ninja_service.dart';
 import 'package:provider/provider.dart';
 
 class MNInitPage extends StatelessWidget {
@@ -169,7 +169,7 @@ class _MNGamePageState extends State<MNGamePage> {
             context: context,
             builder: (context) => AlertDialog(
                   title: Text(
-                    "Moochild",
+                    "bebkeler",
                   ),
                   content: Text("Quit the game?"),
                   actions: <Widget>[

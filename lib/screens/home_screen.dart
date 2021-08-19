@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:moochild/screens/login_screen.dart';
-import 'package:moochild/screens/math_ninja/home.dart';
-import 'package:moochild/screens/spelling_bee/home.dart';
-import 'package:moochild/services/auth_service.dart';
-import 'package:moochild/components/game_mode_card.dart';
+import 'package:bebkeler/screens/login_screen.dart';
+import 'package:bebkeler/screens/math_ninja/home.dart';
+import 'package:bebkeler/screens/spelling_bee/home.dart';
+import 'package:bebkeler/services/auth_service.dart';
+import 'package:bebkeler/components/game_mode_card.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                             context: context,
                             builder: (context) => AlertDialog(
                                   title: Text(
-                                    "Moochild",
+                                    "bebkeler",
                                   ),
                                   content: Text("Sign out?"),
                                   actions: <Widget>[

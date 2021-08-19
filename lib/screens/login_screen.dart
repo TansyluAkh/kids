@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moochild/screens/home_screen.dart';
-import 'package:moochild/services/auth_service.dart';
-import 'package:moochild/components/loading.dart';
+import 'package:bebkeler/screens/home_screen.dart';
+import 'package:bebkeler/services/auth_service.dart';
+import 'package:bebkeler/components/loading.dart';
 
 class LoginPage extends StatefulWidget {
   @override

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:moochild/components/loading.dart';
-import 'package:moochild/models/user.dart';
+import 'package:bebkeler/components/loading.dart';
+import 'package:bebkeler/models/user.dart';
 import 'package:provider/provider.dart';
-import 'package:moochild/services/database_service.dart';
+import 'package:bebkeler/services/database_service.dart';
 
 class SBSettingsPage extends StatefulWidget {
   @override

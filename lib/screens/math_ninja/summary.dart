@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:moochild/screens/home_screen.dart';
-import 'package:moochild/components/rounded_summary_button.dart';
-import 'package:moochild/screens/spelling_bee/game.dart';
-import 'package:moochild/models/user.dart';
+import 'package:bebkeler/screens/home_screen.dart';
+import 'package:bebkeler/components/rounded_summary_button.dart';
+import 'package:bebkeler/screens/spelling_bee/game.dart';
+import 'package:bebkeler/models/user.dart';
 import 'package:provider/provider.dart';
-import 'package:moochild/services/database_service.dart';
-import 'package:moochild/components/loading.dart';
+import 'package:bebkeler/services/database_service.dart';
+import 'package:bebkeler/components/loading.dart';
 
 class MNSummaryPage extends StatefulWidget {
   final int score;
@@ -73,7 +73,7 @@ class _MNSummaryPageState extends State<MNSummaryPage> {
                   context: context,
                   builder: (context) => AlertDialog(
                         title: Text(
-                          "Moochild",
+                          "bebkeler",
                         ),
                         content: Text("Quit the game?"),
                         actions: <Widget>[

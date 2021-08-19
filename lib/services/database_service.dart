@@ -1,7 +1,7 @@
+import 'package:bebkeler/models/game_data.dart';
+import 'package:bebkeler/models/setting_data.dart';
+import 'package:bebkeler/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:moochild/models/setting_data.dart';
-import 'package:moochild/models/game_data.dart';
-import 'package:moochild/models/user.dart';
 
 class DatabaseService {
   final String uid;
@@ -9,10 +9,10 @@ class DatabaseService {
 
   // !MATH NINJA
   final CollectionReference mnSettingsCollection =
-      Firestore.instance.collection('mathNinjaSettings');
+      FirebaseFirestore.instance.collection('mathNinjaSettings');
 
   final CollectionReference mnGameDataCollection =
-      Firestore.instance.collection('mathNinjaGameData');
+      FirebaseFirestore.instance.collection('mathNinjaGameData');
 
   Future<void> updateMnSettings(
       int difficulty,
@@ -21,7 +21,7 @@ class DatabaseService {
       bool isSubtraction,
       bool isMultiplication,
       bool isDivision) async {
-    return await mnSettingsCollection.document(uid).setData({
+    return await mnSettingsCollection.doc(uid).set({
       'mn_difficulty': difficulty,
       'mn_number_of_questions': numberOfQuestions,
       'mn_is_addition': isAddition,
@@ -33,7 +33,7 @@ class DatabaseService {
 
   Future<void> updateMnGameData(
       String username, int gamesPlayed, int points, double ratio) async {
-    return await mnGameDataCollection.document(uid).setData({
+    return await mnGameDataCollection.doc(uid).set({
       'mn_username': username,
       'mn_games_played': gamesPlayed,
       'mn_points': points,
@@ -44,56 +44,56 @@ class DatabaseService {
   MNUserSettings _mnUserSettingsFromSnapshot(DocumentSnapshot snapshot) {
     return MNUserSettings(
       uid: uid,
-      mnDifficulty: snapshot.data['mn_difficulty'],
-      mnNumberOfQuestions: snapshot.data['mn_number_of_questions'],
-      mnIsAddition: snapshot.data['mn_is_addition'],
-      mnIsSubtraction: snapshot.data['mn_is_subtraction'],
-      mnIsMultiplication: snapshot.data['mn_is_multiplication'],
-      mnIsDivision: snapshot.data['mn_is_division'],
+      mnDifficulty: snapshot.get('mn_difficulty'),
+      mnNumberOfQuestions: snapshot.get('mn_number_of_questions'),
+      mnIsAddition: snapshot.get('mn_is_addition'),
+      mnIsSubtraction: snapshot.get('mn_is_subtraction'),
+      mnIsMultiplication: snapshot.get('mn_is_multiplication'),
+      mnIsDivision: snapshot.get('mn_is_division'),
     );
   }
 
   MNUserGameData _mnUserGameDataFromSnapshot(DocumentSnapshot snapshot) {
     return MNUserGameData(
         uid: uid,
-        mnGamesPlayed: snapshot.data['mn_games_played'],
-        mnPoints: snapshot.data['mn_points'],
-        mnRatio: snapshot.data['mn_ratio']);
+        mnGamesPlayed: snapshot.get('mn_games_played'),
+        mnPoints: snapshot.get('mn_points'),
+        mnRatio: snapshot.get('mn_ratio'));
   }
 
   Stream<MNUserSettings> get getMnUserSettings {
     return mnSettingsCollection
-        .document(uid)
+        .doc(uid)
         .snapshots()
         .map(_mnUserSettingsFromSnapshot);
   }
 
   Stream<MNUserGameData> get getMnUserGameData {
     return mnGameDataCollection
-        .document(uid)
+        .doc(uid)
         .snapshots()
         .map(_mnUserGameDataFromSnapshot);
   }
 
   List<MNSettings> _mnSettingsFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return MNSettings(
-        mnDifficulty: doc.data['mn_difficulty'] ?? 1,
-        mnNumberOfQuestions: doc.data['mn_number_of_questions'] ?? 5,
-        mnIsAddition: doc.data['mn_is_addition'] ?? true,
-        mnIsSubtraction: doc.data['mn_is_subtraction'] ?? false,
-        mnIsMultiplication: doc.data['mn_is_multiplication'] ?? false,
-        mnIsDivision: doc.data['mn_is_division'] ?? false,
+        mnDifficulty: doc.get('mn_difficulty') ?? 1,
+        mnNumberOfQuestions: doc.get('mn_number_of_questions') ?? 5,
+        mnIsAddition: doc.get('mn_is_addition') ?? true,
+        mnIsSubtraction: doc.get('mn_is_subtraction') ?? false,
+        mnIsMultiplication: doc.get('mn_is_multiplication') ?? false,
+        mnIsDivision: doc.get('mn_is_division') ?? false,
       );
     }).toList();
   }
 
   List<MNGameData> _mnGameDataFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return MNGameData(
-        mnGamesPlayed: doc.data['mn_games_played'] ?? 0,
-        mnPoints: doc.data['mn_points'] ?? 0,
-        mnRatio: doc.data['mn_ratio'] ?? 0,
+        mnGamesPlayed: doc.get('mn_games_played') ?? 0,
+        mnPoints: doc.get('mn_points') ?? 0,
+        mnRatio: doc.get('mn_ratio') ?? 0,
       );
     }).toList();
   }
@@ -107,22 +107,22 @@ class DatabaseService {
   }
 
   getMnLeaderboardData() {
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('mathNinjaGameData')
         .orderBy('mn_points', descending: true)
         .limit(10)
-        .getDocuments();
+        .get();
   }
 
   // !SPELLING BEE
   final CollectionReference sbSettingsCollection =
-      Firestore.instance.collection('spellingBeeSettings');
+      FirebaseFirestore.instance.collection('spellingBeeSettings');
 
   final CollectionReference sbGameDataCollection =
-      Firestore.instance.collection('spellingBeeGameData');
+      FirebaseFirestore.instance.collection('spellingBeeGameData');
 
   Future<void> updateSBSettings(int difficulty, int numberOfQuestions) async {
-    return await sbSettingsCollection.document(uid).setData({
+    return await sbSettingsCollection.doc(uid).set({
       'sb_difficulty': difficulty,
       'sb_number_of_questions': numberOfQuestions,
     });
@@ -130,7 +130,7 @@ class DatabaseService {
 
   Future<void> updateSbGameData(
       String username, int gamesPlayed, int points, double ratio) async {
-    return await sbGameDataCollection.document(uid).setData({
+    return await sbGameDataCollection.doc(uid).set({
       'sb_username': username,
       'sb_games_played': gamesPlayed,
       'sb_points': points,
@@ -141,48 +141,48 @@ class DatabaseService {
   SBUserSettings _sbUserSettingsFromSnapshot(DocumentSnapshot snapshot) {
     return SBUserSettings(
       uid: uid,
-      sbDifficulty: snapshot.data['sb_difficulty'],
-      sbNumberOfQuestions: snapshot.data['sb_number_of_questions'],
+      sbDifficulty: snapshot.get('sb_difficulty'),
+      sbNumberOfQuestions: snapshot.get('sb_number_of_questions'),
     );
   }
 
   SBUserGameData _sbUserGameDataFromSnapshot(DocumentSnapshot snapshot) {
     return SBUserGameData(
         uid: uid,
-        sbGamesPlayed: snapshot.data['sb_games_played'],
-        sbPoints: snapshot.data['sb_points'],
-        sbRatio: snapshot.data['sb_ratio']);
+        sbGamesPlayed: snapshot.get('sb_games_played'),
+        sbPoints: snapshot.get('sb_points'),
+        sbRatio: snapshot.get('sb_ratio'));
   }
 
   Stream<SBUserSettings> get getSbUserSettings {
     return sbSettingsCollection
-        .document(uid)
+        .doc(uid)
         .snapshots()
         .map(_sbUserSettingsFromSnapshot);
   }
 
   Stream<SBUserGameData> get getSbUserGameData {
     return sbGameDataCollection
-        .document(uid)
+        .doc(uid)
         .snapshots()
         .map(_sbUserGameDataFromSnapshot);
   }
 
   List<SBSettings> _sbSettingsFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return SBSettings(
-        sbDifficulty: doc.data['sb_difficulty'] ?? 1,
-        sbNumberOfQuestions: doc.data['sb_number_of_questions'] ?? 10,
+        sbDifficulty: doc.get('sb_difficulty') ?? 1,
+        sbNumberOfQuestions: doc.get('sb_number_of_questions') ?? 10,
       );
     }).toList();
   }
 
   List<SBGameData> _sbGameDataFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+    return snapshot.docs.map((doc) {
       return SBGameData(
-        sbGamesPlayed: doc.data['sb_games_played'] ?? 0,
-        sbPoints: doc.data['sb_points'] ?? 0,
-        sbRatio: doc.data['sb_ratio'] ?? 0,
+        sbGamesPlayed: doc.get('sb_games_played') ?? 0,
+        sbPoints: doc.get('sb_points') ?? 0,
+        sbRatio: doc.get('sb_ratio') ?? 0,
       );
     }).toList();
   }
@@ -196,10 +196,10 @@ class DatabaseService {
   }
 
   getSbLeaderboardData() {
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('spellingBeeGameData')
         .orderBy('sb_points', descending: true)
         .limit(10)
-        .getDocuments();
+        .get();
   }
 }

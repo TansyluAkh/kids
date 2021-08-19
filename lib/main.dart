@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moochild/models/user.dart';
-import 'package:moochild/screens/splash_screen.dart';
-import 'package:moochild/services/auth_service.dart';
+import 'package:bebkeler/models/user.dart';
+import 'package:bebkeler/screens/splash_screen.dart';
+import 'package:bebkeler/services/auth_service.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         StreamProvider<User>.value(value: AuthService().user),
       ],
       child: MaterialApp(
-        title: 'Moochild Kids App',
+        title: 'bebkeler Kids App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.indigo,
