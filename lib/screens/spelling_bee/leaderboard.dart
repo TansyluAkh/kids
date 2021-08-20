@@ -24,7 +24,7 @@ class _SBLeaderboardState extends State<SBLeaderboard> {
         List<DocumentSnapshot> gamedata = docs.docs;
 
         for (int i = 0; i < gamedata.length; i++) {
-          datas.add(gamedata[i].data);
+          datas.add(gamedata[i].data());
         }
         setState(() {
           flag = true;
