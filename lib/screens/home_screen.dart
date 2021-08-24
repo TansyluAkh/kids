@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                         print(text.data);
                       return text.data != null ?
                         ListView.builder(
-                          itemCount:  text.data != null ? text.data[0].length : 1,
+                          itemCount:  text.data != null ? text.data[0].sub.length : 1,
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           physics: ScrollPhysics(),

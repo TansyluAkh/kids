@@ -15,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "814243492688-6v740sund3oetbqb4sn4uhopdgussqbg.apps.googleusercontent.com",
+          "client_id": "814243492688-bfgc8mgfroci8b18a5oha3pq22k94e6g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.urban.tatar.bebkeler",
@@ -30,6 +30,35 @@
             "certificate_hash": "0c031bcf048c7bb23becc743c026426fce1dab74"
           }
         },
+        {
+          "client_id": "814243492688-ctvj8at0tm1g87rnvsnem1jkcj4568u4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfqHLkzxQKweDK3hzbyEzhFs3oYviJ_AI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "814243492688-ctvj8at0tm1g87rnvsnem1jkcj4568u4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814243492688:android:040bb9bac9b0891f9a7255",
+        "android_client_info": {
+          "package_name": "com.urban.tatar.bebkeler1"
+        }
+      },
+      "oauth_client": [
         {
           "client_id": "814243492688-ctvj8at0tm1g87rnvsnem1jkcj4568u4.apps.googleusercontent.com",
           "client_type": 3
