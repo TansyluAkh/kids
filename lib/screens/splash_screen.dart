@@ -27,8 +27,8 @@ class _SplashScreenState extends State<SplashScreen> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-            Color(0xFFB721FF).withOpacity(1),
-            Color(0xFF21D4FD).withOpacity(1)
+            Color(0xFFFFE484).withOpacity(1),
+            Color(0xFFFFCC33).withOpacity(1)
           ])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Hero(
               tag: 'home_logo',
               child: Image(
-                image: AssetImage('assets/images/home_logo.png'),
+                image: NetworkImage('https://s6.gifyu.com/images/bklogo.png'),
                 height: 175.0,
               ),
             ),

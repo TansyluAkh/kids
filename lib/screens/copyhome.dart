@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bebkeler/screens/login_screen.dart';
-import 'package:bebkeler/models/category.dart';
+import 'package:bebkeler/screens/math_ninja/home.dart';
+import 'package:bebkeler/screens/spelling_bee/home.dart';
 import 'package:bebkeler/services/auth_service.dart';
 import 'package:bebkeler/components/game_mode_card.dart';
 
@@ -43,24 +44,38 @@ class _HomePageState extends State<HomePage> {
                   child: Padding(
                     padding: EdgeInsets.all(20.0),
                     child: Container(
-                      child: FutureBuilder(
-                      future: getCategoriesData('categories'),
-                      builder: (BuildContext context, AsyncSnapshot text) {
-                        print(text.data);
-                      return text.data != null ?
-                        ListView.builder(
-                          itemCount:  text.data != null ? text.data[0].length : 1,
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          physics: ScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            print(text.data);
-                          return GameModeCard(ontap: (){print('TAPPED'); print(text.data[index].sub);}, sub: text.data[index].sub, description: text.data[index].desc, icon: text.data[index].image, title: text.data[index].name,);}
-                          )
-                              :Center(child:CircularProgressIndicator(
-                          backgroundColor: Colors.white,),
-                        );})))),
-                // !Signout Area
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          GameModeCard(
+                            sub: [],
+                            title: 'Math Ninja',
+                            description:
+                                'The Robber is here to test you math skills',
+                            icon: Icons.iso,
+                            ontap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => MNHomePage(),
+                              ));
+                            },
+                          ),
+                          GameModeCard(
+                            sub:[],
+                            title: 'Spelling Bee',
+                            description:
+                                'Challenge our AI with your spelling skills',
+                            icon: Icons.keyboard_voice,
+                            ontap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => SBHomePage(),
+                              ));
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  )),
+              // !Signout Area
               Container(
                   // color: Colors.grey[100],
                   child: IconButton(

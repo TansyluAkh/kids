@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class GameModeCard extends StatelessWidget {
-  final String title;
-  final String description;
-  final IconData icon;
-  final Function ontap;
+  final title;
+  final  description;
+  final  icon;
+  final sub;
+  final ontap;
 
-  GameModeCard({this.title, this.description, this.icon, this.ontap});
+  GameModeCard({ this.title, this.sub,  this.description,  this.icon, this.ontap});
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +17,8 @@ class GameModeCard extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                    Color(0xFFFFFFF).withOpacity(0),
-                    Color(0xFFFFFFF).withOpacity(1)
-                  ])),
+            color: Colors.white,
+              borderRadius: BorderRadius.circular(100),),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
             child: Row(
@@ -32,11 +27,8 @@ class GameModeCard extends StatelessWidget {
                 CircleAvatar(
                   radius: 45.0,
                   backgroundColor: Colors.transparent,
-                  child: Icon(
-                    icon,
-                    size: 55.0,
-                    color: Colors.black.withOpacity(0.7),
-                  ),
+                  child: Image.network(
+                    icon),
                 ),
                 SizedBox(
                   width: 15.0,
@@ -73,10 +65,10 @@ class GameModeCard extends StatelessWidget {
 }
 
 class HomeCard extends StatelessWidget {
-  final String title;
-  final String description;
-  final IconData icon;
-  final Function ontap;
+  final  title;
+  final  description;
+  final icon;
+  final ontap;
 
   HomeCard({this.title, this.description, this.icon, this.ontap});
 
