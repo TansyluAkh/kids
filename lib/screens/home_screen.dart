@@ -49,13 +49,13 @@ class _HomePageState extends State<HomePage> {
                         print(text.data);
                       return text.data != null ?
                         ListView.builder(
-                          itemCount:  text.data != null ? text.data[0].sub.length : 1,
+                          itemCount:  text.data != null ? text.data.length : 1,
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           physics: ScrollPhysics(),
                           itemBuilder: (context, index) {
                             print(text.data);
-                          return GameModeCard(ontap: (){print('TAPPED'); print(text.data[index].sub);}, sub: text.data[index].sub, description: text.data[index].desc, icon: text.data[index].image, title: text.data[index].name,);}
+                          return GameModeCard(ontap: (){print('TAPPED');}, sub: text.data[index].sub, description: text.data[index].desc, icon: text.data[index].image, title: text.data[index].name,);}
                           )
                               :Center(child:CircularProgressIndicator(
                           backgroundColor: Colors.white,),

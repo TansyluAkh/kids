@@ -23,6 +23,7 @@ Future getCategoriesData(name) async {
         name: data['name'].toString(),
         desc: data['desc'].toString());
     arr.add(categoryItem);
+
   });
   print(arr);
   return arr;
