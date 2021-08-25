@@ -1,5 +1,6 @@
 import 'dart:async';
 // import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:bebkeler/models/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/wrapper.dart';
 
@@ -13,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Timer(Duration(seconds: 4), () {
+    Timer(Duration(seconds: 6), () {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) => Wrapper()));
     });
@@ -21,17 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-            Color(0xFFFFE484).withOpacity(1),
-            Color(0xFFFFCC33).withOpacity(1)
-          ])),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
+    return  Scaffold(
+        backgroundColor: yellow,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -48,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
             // ),
             // TyperAnimatedTextKit(
             //     text: [
-            //       'Made by Husnul Aman',
+            //       'Made by Tansylu',
             //     ],
             //     speed: Duration(milliseconds: 150),
             //     isRepeatingAnimation: false,
@@ -60,7 +52,6 @@ class _SplashScreenState extends State<SplashScreen> {
             //     alignment: AlignmentDirectional.topStart),
           ],
         ),
-      ),
-    );
+      );
   }
 }

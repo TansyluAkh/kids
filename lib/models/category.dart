@@ -5,8 +5,8 @@ class Category {
   final String image;
   final String name;
   final String desc;
-  final List<String> sub;
-  Category({Key key, this.image, this.sub, this.name, this.desc});
+  final String title;
+  Category({Key key, this.image, this.title, this.name, this.desc});
 }
 
 Future getCategoriesData(name) async {
@@ -19,8 +19,8 @@ Future getCategoriesData(name) async {
     print(data);
     Category categoryItem = Category(
         image: data['image'].toString(),
-        sub: List.from(data['sub']),
         name: data['name'].toString(),
+        title: data['tat'].toString(),
         desc: data['desc'].toString());
     arr.add(categoryItem);
 
@@ -31,9 +31,9 @@ Future getCategoriesData(name) async {
 
 Category categoryInit = Category(
   image: '',
-  sub: [''],
   name: '',
   desc: '',
+  title: '',
 );
 
 List initData = [categoryInit];

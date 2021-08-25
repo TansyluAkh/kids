@@ -48,7 +48,6 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           GameModeCard(
-                            sub: [],
                             title: 'Math Ninja',
                             description:
                                 'The Robber is here to test you math skills',
@@ -60,7 +59,6 @@ class _HomePageState extends State<HomePage> {
                             },
                           ),
                           GameModeCard(
-                            sub:[],
                             title: 'Spelling Bee',
                             description:
                                 'Challenge our AI with your spelling skills',

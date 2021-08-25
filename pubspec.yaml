@@ -53,3 +53,7 @@ flutter:
     - family: Chewy
       fonts:
         - asset: assets/fonts/Chewy-Regular.ttf
+
+    - family: Montserrat
+      fonts:
+          - asset: assets/fonts/Montserrat-Regular.ttf

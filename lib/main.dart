@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:bebkeler/models/user.dart';
 import 'package:bebkeler/screens/splash_screen.dart';
 import 'package:bebkeler/services/auth_service.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   runApp(MyApp());
 }
 
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.indigo,
-          fontFamily: 'Fredoka',
+          fontFamily: 'Montserrat',
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: SplashScreen(),

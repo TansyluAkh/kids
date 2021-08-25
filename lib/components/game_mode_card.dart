@@ -1,13 +1,13 @@
+import 'package:bebkeler/models/Colors.dart';
 import 'package:flutter/material.dart';
 
 class GameModeCard extends StatelessWidget {
   final title;
   final  description;
   final  icon;
-  final sub;
   final ontap;
-
-  GameModeCard({ this.title, this.sub,  this.description,  this.icon, this.ontap});
+  final name;
+  GameModeCard({ this.title, this.name, this.description,  this.icon, this.ontap});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +18,7 @@ class GameModeCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
+            border: Border.all(color: purple, width: 5),
               borderRadius: BorderRadius.circular(100),),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),

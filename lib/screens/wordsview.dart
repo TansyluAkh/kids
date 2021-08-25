@@ -1,31 +1,41 @@
+import 'package:bebkeler/components/gridcard.dart';
 import 'package:bebkeler/models/Colors.dart';
-import 'package:bebkeler/screens/subcatscreen.dart';
+import 'package:bebkeler/models/wordsgrid.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/screens/login_screen.dart';
 import 'package:bebkeler/models/category.dart';
 import 'package:bebkeler/services/auth_service.dart';
 import 'package:bebkeler/components/game_mode_card.dart';
-import 'package:flutter/services.dart';
 
-class HomePage extends StatefulWidget {
+class WordsPage extends StatefulWidget {
+  final name;
+  final title;
+  WordsPage({Key key, @required this.name,  @required this.title})
+      : super(key: key);
   @override
-  _HomePageState createState() => _HomePageState();
+  _WordsPageState createState() => _WordsPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _WordsPageState extends State<WordsPage> {
   final AuthService _auth = AuthService();
   bool loading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: yellow ,
+      backgroundColor: yellow,
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.black, //change your color here
         ),
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-        leading: Icon(Icons.home, color: purple, size: 35),
+        centerTitle: false,
+        title: Text(widget.title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: "Montserrat",
+              fontSize: 20,
+              color: purple,
+            )),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
         ),
@@ -34,41 +44,34 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
       ),
       body: SafeArea(
-          child: Column(
+        child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              // !Logo Area
-              Expanded(
-                flex: 3,
-                child: Container(
-                  child: Image(
-                    image: NetworkImage('https://s6.gifyu.com/images/bklogo.png'),
-                  ),
-                ),
-              ),
-              // !Game Modes Cards
+              // !Logo AreaCards
               Expanded(
                   flex: 8,
                   child: Padding(
-                    padding: EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(10.0),
                     child: Container(
                       child: FutureBuilder(
-                      future: getCategoriesData('categories'),
+                      future: getWordGridData(widget.name),
                       builder: (BuildContext context, AsyncSnapshot text) {
                         print(text.data);
                       return text.data != null ?
-                        ListView.builder(
-                          itemCount:  text.data != null ? text.data.length : 1,
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          physics: ScrollPhysics(),
+                        GridView.builder(
+                            padding: EdgeInsets.all(10.0),
+                            shrinkWrap: true,
+                            physics: ScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,crossAxisCount: 2,
+                            ),
+                            itemCount: text.data.length,
                           itemBuilder: (context, index) {
                             print(text.data);
-                          return GameModeCard(ontap: (){
-                            print('TAPPED');
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => SubHomePage(name:text.data[index].name, title: text.data[index].title,)));},
-                               description: text.data[index].desc, icon: text.data[index].image, title: text.data[index].title, name: text.data[index].name);}
+                          return GridCard(
+                             image: text.data[index].image, title: text.data[index].title, name: text.data[index].name);}
                           )
                               :Center(child:CircularProgressIndicator(
                           backgroundColor: Colors.white,),
@@ -119,8 +122,6 @@ class _HomePageState extends State<HomePage> {
                                 ));
                       })),
             ],
-          ),
-        ),
-      );
+          )));
   }
 }
