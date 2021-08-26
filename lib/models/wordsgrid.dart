@@ -6,7 +6,8 @@ class WordGrid {
   final String name;
   final String desc;
   final String title;
-  WordGrid({Key key, this.image, this.title, this.name, this.desc});
+  final String doc;
+  WordGrid({Key key, this.image, this.title, this.name, this.desc, this.doc});
 }
 
 Future getWordGridData(name) async {
@@ -20,8 +21,9 @@ Future getWordGridData(name) async {
     print(data);
     WordGrid gridItem = WordGrid(
         image: data['image_url'].toString(),
-        name: data['category1'].toString() + '/'+ data['category2'].toString()+ '/'+ data['word'].toString(),
+        name: data['category1'].toString() + '_'+ data['category2'].toString(),
         title: data['tatword'].toString(),
+        doc: data['word'].toString(),
         desc: '');
     arr.add(gridItem);
   });

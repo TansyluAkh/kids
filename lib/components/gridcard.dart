@@ -1,4 +1,5 @@
 
+import 'package:bebkeler/screens/details_screen.dart';
 import 'package:bebkeler/models/Colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +7,9 @@ import 'package:flutter/material.dart';
 class GridCard extends StatelessWidget {
   final String name;
   final String image;
+  final String doc;
   final String title;
-  GridCard({@required this.title, @required this.name,
+  GridCard({@required this.title, @required this.name, @required this.doc,
     @required this.image,});
 
   @override
@@ -16,7 +18,9 @@ class GridCard extends StatelessWidget {
         child: Padding(
             padding: EdgeInsets.all(10.0),
             child: InkWell(
-                onTap: (){print('TAPPED GRIDWORD');},
+                onTap: (){print('TAPPED GRIDWORD');
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => DetailsScreen(name: name, doc: doc)));},
                 child: Stack(
                   children:[
                     Container(

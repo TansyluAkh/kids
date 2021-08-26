@@ -22,7 +22,8 @@ dependencies:
   flutter_tts:
   flutter_launcher_icons:
   animated_text_kit:
-
+  flutter_svg:
+  blobs: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

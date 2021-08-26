@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Image(
-                      image: AssetImage('assets/images/home_logo_bnw.png'),
+                      image: NetworkImage('https://s6.gifyu.com/images/bklogo.png'),
                       height: 150.0,
                     ),
                     SizedBox(height: 30),

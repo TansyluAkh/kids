@@ -71,6 +71,7 @@ class _WordsPageState extends State<WordsPage> {
                           itemBuilder: (context, index) {
                             print(text.data);
                           return GridCard(
+                            doc: text.data[index].doc,
                              image: text.data[index].image, title: text.data[index].title, name: text.data[index].name);}
                           )
                               :Center(child:CircularProgressIndicator(
