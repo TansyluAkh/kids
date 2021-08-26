@@ -2,7 +2,6 @@ import 'package:blobs/blobs.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/models/Colors.dart';
 
-
 class Body extends StatelessWidget {
   final product;
 
@@ -10,63 +9,80 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // It provide us total height and width
-    double width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double height = MediaQuery
-        .of(context)
-        .size
-        .height;
     return Padding(
-      padding: const EdgeInsets.all(kDefaultPaddin),
-      child:
-        Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+        padding: const EdgeInsets.all(kDefaultPaddin),
+        child: Column(children: <Widget>[
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ConstrainedBox(constraints: BoxConstraints(maxHeight: height * 0.1), child:
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:[
-        Text(
-            product.tatword,
-            style: Theme
-                .of(context)
-                .textTheme
-                .headline4
-                .copyWith(
-                color: elementscolor, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: kDefaultPaddin),
-          Text(product.sentence,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: elementscolor,
-                  ),
-                  textAlign: TextAlign.left,
-                  maxLines: 10,
-                  overflow: TextOverflow.clip,
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  product.tatword,
+                  style: Theme.of(context).textTheme.headline3.copyWith(
+                      color: elementscolor, fontWeight: FontWeight.bold),
                 ),
+              ),
+              SizedBox(height: kDefaultPaddin),
+              RichText(
+                  text: TextSpan(children: [
+                    TextSpan(
+                      text: 'Үрнәк: ',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: elementscolor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextSpan(
+                        text: product.sentence,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: elementscolor,
+                        ))
+                  ])),
+              RichText(
+                  text: TextSpan(children: [
+                    TextSpan(
+                      text: 'Билгеләмә: ',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: elementscolor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextSpan(
+                        text: product.definition,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: elementscolor,
+                        ))
+                  ]))
             ],
-          )),
-        Stack(
-        children:[
-        Align(alignment:Alignment.center,
-    child:
-     Blob.fromID(
-          id: ['9-6-805993'],
-          size: height*0.6,
-          styles: BlobStyles(
-           color: elementscolor),
-    )),
-
-    ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: height * 0.4, maxWidth: width*0.7),
-           child: Align(alignment:Alignment.centerRight,
-               child:Image.network(product.image_url, fit: BoxFit.scaleDown)))]),
-          ]));
+          ),
+          Expanded(
+            child: Stack(alignment: Alignment.center, children: [
+              Blob.fromID(
+                id: ['9-6-805993'],
+                size: MediaQuery.of(context).size.height * 0.5,
+                styles: BlobStyles(color: elementscolor),
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Image.network(product.image_url, fit: BoxFit.scaleDown),
+              ),
+            ]),
+          ),
+          ElevatedButton(
+            //TODO Navigate to real training screen
+              onPressed: () => Navigator.pushNamed(context, '/'),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text('өйрәтү',
+                    style: TextStyle(
+                      fontSize: 20,
+                    )),
+              ))
+        ]));
   }
 }
