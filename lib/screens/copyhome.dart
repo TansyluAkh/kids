@@ -4,6 +4,7 @@ import 'package:bebkeler/screens/math_ninja/home.dart';
 import 'package:bebkeler/screens/spelling_bee/home.dart';
 import 'package:bebkeler/services/auth_service.dart';
 import 'package:bebkeler/components/game_mode_card.dart';
+import 'package:bebkeler/models/Colors.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,16 +18,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsetsDirectional.only(top: 30.0),
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [Color(0xFFFFE484).withOpacity(1),
-                    Color(0xFFFFCC33).withOpacity(1)])),
-          child: Column(
+      backgroundColor: yellow,
+      body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               // !Logo Area
@@ -51,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                             title: 'Math Ninja',
                             description:
                                 'The Robber is here to test you math skills',
-                            icon: Icons.iso,
+                            icon: "icon",
                             ontap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => MNHomePage(),
@@ -62,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                             title: 'Spelling Bee',
                             description:
                                 'Challenge our AI with your spelling skills',
-                            icon: Icons.keyboard_voice,
+                            icon: "Icons.keyboard_voice",
                             ontap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => SBHomePage(),
@@ -119,9 +112,6 @@ class _HomePageState extends State<HomePage> {
                                 ));
                       })),
             ],
-          ),
-        ),
-      ),
-    );
+          ));
   }
 }

@@ -3,9 +3,7 @@ import 'package:bebkeler/models/Colors.dart';
 import 'package:bebkeler/models/wordsgrid.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/screens/login_screen.dart';
-import 'package:bebkeler/models/category.dart';
 import 'package:bebkeler/services/auth_service.dart';
-import 'package:bebkeler/components/game_mode_card.dart';
 
 class WordsPage extends StatefulWidget {
   final name;
@@ -26,7 +24,7 @@ class _WordsPageState extends State<WordsPage> {
       backgroundColor: yellow,
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
+          color: elementscolor, //change your color here
         ),
         centerTitle: false,
         title: Text(widget.title,

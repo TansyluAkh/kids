@@ -22,8 +22,8 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: yellow ,
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
-        ),
+        color: elementscolor, //change your color here
+      ),
         systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
         leading: Icon(Icons.home, color: purple, size: 35),
         shape: RoundedRectangleBorder(
