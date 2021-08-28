@@ -13,9 +13,8 @@ class TestPage extends StatelessWidget {
             flex: 4,
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadiusDirectional.only(
-                    bottomEnd: Radius.circular(25.0),
-                    bottomStart: Radius.circular(25.0)),
+                borderRadius:
+                    BorderRadiusDirectional.only(bottomEnd: Radius.circular(25.0), bottomStart: Radius.circular(25.0)),
                 color: Color(0xFFFA003F),
               ),
               child: Padding(

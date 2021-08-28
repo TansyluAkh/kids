@@ -62,7 +62,7 @@ class _SubHomePageState extends State<SubHomePage> {
 
                               return categories != null
                                   ? ListView.builder(
-                                      itemCount: categories != null ? categories : 1,
+                                      itemCount: categories?.length ?? 1,
                                       scrollDirection: Axis.vertical,
                                       shrinkWrap: true,
                                       physics: ScrollPhysics(),

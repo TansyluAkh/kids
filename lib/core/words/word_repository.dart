@@ -25,7 +25,7 @@ class WordRepository {
         await categories.orderBy('word', descending: false).get();
 
     return querySnapshot.docs
-        .map((e) => WordItem.fromMap(e as Map<String, dynamic>))
+        .map((e) => WordItem.fromMap(e.data() as Map<String, dynamic>))
         .toList();
   }
 }

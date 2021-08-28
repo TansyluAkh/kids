@@ -14,7 +14,7 @@ class CategoryRepository {
         await categories.orderBy('name', descending: false).get();
 
     return querySnapshot.docs
-        .map((e) => Category.fromMap(e as Map<String, dynamic>))
+        .map((e) => Category.fromMap(e.data() as Map<String, dynamic>))
         .toList();
   }
 }

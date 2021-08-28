@@ -24,8 +24,7 @@ class _HomePageState extends State<HomePage> {
               gradient: LinearGradient(
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
-                  colors: [Color(0xFFFFE484).withOpacity(1),
-                    Color(0xFFFFCC33).withOpacity(1)])),
+                  colors: [Color(0xFFFFE484).withOpacity(1), Color(0xFFFFCC33).withOpacity(1)])),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -49,8 +48,7 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           GameModeCard(
                             title: 'Math Ninja',
-                            description:
-                                'The Robber is here to test you math skills',
+                            description: 'The Robber is here to test you math skills',
                             icon: Icons.iso,
                             ontap: () {
                               Navigator.of(context).push(MaterialPageRoute(
@@ -60,8 +58,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           GameModeCard(
                             title: 'Spelling Bee',
-                            description:
-                                'Challenge our AI with your spelling skills',
+                            description: 'Challenge our AI with your spelling skills',
                             icon: Icons.keyboard_voice,
                             ontap: () {
                               Navigator.of(context).push(MaterialPageRoute(
@@ -103,10 +100,8 @@ class _HomePageState extends State<HomePage> {
                                         setState(() => loading = true);
                                         await _auth.signOut().whenComplete(() {
                                           setState(() => loading = false);
-                                          Navigator.of(context)
-                                              .pushAndRemoveUntil(
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
+                                          Navigator.of(context).pushAndRemoveUntil(
+                                              MaterialPageRoute(builder: (context) {
                                             return LoginPage();
                                           }), ModalRoute.withName('/'));
                                         });

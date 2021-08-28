@@ -1,10 +1,11 @@
+import 'package:bebkeler/core/words/word.dart';
 import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:blobs/blobs.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 
 class Body extends StatelessWidget {
-  final product;
+  final Word product;
 
   const Body({Key key, this.product}) : super(key: key);
 
@@ -19,9 +20,11 @@ class Body extends StatelessWidget {
               Align(
                 alignment: Alignment.center,
                 child: Text(
-                  product.tatword,
-                  style: Theme.of(context).textTheme.headline3.copyWith(
-                      color: AppColors.element, fontWeight: FontWeight.bold),
+                  product.tatarWord,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline3
+                      .copyWith(color: AppColors.element, fontWeight: FontWeight.bold),
                 ),
               ),
               SizedBox(height: AppSpacing.defaultPadding),
@@ -70,7 +73,7 @@ class Body extends StatelessWidget {
               ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(50),
-                child: Image.network(product.image_url, fit: BoxFit.scaleDown),
+                child: Image.network(product.imageUrl, fit: BoxFit.scaleDown),
               ),
             ]),
           ),
