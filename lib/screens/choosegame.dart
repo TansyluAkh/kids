@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                             title: 'Math Ninja',
                             description:
                                 'The Robber is here to test you math skills',
-                            icon: "icon",
+                            icon: "https://s6.gifyu.com/images/cube.png",
                             ontap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => MNHomePage(),
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                             title: 'Spelling Bee',
                             description:
                                 'Challenge our AI with your spelling skills',
-                            icon: "Icons.keyboard_voice",
+                            icon: "https://s6.gifyu.com/images/cube.png",
                             ontap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => SBHomePage(),

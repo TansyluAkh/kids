@@ -1,16 +1,15 @@
 
 import 'package:bebkeler/screens/details_screen.dart';
 import 'package:bebkeler/models/Colors.dart';
+import 'package:bebkeler/screens/swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GridCard extends StatelessWidget {
-  final String name;
-  final String image;
-  final String doc;
-  final String title;
-  GridCard({@required this.title, @required this.name, @required this.doc,
-    @required this.image,});
+  final item;
+  final all_items;
+  final index;
+  GridCard({@required this.item, this.all_items, this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -20,19 +19,19 @@ class GridCard extends StatelessWidget {
             child: InkWell(
                 onTap: (){print('TAPPED GRIDWORD');
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => DetailsScreen(name: name, doc: doc)));},
+                    builder: (context) => Swiper(items: all_items, index:index)));},
                 child: Stack(
                   children:[
                     Container(
                       decoration: BoxDecoration(
                           border: Border.all(color: purple, width: 2),
                       borderRadius: BorderRadius.circular(20),
-                      image: DecorationImage( image: NetworkImage(image), fit: BoxFit.cover))),
+                      image: DecorationImage( image: NetworkImage(item.image_url), fit: BoxFit.cover))),
                     Positioned(
                       bottom: 10,
                       left: 5,
                       child:Chip(
-                        label: Text(title),
+                        label: Text(item.tatword),
                         backgroundColor: purple,
                         labelStyle:
                         TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),

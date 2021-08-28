@@ -16,20 +16,22 @@ class WordCard {
   WordCard({Key key, this.tatword,	this.definition,	this.sentence,	this.tatcategory,	this.word,	this.image,	this.image_url,	this.audio1,	this.audio2,	this.category1,	this.category2});
 }
 
-Future getWordsData(name, doc) async {
+Future getWordsData(name) async {
   CollectionReference categories = FirebaseFirestore.instance.collection(name);
-  DocumentSnapshot element =
-      await categories.doc(doc).get();
-  Map<String, dynamic> data = element.data() as Map<String, dynamic>;
-  print(data);
-  WordCard WordCardItem = WordCard(
-    tatword: data['tatword'].toString(),	definition: data['definition'].toString(),
-    sentence: data['sentence'].toString(),	tatcategory: data['tatcategory'].toString(),
-    word: data['word'].toString(),	image: data['image'].toString(),
-    image_url: data['image_url'].toString(),	audio1: data['audio1'].toString(),
-    audio2: data['audio2'].toString(),	category1: data['category1'].toString(),
-    category2: data['category2'].toString());
-  print(WordCardItem.sentence);
-  return WordCardItem;
+  QuerySnapshot querySnapshot = await categories.get();
+  List arr = [];
+  final allData = querySnapshot.docs.forEach((element) {
+    Map<String, dynamic> data = element.data() as Map<String, dynamic>;
+    print(data);
+    WordCard WordCardItem = WordCard(
+      tatword: data['tatword'].toString(),	definition: data['definition'].toString(),
+      sentence: data['sentence'].toString(),	tatcategory: data['tatcategory'].toString(),
+      word: data['word'].toString(),	image: data['image'].toString(),
+      image_url: data['image_url'].toString(),	audio1: data['audio1'].toString(),
+      audio2: data['audio2'].toString(),	category1: data['category1'].toString(),
+      category2: data['category2'].toString());
+    arr.add(WordCardItem);
+    print(WordCardItem.sentence);});
+  return arr;
 }
 

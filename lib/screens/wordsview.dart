@@ -1,6 +1,6 @@
 import 'package:bebkeler/components/gridcard.dart';
 import 'package:bebkeler/models/Colors.dart';
-import 'package:bebkeler/models/wordsgrid.dart';
+import 'package:bebkeler/models/wordpage.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/screens/login_screen.dart';
 import 'package:bebkeler/services/auth_service.dart';
@@ -52,7 +52,7 @@ class _WordsPageState extends State<WordsPage> {
                     padding: EdgeInsets.all(10.0),
                     child: Container(
                       child: FutureBuilder(
-                      future: getWordGridData(widget.name),
+                      future: getWordsData(widget.name),
                       builder: (BuildContext context, AsyncSnapshot text) {
                         print(text.data);
                       return text.data != null ?
@@ -68,9 +68,7 @@ class _WordsPageState extends State<WordsPage> {
                             itemCount: text.data.length,
                           itemBuilder: (context, index) {
                             print(text.data);
-                          return GridCard(
-                            doc: text.data[index].doc,
-                             image: text.data[index].image, title: text.data[index].title, name: text.data[index].name);}
+                          return GridCard(item: text.data[index], all_items: text.data, index: index);}
                           )
                               :Center(child:CircularProgressIndicator(
                           backgroundColor: Colors.white,),
