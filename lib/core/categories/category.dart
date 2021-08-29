@@ -18,12 +18,3 @@ class Category {
   }
 }
 
-//
-// Category categoryInit = Category(
-//   image: '',
-//   name: '',
-//   desc: '',
-//   title: '',
-// );
-//
-// List initData = [categoryInit];

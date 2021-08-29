@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bebkeler/ui/components/game_mode_card.dart';
+import 'package:bebkeler/ui/components/maincategorycard.dart';
 
 class TestPage extends StatelessWidget {
   @override

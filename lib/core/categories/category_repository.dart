@@ -12,7 +12,6 @@ class CategoryRepository {
     CollectionReference categories = _firebase.collection(name);
     QuerySnapshot querySnapshot =
         await categories.orderBy('name', descending: false).get();
-
     return querySnapshot.docs
         .map((e) => Category.fromMap(e.data() as Map<String, dynamic>))
         .toList();

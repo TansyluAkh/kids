@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:bebkeler/ui/screens/login_screen.dart';
 import 'package:bebkeler/core/categories/category.dart';
 import 'package:bebkeler/services/auth_service.dart';
-import 'package:bebkeler/ui/components/game_mode_card.dart';
+import 'package:bebkeler/ui/components/maincategorycard.dart';
 import 'package:flutter/services.dart';
 
 class HomePage extends StatefulWidget {
