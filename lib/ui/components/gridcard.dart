@@ -1,7 +1,5 @@
-
-import 'package:bebkeler/screens/details_screen.dart';
-import 'package:bebkeler/models/Colors.dart';
-import 'package:bebkeler/screens/swiper.dart';
+import 'package:bebkeler/ui/screens/swiper.dart';
+import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -23,16 +21,16 @@ class GridCard extends StatelessWidget {
                 child: Stack(
                   children:[
                     Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: purple, width: 2),
-                      borderRadius: BorderRadius.circular(20),
-                      image: DecorationImage( image: NetworkImage(item.image_url), fit: BoxFit.cover))),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: AppColors.purple, width: 2),
+                            borderRadius: BorderRadius.circular(20),
+                            image: DecorationImage( image: NetworkImage(item.imageUrl), fit: BoxFit.cover))),
                     Positioned(
                       bottom: 10,
                       left: 5,
                       child:Chip(
-                        label: Text(item.tatword),
-                        backgroundColor: purple,
+                        label: Text(item.tatarWord),
+                        backgroundColor: AppColors.purple,
                         labelStyle:
                         TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
                         elevation: 7,

@@ -1,13 +1,13 @@
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/models/user.dart';
-import 'package:bebkeler/screens/home_screen.dart';
-import 'package:bebkeler/screens/spelling_bee/summary.dart';
+import 'package:bebkeler/ui/screens/home_screen.dart';
+import 'package:bebkeler/ui/screens/spelling_bee/summary.dart';
 import 'package:bebkeler/services/spelling_bee_service.dart';
 import 'dart:async';
 import 'package:provider/provider.dart';
 import 'package:bebkeler/services/database_service.dart';
-import 'package:bebkeler/components/loading.dart';
+import 'package:bebkeler/ui/components/loading.dart';
 
 class SBInitPage extends StatelessWidget {
   @override

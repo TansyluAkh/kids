@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/models/user.dart';
-import 'package:bebkeler/screens/splash_screen.dart';
+import 'package:bebkeler/ui/screens/splash_screen.dart';
 import 'package:bebkeler/services/auth_service.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';

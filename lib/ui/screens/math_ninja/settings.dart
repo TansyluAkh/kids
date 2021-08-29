@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:bebkeler/models/user.dart';
 import 'package:bebkeler/services/database_service.dart';
-import 'package:bebkeler/components/loading.dart';
+import 'package:bebkeler/ui/components/loading.dart';
 
 class MNSettingsPage extends StatefulWidget {
   @override

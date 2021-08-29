@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bebkeler/services/database_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:bebkeler/components/loading.dart';
+import 'package:bebkeler/ui/components/loading.dart';
 
 class MNLeaderboard extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:bebkeler/screens/spelling_bee/game.dart';
-import 'package:bebkeler/screens/spelling_bee/leaderboard.dart';
-import 'package:bebkeler/screens/spelling_bee/settings.dart';
+import 'package:bebkeler/ui/screens/spelling_bee/game.dart';
+import 'package:bebkeler/ui/screens/spelling_bee/leaderboard.dart';
+import 'package:bebkeler/ui/screens/spelling_bee/settings.dart';
 
 class SBHomePage extends StatelessWidget {
   @override

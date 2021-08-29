@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:bebkeler/screens/home_screen.dart';
+import 'package:bebkeler/ui/screens/home_screen.dart';
 import 'package:bebkeler/services/auth_service.dart';
-import 'package:bebkeler/components/loading.dart';
+import 'package:bebkeler/ui/components/loading.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -24,8 +24,7 @@ class _LoginPageState extends State<LoginPage> {
                 image: DecorationImage(
                   image: AssetImage('assets/images/login_bg.jpg'),
                   fit: BoxFit.cover,
-                  colorFilter:
-                      ColorFilter.mode(Colors.black12, BlendMode.dstATop),
+                  colorFilter: ColorFilter.mode(Colors.black12, BlendMode.dstATop),
                 ),
               ),
               // color: Colors.white,
@@ -56,8 +55,7 @@ class _LoginPageState extends State<LoginPage> {
 
         await _auth.signInWithGoogle().whenComplete(() {
           setState(() => loading = false);
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) {
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {
             return HomePage();
           }), ModalRoute.withName('/'));
         });
@@ -71,9 +69,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image(
-                image: AssetImage("assets/images/google_logo.png"),
-                height: 35.0),
+            Image(image: AssetImage("assets/images/google_logo.png"), height: 35.0),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(

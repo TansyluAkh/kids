@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:bebkeler/components/loading.dart';
-import 'package:bebkeler/components/mn_answer_button.dart';
+import 'package:bebkeler/ui/components/loading.dart';
+import 'package:bebkeler/ui/components/mn_answer_button.dart';
 import 'package:bebkeler/models/user.dart';
-import 'package:bebkeler/screens/home_screen.dart';
-import 'package:bebkeler/screens/math_ninja/summary.dart';
+import 'package:bebkeler/ui/screens/home_screen.dart';
+import 'package:bebkeler/ui/screens/math_ninja/summary.dart';
 import 'package:bebkeler/services/database_service.dart';
 import 'package:bebkeler/services/math_ninja_service.dart';
 import 'package:provider/provider.dart';

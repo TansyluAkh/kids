@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:bebkeler/screens/home_screen.dart';
-import 'package:bebkeler/components/rounded_summary_button.dart';
-import 'package:bebkeler/screens/spelling_bee/game.dart';
+import 'package:bebkeler/ui/screens/home_screen.dart';
+import 'package:bebkeler/ui/components/rounded_summary_button.dart';
+import 'package:bebkeler/ui/screens/spelling_bee/game.dart';
 import 'package:bebkeler/models/user.dart';
 import 'package:provider/provider.dart';
 import 'package:bebkeler/services/database_service.dart';
-import 'package:bebkeler/components/loading.dart';
+import 'package:bebkeler/ui/components/loading.dart';
 
 class MNSummaryPage extends StatefulWidget {
   final int score;
