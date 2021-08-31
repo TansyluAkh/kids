@@ -43,10 +43,9 @@ class _HomePageState extends State<HomePage> {
                       children: <Widget>[
                         GameModeCard(
                           title: 'Math Ninja',
-                          description:
-                          'The Robber is here to test you math skills',
+                          description: 'The Robber is here to test you math skills',
                           icon: "https://s6.gifyu.com/images/cube.png",
-                          ontap: () {
+                          onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => MNHomePage(),
                             ));
@@ -54,10 +53,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                         GameModeCard(
                           title: 'Spelling Bee',
-                          description:
-                          'Challenge our AI with your spelling skills',
+                          description: 'Challenge our AI with your spelling skills',
                           icon: "https://s6.gifyu.com/images/cube.png",
-                          ontap: () {
+                          onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => SBHomePage(),
                             ));
@@ -69,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                 )),
             // !Signout Area
             Container(
-              // color: Colors.grey[100],
+                // color: Colors.grey[100],
                 child: IconButton(
                     icon: Icon(
                       Icons.no_encryption,
@@ -79,38 +77,36 @@ class _HomePageState extends State<HomePage> {
                       showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: Text(
-                              "bebkeler",
-                            ),
-                            content: Text("Sign out?"),
-                            actions: <Widget>[
-                              FlatButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  'No',
+                                title: Text(
+                                  "bebkeler",
                                 ),
-                              ),
-                              FlatButton(
-                                onPressed: () async {
-                                  setState(() => loading = true);
-                                  await _auth.signOut().whenComplete(() {
-                                    setState(() => loading = false);
-                                    Navigator.of(context)
-                                        .pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (context) {
-                                              return LoginPage();
-                                            }), ModalRoute.withName('/'));
-                                  });
-                                },
-                                child: Text(
-                                  'Yes',
-                                ),
-                              )
-                            ],
-                          ));
+                                content: Text("Sign out?"),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      'No',
+                                    ),
+                                  ),
+                                  FlatButton(
+                                    onPressed: () async {
+                                      setState(() => loading = true);
+                                      await _auth.signOut().whenComplete(() {
+                                        setState(() => loading = false);
+                                        Navigator.of(context).pushAndRemoveUntil(
+                                            MaterialPageRoute(builder: (context) {
+                                          return LoginPage();
+                                        }), ModalRoute.withName('/'));
+                                      });
+                                    },
+                                    child: Text(
+                                      'Yes',
+                                    ),
+                                  )
+                                ],
+                              ));
                     })),
           ],
         ));

@@ -11,31 +11,32 @@ class GridCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PageController controller =  PageController(
-        initialPage: index);
     return GridTile(
         child: Padding(
             padding: EdgeInsets.all(10.0),
             child: InkWell(
-                onTap: (){print('TAPPED GRIDWORD');
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => Tinder(items: all_items)));},
+                onTap: () {
+                  print('TAPPED GRIDWORD');
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Tinder(items: all_items)));
+                },
                 child: Stack(
-                  children:[
+                  children: [
                     Container(
                         decoration: BoxDecoration(
                             border: Border.all(color: AppColors.element, width: 5),
                             borderRadius: BorderRadius.circular(20),
-                            image: DecorationImage( image: NetworkImage(item.imageUrl), fit: BoxFit.cover))),
+                            image: DecorationImage(
+                                image: NetworkImage(item.imageUrl), fit: BoxFit.cover))),
                     Positioned(
                       bottom: 10,
                       left: 10,
-                      child:Chip(
+                      child: Chip(
                         //side: BorderSide(width: 2, color: AppColors.element),
                         label: Text(capitalize(item.tatarWord)),
                         backgroundColor: AppColors.white,
-                        labelStyle:
-                        TextStyle(color: AppColors.darkBlue, fontWeight: FontWeight.bold, fontSize: 12),
+                        labelStyle: TextStyle(
+                            color: AppColors.darkBlue, fontWeight: FontWeight.bold, fontSize: 12),
                         elevation: 7,
                         shadowColor: Colors.black.withOpacity(0.7),
                       ),
@@ -43,5 +44,6 @@ class GridCard extends StatelessWidget {
                   ],
                 ))));
   }
+
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 }

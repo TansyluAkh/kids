@@ -80,8 +80,8 @@ class Body extends StatelessWidget {
             ]),
           ),
           ElevatedButton(
-              onPressed: () =>
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => QuzScreen(quiz: getTestQuiz()))),
+              onPressed: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => QuzScreen(quiz: getTestQuiz()))),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text('өйрәтү',

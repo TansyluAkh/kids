@@ -56,8 +56,10 @@ class _SubHomePageState extends State<SubHomePage> {
                     padding: EdgeInsets.all(20.0),
                     child: Container(
                         child: FutureBuilder(
-                            future: categoryRepository.getCategories('categories/' + widget.name + '/subs'),
-                            builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+                            future: categoryRepository
+                                .getCategories('categories/' + widget.name + '/subs'),
+                            builder:
+                                (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
                               final categories = snapshot.data;
                               return categories != null
                                   ? ListView.builder(
@@ -67,11 +69,12 @@ class _SubHomePageState extends State<SubHomePage> {
                                       physics: ScrollPhysics(),
                                       itemBuilder: (context, index) {
                                         return GameModeCard(
-                                            ontap: () {
+                                            onTap: () {
                                               print('TAPPED SUBS' + categories[index].name);
                                               Navigator.of(context).push(MaterialPageRoute(
                                                   builder: (context) => WordsPage(
-                                                      name: categories[index].name, title: categories[index].title)));
+                                                      name: categories[index].name,
+                                                      title: categories[index].title)));
                                             },
                                             description: categories[index].description,
                                             icon: categories[index].imageUrl,
@@ -114,7 +117,8 @@ class _SubHomePageState extends State<SubHomePage> {
                                       setState(() => loading = true);
                                       await _auth.signOut().whenComplete(() {
                                         setState(() => loading = false);
-                                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {
+                                        Navigator.of(context).pushAndRemoveUntil(
+                                            MaterialPageRoute(builder: (context) {
                                           return LoginPage();
                                         }), ModalRoute.withName('/'));
                                       });
@@ -131,5 +135,6 @@ class _SubHomePageState extends State<SubHomePage> {
       ),
     );
   }
+
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 }

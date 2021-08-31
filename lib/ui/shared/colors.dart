@@ -3,16 +3,19 @@ import 'dart:ui';
 class AppColors {
   static const Color white = Color(0xfffdfdfd);
   static const Color gray = Color(0xff8b8b8b);
+  static const Color lightGray = Color(0xffb2b2b2);
   static const Color black = Color(0xff2f2f2f);
   static const Color orange = Color(0xffeba049);
   static const Color lightOrange = Color(0xfffbca6d);
   static const Color red = Color(0xffdb5764);
+  static const Color darkRed = Color(0xffb13340);
   static const Color lightRed = Color(0xfffa8b9a);
   static const Color blue = Color(0xff1fb9e7);
   static const Color green = Color(0xff2ecd9d);
-  static const Color lightgreen = Color(0xff70dbba);
-
-  // Tansylu colors
+  static const Color darkGreen = Color(0xff1a9f78);
+  static const Color lightGreen = Color(0xff70dbba);
+  static const Color indigo = Color(0xff3F51B5);
+  static const Color border = Color(0xFFE1E1E6);
   static const Color element = Color(0xfffff1af);
   static const Color background = Color(0xffbfcaff);
   static const Color yellow = Color(0xffFFED86);

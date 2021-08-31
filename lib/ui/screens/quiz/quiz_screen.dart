@@ -1,5 +1,4 @@
 import 'package:bebkeler/ui/screens/quiz/quiz_result_screen.dart';
-import 'package:bebkeler/ui/screens/quiz/test_data.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:flutter/material.dart';
@@ -53,11 +52,7 @@ class QuzScreen extends ConsumerWidget {
             Text(
               vm.currentQuestion.text,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: AppColors.element,
-                fontSize: 25,
-                fontWeight: FontWeight.bold
-              ),
+              style: TextStyle(color: AppColors.indigo, fontSize: 25, fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 24,
@@ -94,7 +89,7 @@ class QuzScreen extends ConsumerWidget {
         height: 48,
         child: TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: AppColors.element,
+            backgroundColor: AppColors.indigo,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),

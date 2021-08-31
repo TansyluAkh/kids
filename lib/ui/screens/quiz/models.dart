@@ -1,4 +1,7 @@
-﻿import 'package:flutter/foundation.dart';
+﻿import 'dart:math';
+
+import 'package:bebkeler/core/words/word.dart';
+import 'package:flutter/foundation.dart';
 
 class Quiz {
   final String title;
@@ -8,6 +11,10 @@ class Quiz {
     @required this.title,
     @required this.questions,
   });
+
+  factory Quiz.fromSubcategory(title, List<Word> words) {
+    return _createQuiz(title, words);
+  }
 }
 
 class Question {
@@ -37,4 +44,56 @@ class UserAnswer {
   final int chosenOptionIndex;
 
   UserAnswer(this.questionIndex, this.chosenOptionIndex);
+}
+
+Quiz _createQuiz(String title, List<Word> words) {
+  final List<Question> questions = [];
+  for (int i = 0; i < words.length; i++) {
+    questions.add(Question(
+        text: words[i].sentence, //_hideWord(words[i].tatarWord, words[i].sentence),
+        options: _generateOptions(i, words)));
+  }
+
+  return Quiz(title: title, questions: questions);
+}
+
+String _hideWord(String word, String sentence) {
+  final wordPattern =
+      new RegExp('(\\W|^)?$word\\w{0,6}(\\W|\$)', unicode: true, caseSensitive: false);
+  if (sentence.contains(wordPattern)) return sentence.replaceFirst(wordPattern, ' _____ ');
+
+  return sentence + ' Не получилось спрятать слово.';
+}
+
+List<Option> _generateOptions(int correctWordIndex, List<Word> words) {
+  final randomInts = _generateInts(0, words.length, 3, excluded: {correctWordIndex});
+  final List<Option> result = [];
+  for (final index in randomInts) {
+    result.add(Option(
+      text: words[index].tatarWord,
+    ));
+  }
+  result.add(Option(text: words[correctWordIndex].tatarWord, isCorrect: true));
+
+  return result..shuffle(Random());
+}
+
+// It probably can go infinity loop if all numbers are excluded from range.
+// TODO Consider fix this. Or hope for the best.
+List<int> _generateInts(int min, int max, int amount, {Set<int> excluded}) {
+  excluded ??= Set();
+  final List<int> result = [];
+  final random = Random();
+
+  int i = 0;
+  while (i < amount) {
+    final number = min + random.nextInt(max - min);
+    if (excluded.contains(number)) continue;
+
+    result.add(number);
+    excluded.add(number);
+    i++;
+  }
+
+  return result;
 }

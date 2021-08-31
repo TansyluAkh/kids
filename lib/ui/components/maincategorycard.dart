@@ -4,23 +4,24 @@ import 'package:flutter/material.dart';
 
 class GameModeCard extends StatelessWidget {
   final title;
-  final  description;
-  final  icon;
-  final ontap;
+  final description;
+  final icon;
+  final onTap;
   final name;
-  GameModeCard({ this.title, this.name, this.description,  this.icon, this.ontap});
+  GameModeCard({this.title, this.name, this.description, this.icon, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: ontap,
+      onTap: onTap,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(color: AppColors.element, width: 5),
-              borderRadius: BorderRadius.circular(100),),
+            borderRadius: BorderRadius.circular(100),
+          ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
             child: Row(
@@ -30,11 +31,11 @@ class GameModeCard extends StatelessWidget {
                   radius: 45.0,
                   backgroundColor: Colors.transparent,
                   child: Image.network(
-                      icon,
-                      errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
-                        return Text('нет');
-                      },
-                    ),
+                    icon,
+                    errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
+                      return Text('нет');
+                    },
+                  ),
                 ),
                 SizedBox(
                   width: 15.0,
@@ -47,9 +48,7 @@ class GameModeCard extends StatelessWidget {
                       Text(
                         capitalize(title),
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                            color: AppColors.darkBlue),
+                            fontWeight: FontWeight.bold, fontSize: 18.0, color: AppColors.darkBlue),
                       ),
                     ],
                   ),
@@ -61,5 +60,6 @@ class GameModeCard extends StatelessWidget {
       ),
     );
   }
+
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 }
