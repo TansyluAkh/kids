@@ -4,6 +4,7 @@ import 'package:bebkeler/models/user.dart';
 import 'package:bebkeler/ui/screens/splash_screen.dart';
 import 'package:bebkeler/services/auth_service.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -16,20 +17,22 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        StreamProvider<User>.value(value: AuthService().user),
-      ],
-      child: MaterialApp(
-        title: 'bebkeler Kids App',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.indigo,
-          fontFamily: 'Montserrat',
-          visualDensity: VisualDensity.adaptivePlatformDensity,
+    return riverpod.ProviderScope(
+      child: MultiProvider(
+        providers: [
+          StreamProvider<User>.value(value: AuthService().user),
+        ],
+        child: MaterialApp(
+          title: 'bebkeler',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.indigo,
+            fontFamily: 'Montserrat',
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          home: SplashScreen(),
+          routes: {},
         ),
-        home: SplashScreen(),
-        routes: {},
       ),
     );
   }

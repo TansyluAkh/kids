@@ -1,4 +1,6 @@
 import 'package:bebkeler/core/words/word.dart';
+import 'package:bebkeler/ui/screens/quiz/quiz_screen.dart';
+import 'package:bebkeler/ui/screens/quiz/test_data.dart';
 import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:blobs/blobs.dart';
 import 'package:flutter/material.dart';
@@ -78,8 +80,8 @@ class Body extends StatelessWidget {
             ]),
           ),
           ElevatedButton(
-              //TODO Navigate to real training screen
-              onPressed: () => Navigator.pushNamed(context, '/'),
+              onPressed: () =>
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => QuzScreen(quiz: getTestQuiz()))),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text('өйрәтү',

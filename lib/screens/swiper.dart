@@ -1,4 +1,4 @@
-import 'package:bebkeler/screens/details_screen.dart';
+import 'package:bebkeler/ui/screens/details_screen.dart';
 import 'package:flutter/material.dart';
 
 class Swiper extends StatefulWidget {

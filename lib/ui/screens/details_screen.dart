@@ -1,7 +1,8 @@
+import 'package:bebkeler/ui/screens/quiz/quiz_screen.dart';
+import 'package:bebkeler/ui/screens/quiz/test_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
-import 'choosegame.dart';
 
 class DetailsScreen extends StatelessWidget {
   final item;
@@ -52,9 +53,7 @@ class DetailsScreen extends StatelessWidget {
                               )), backgroundColor: MaterialStateProperty.all<Color>(AppColors.element),
                           minimumSize: MaterialStateProperty.all<Size>(Size(height*0.12, height*0.12))),
                       //TODO Navigate to real training screen
-                      onPressed: () { Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => HomePage()));
-                      },
+                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => QuzScreen(quiz: getTestQuiz()))),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Text('Уйна',
