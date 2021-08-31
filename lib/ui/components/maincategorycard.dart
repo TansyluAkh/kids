@@ -1,4 +1,5 @@
 import 'package:bebkeler/ui/shared/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GameModeCard extends StatelessWidget {
@@ -18,7 +19,7 @@ class GameModeCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(color: AppColors.purple, width: 5),
+            border: Border.all(color: AppColors.element, width: 5),
               borderRadius: BorderRadius.circular(100),),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
@@ -41,8 +42,9 @@ class GameModeCard extends StatelessWidget {
                       Text(
                         title,
                         style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.black.withOpacity(0.75)),
+                          fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                            color: AppColors.darkBlue),
                       ),
                       SizedBox(
                         height: 5.0,

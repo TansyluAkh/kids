@@ -25,7 +25,7 @@ class _SubHomePageState extends State<SubHomePage> {
     final categoryRepository = CategoryRepository.instance;
 
     return Scaffold(
-      backgroundColor: AppColors.yellow,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.black, //change your color here
@@ -36,8 +36,8 @@ class _SubHomePageState extends State<SubHomePage> {
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontFamily: "Montserrat",
-              fontSize: 20,
-              color: AppColors.purple,
+              fontSize: 22,
+              color: AppColors.black,
             )),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),

@@ -24,6 +24,7 @@ dependencies:
   animated_text_kit:
   flutter_svg:
   blobs: ^2.0.0
+  flutter_tindercard: ^0.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -22,13 +22,13 @@ class _HomePageState extends State<HomePage> {
     final categoryRepository = CategoryRepository.instance;
 
     return Scaffold(
-      backgroundColor: AppColors.yellow,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.black, //change your color here
         ),
         systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-        leading: Icon(Icons.home, color: AppColors.purple, size: 35),
+        leading: Icon(Icons.home, color: AppColors.element, size: 35),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
         ),

@@ -11,28 +11,31 @@ class GridCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PageController controller =  PageController(
+        initialPage: index);
     return GridTile(
         child: Padding(
             padding: EdgeInsets.all(10.0),
             child: InkWell(
                 onTap: (){print('TAPPED GRIDWORD');
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => Swiper(items: all_items, index:index)));},
+                    builder: (context) => Swiper(items: all_items, controller:controller)));},
                 child: Stack(
                   children:[
                     Container(
                         decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.purple, width: 2),
+                            border: Border.all(color: AppColors.element, width: 5),
                             borderRadius: BorderRadius.circular(20),
                             image: DecorationImage( image: NetworkImage(item.imageUrl), fit: BoxFit.cover))),
                     Positioned(
                       bottom: 10,
-                      left: 5,
+                      left: 10,
                       child:Chip(
-                        label: Text(item.tatarWord),
-                        backgroundColor: AppColors.purple,
+                        //side: BorderSide(width: 2, color: AppColors.element),
+                        label: Text(capitalize(item.tatarWord)),
+                        backgroundColor: AppColors.white,
                         labelStyle:
-                        TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                        TextStyle(color: AppColors.darkBlue, fontWeight: FontWeight.bold, fontSize: 12),
                         elevation: 7,
                         shadowColor: Colors.black.withOpacity(0.7),
                       ),
@@ -40,4 +43,5 @@ class GridCard extends StatelessWidget {
                   ],
                 ))));
   }
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 }
