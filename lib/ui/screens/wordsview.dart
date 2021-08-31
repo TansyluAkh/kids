@@ -22,18 +22,18 @@ class _WordsPageState extends State<WordsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.yellow,
+        backgroundColor: AppColors.background,
         appBar: AppBar(
           iconTheme: IconThemeData(
-            color: AppColors.element, //change your color here
+            color: AppColors.element,  //change your color here
           ),
           centerTitle: false,
-          title: Text(widget.title,
+          title: Text(capitalize(widget.title),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: "Montserrat",
-                fontSize: 20,
-                color: AppColors.element,
+                fontSize: 22,
+                color: AppColors.black,
               )),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
@@ -122,4 +122,5 @@ class _WordsPageState extends State<WordsPage> {
               ],
             )));
   }
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 }

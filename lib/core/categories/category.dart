@@ -13,7 +13,7 @@ class Category {
     return Category(
         title: map['tat'].toString(),
         name: map['name'].toString(),
-        description: map['desc'].toString(),
+        description: map['desc'].toString() != "NaN" ? map['desc'].toString(): ' ',
         imageUrl: map['image'].toString());
   }
 }
