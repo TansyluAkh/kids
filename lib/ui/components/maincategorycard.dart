@@ -30,30 +30,26 @@ class GameModeCard extends StatelessWidget {
                   radius: 45.0,
                   backgroundColor: Colors.transparent,
                   child: Image.network(
-                    icon),
+                      icon,
+                      errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
+                        return Text('нет');
+                      },
+                    ),
                 ),
                 SizedBox(
                   width: 15.0,
                 ),
                 Flexible(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        title,
+                        capitalize(title),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                             fontSize: 18.0,
                             color: AppColors.darkBlue),
-                      ),
-                      SizedBox(
-                        height: 5.0,
-                      ),
-                      Text(
-                        description,
-                        style: TextStyle(
-                            // fontSize: 15.0,
-                            color: Colors.black.withOpacity(0.75)),
                       ),
                     ],
                   ),
@@ -65,28 +61,5 @@ class GameModeCard extends StatelessWidget {
       ),
     );
   }
-}
-
-class HomeCard extends StatelessWidget {
-  final  title;
-  final  description;
-  final icon;
-  final ontap;
-
-  HomeCard({this.title, this.description, this.icon, this.ontap});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
-      child: InkWell(
-        child: Container(
-          height: 100.0,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadiusDirectional.circular(15.0),
-              color: Colors.white),
-        ),
-      ),
-    );
-  }
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 }

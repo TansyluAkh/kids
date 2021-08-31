@@ -19,7 +19,7 @@ class GridCard extends StatelessWidget {
             child: InkWell(
                 onTap: (){print('TAPPED GRIDWORD');
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => Swiper(items: all_items, controller:controller)));},
+                    builder: (context) => Tinder(items: all_items)));},
                 child: Stack(
                   children:[
                     Container(

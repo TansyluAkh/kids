@@ -25,10 +25,10 @@ class _WordsPageState extends State<WordsPage> {
         backgroundColor: AppColors.background,
         appBar: AppBar(
           iconTheme: IconThemeData(
-            color: AppColors.black, //change your color here
+            color: AppColors.element,  //change your color here
           ),
           centerTitle: false,
-          title: Text(widget.title,
+          title: Text(capitalize(widget.title),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: "Montserrat",
@@ -122,4 +122,5 @@ class _WordsPageState extends State<WordsPage> {
               ],
             )));
   }
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 }

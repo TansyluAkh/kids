@@ -28,11 +28,11 @@ class _SubHomePageState extends State<SubHomePage> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
+          color: AppColors.element, //change your color here
         ),
         systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
         centerTitle: false,
-        title: Text(widget.title,
+        title: Text(capitalize(widget.title),
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontFamily: "Montserrat",
@@ -131,4 +131,5 @@ class _SubHomePageState extends State<SubHomePage> {
       ),
     );
   }
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 }
