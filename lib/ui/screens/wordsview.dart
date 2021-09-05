@@ -62,7 +62,7 @@ class _WordsPageState extends State<WordsPage> {
                                         TextButton(
                                           onPressed: () => Navigator.of(context).push(
                                               MaterialPageRoute(
-                                                  builder: (context) => QuzScreen(
+                                                  builder: (context) => QuizScreen(
                                                       quiz: Quiz.fromSubcategory(
                                                           widget.title, text.data)))),
                                           child: Text(

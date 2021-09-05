@@ -4,16 +4,18 @@ import 'package:flutter/material.dart';
 
 import 'models.dart';
 
-enum OptionState { Selected, Disabled, Default }
+enum OptionState { Correct, Wrong, Disabled, Default }
 
 class OptionCard extends StatelessWidget {
   final Option option;
   final OptionState state;
+  final bool isSelected;
   final Function() onTap;
 
   const OptionCard({
     Key key,
     @required this.option,
+    @required this.isSelected,
     @required this.onTap,
     this.state = OptionState.Default,
   }) : super(key: key);
@@ -23,13 +25,10 @@ class OptionCard extends StatelessWidget {
       case OptionState.Default:
       case OptionState.Disabled:
         return AppColors.gray;
-      case OptionState.Selected:
-        {
-          if (option.isCorrect)
-            return AppColors.darkGreen;
-          else
-            return AppColors.darkRed;
-        }
+      case OptionState.Wrong:
+        return AppColors.darkRed;
+      case OptionState.Correct:
+        return AppColors.darkGreen;
     }
   }
 
@@ -38,13 +37,10 @@ class OptionCard extends StatelessWidget {
       case OptionState.Default:
       case OptionState.Disabled:
         return AppColors.white;
-      case OptionState.Selected:
-        {
-          if (option.isCorrect)
-            return AppColors.lightGreen;
-          else
-            return AppColors.lightRed;
-        }
+      case OptionState.Wrong:
+        return AppColors.lightRed;
+      case OptionState.Correct:
+        return AppColors.lightGreen;
     }
   }
 
@@ -57,16 +53,21 @@ class OptionCard extends StatelessWidget {
       case OptionState.Disabled:
         color = AppColors.lightGray;
         break;
-      case OptionState.Selected:
-        {
-          if (option.isCorrect)
-            color = AppColors.darkGreen;
-          else
-            color = AppColors.darkRed;
-        }
+      case OptionState.Wrong:
+        color = AppColors.darkRed;
+        break;
+      case OptionState.Correct:
+        color = AppColors.darkGreen;
+        break;
     }
 
     return TextStyle(color: color, fontSize: 18, fontWeight: FontWeight.bold);
+  }
+
+  IconData getIcon() {
+    if (isSelected) {
+      return option.isCorrect ? Icons.done : Icons.close;
+    }
   }
 
   @override
@@ -80,23 +81,47 @@ class OptionCard extends StatelessWidget {
             side: BorderSide(color: getBorderColor(), width: 2)),
         child: Padding(
           padding: EdgeInsets.all(AppSpacing.defaultPadding),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
             children: [
-              if (option.imageUrl != null)
-                Image(
-                  image: NetworkImage(option.imageUrl),
-                ),
-              if (option.text != null && option.imageUrl != null)
-                SizedBox(
-                  height: 10,
-                ),
-              if (option.text != null)
-                Text(
-                  option.text,
-                  textAlign: TextAlign.center,
-                  style: getTextStyle(),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    height: 26,
+                    width: 26,
+                    decoration: BoxDecoration(
+                      color: getBackgroundColor(),
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(color: getBorderColor()),
+                    ),
+                    child: Icon(getIcon(), size: 16),
+                  )
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (option.imageUrl != null)
+                    Image(
+                      image: NetworkImage(option.imageUrl),
+                    ),
+                  if (option.text != null && option.imageUrl != null)
+                    SizedBox(
+                      height: 10,
+                    ),
+                  if (option.text != null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          option.text,
+                          textAlign: TextAlign.center,
+                          style: getTextStyle(),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
             ],
           ),
         ),

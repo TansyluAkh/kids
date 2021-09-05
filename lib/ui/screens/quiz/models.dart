@@ -49,21 +49,20 @@ class UserAnswer {
 Quiz _createQuiz(String title, List<Word> words) {
   final List<Question> questions = [];
   for (int i = 0; i < words.length; i++) {
-    questions.add(Question(
-        text: words[i].sentence, //_hideWord(words[i].tatarWord, words[i].sentence),
-        options: _generateOptions(i, words)));
+    questions.add(Question(text: words[i].sentence, options: _generateOptions(i, words)));
   }
 
   return Quiz(title: title, questions: questions);
 }
 
-String _hideWord(String word, String sentence) {
-  final wordPattern =
-      new RegExp('(\\W|^)?$word\\w{0,6}(\\W|\$)', unicode: true, caseSensitive: false);
-  if (sentence.contains(wordPattern)) return sentence.replaceFirst(wordPattern, ' _____ ');
-
-  return sentence + ' Не получилось спрятать слово.';
-}
+// String _hideWord(String word, String sentence) {
+//   final regex = RegExp(r'\pL', caseSensitive: false);
+//   final matches = regex.allMatches(sentence);
+//   for (final match in matches) {
+//     final matchedValue = match.group(0);
+//     if (!matchedValue.startsWith(word)) continue;
+//   }
+// }
 
 List<Option> _generateOptions(int correctWordIndex, List<Word> words) {
   final randomInts = _generateInts(0, words.length, 3, excluded: {correctWordIndex});
@@ -73,7 +72,7 @@ List<Option> _generateOptions(int correctWordIndex, List<Word> words) {
       text: words[index].tatarWord,
     ));
   }
-  result.add(Option(text: words[correctWordIndex].tatarWord, isCorrect: true));
+  result.add(Option(text: words[correctWordIndex].answer, isCorrect: true));
 
   return result..shuffle(Random());
 }

@@ -4,7 +4,6 @@ import 'package:bebkeler/models/user.dart';
 import 'package:bebkeler/ui/screens/splash_screen.dart';
 import 'package:bebkeler/services/auth_service.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -17,8 +16,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return riverpod.ProviderScope(
-      child: MultiProvider(
+    return MultiProvider(
         providers: [
           StreamProvider<User>.value(value: AuthService().user),
         ],
@@ -33,7 +31,6 @@ class MyApp extends StatelessWidget {
           home: SplashScreen(),
           routes: {},
         ),
-      ),
     );
   }
 }

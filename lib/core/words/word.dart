@@ -2,6 +2,7 @@ class Word {
   final String word;
   final String definition;
   final String sentence;
+  final String answer;
   final String category;
   final String subCategory;
   final String imageName;
@@ -15,6 +16,7 @@ class Word {
       {this.word,
       this.definition,
       this.sentence,
+      this.answer,
       this.category,
       this.subCategory,
       this.imageName,
@@ -29,6 +31,7 @@ class Word {
       word: map['word'].toString(),
       definition: map['definition'].toString(),
       sentence: map['sentence'].toString(),
+      answer: map['answer'].toString(),
       category: map['category1'].toString(),
       subCategory: map['category2'].toString(),
       imageName: map['image'].toString(),

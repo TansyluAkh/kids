@@ -30,7 +30,7 @@ class QuizResultScreen extends StatelessWidget {
                 Text(
                   "Поздравляем!",
                   style: TextStyle(
-                      color: AppColors.element, fontSize: 40, fontWeight: FontWeight.bold),
+                      color: AppColors.indigo, fontSize: 40, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: 25,
@@ -38,26 +38,26 @@ class QuizResultScreen extends StatelessWidget {
                 Text(
                   "Вы прошли квиз '$title'",
                   style: TextStyle(
-                      color: AppColors.element, fontSize: 20, fontWeight: FontWeight.bold),
+                      color: AppColors.indigo, fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "Количество набранных баллов:",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: AppColors.element, fontSize: 20, fontWeight: FontWeight.bold),
+                      color: AppColors.indigo, fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "$correctAnswersCount из $questionCount",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: AppColors.element, fontSize: 30, fontWeight: FontWeight.bold),
+                      color: AppColors.indigo, fontSize: 30, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 TextButton(
                     style: TextButton.styleFrom(
-                      backgroundColor: AppColors.element,
+                      backgroundColor: AppColors.indigo,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

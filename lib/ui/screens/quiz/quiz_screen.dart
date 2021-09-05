@@ -1,29 +1,25 @@
+import 'package:bebkeler/infrastructure/mvvm/view.dart';
 import 'package:bebkeler/ui/screens/quiz/quiz_result_screen.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'models.dart';
 import 'quiz_view_model.dart';
 import 'option_card.dart';
 
-class QuzScreen extends ConsumerWidget {
-  final Quiz quiz;
-
-  QuzScreen({this.quiz});
+class QuizScreen extends View<QuizViewModel> {
+  QuizScreen({Key key, Quiz quiz}) : super(key: key, viewModel: QuizViewModel(quiz: quiz));
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final vm = ref.watch(quizViewModelProvider(quiz));
-
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: backNavbar(context),
       body: SafeArea(
         child: Padding(
           padding: AppSpacing.screenPadding,
-          child: body(context, vm),
+          child: body(context),
         ),
       ),
     );
@@ -34,7 +30,7 @@ class QuzScreen extends ConsumerWidget {
       elevation: 0,
       backgroundColor: Colors.transparent,
       leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_rounded,
             color: AppColors.element,
           ),
@@ -44,48 +40,75 @@ class QuzScreen extends ConsumerWidget {
     );
   }
 
-  Widget body(BuildContext context, QuizViewModel vm) {
+  Widget body(BuildContext context) {
     return Column(
       children: [
-        Expanded(
-          child: Column(children: [
-            Text(
-              vm.currentQuestion.text,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.indigo, fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 24,
-            ),
-            Expanded(child: optionGrid(vm))
-          ]),
+        timeIndicator(),
+        const SizedBox(
+          height: 10,
         ),
-        nextButton(context, vm)
+        Text(
+          viewModel.currentQuestion.text,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: AppColors.indigo, fontSize: 25, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(
+          height: 24,
+        ),
+        Expanded(child: optionGrid()),
+        nextButton(context)
       ],
     );
   }
 
-  Widget nextButton(context, QuizViewModel vm) {
-    if (!vm.isAnswered) return SizedBox();
+  Widget timeIndicator() {
+    return AnimatedBuilder(
+      animation: viewModel.animation,
+      builder: (_, __) => Row(
+        children: [
+          SizedBox(
+            width: 60,
+            child: Text(
+              viewModel.secondsLeft.toString(),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  color: AppColors.indigo, fontSize: 40, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Expanded(
+              child: LinearProgressIndicator(
+            value: viewModel.animation.value,
+            minHeight: 20,
+            color: AppColors.indigo,
+          ))
+        ],
+      ),
+    );
+  }
 
-    final label = vm.isLastStep ? 'Закончить' : 'Дальше';
+  Widget nextButton(context) {
+    if (!viewModel.isAnswered) return const SizedBox();
+
+    final label = viewModel.isLastStep ? 'Закончить' : 'Дальше';
     Function() onTap;
-    if (vm.isLastStep) {
+    if (viewModel.isLastStep) {
       onTap = () {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
           return QuizResultScreen(
-              title: vm.quiz.title,
-              questionCount: vm.quiz.questions.length,
-              correctAnswersCount: vm.countCorrectAnswers());
+              title: viewModel.quiz.title,
+              questionCount: viewModel.quiz.questions.length,
+              correctAnswersCount: viewModel.countCorrectAnswers());
         }));
       };
     } else {
-      onTap = () => vm.goNext();
+      onTap = () {
+        viewModel.goNext();
+      };
     }
 
     return Row(children: [
       Expanded(
-          child: Container(
+          child: SizedBox(
         height: 48,
         child: TextButton(
           style: TextButton.styleFrom(
@@ -97,7 +120,7 @@ class QuzScreen extends ConsumerWidget {
           onPressed: onTap,
           child: Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 15,
               color: AppColors.white,
@@ -108,18 +131,26 @@ class QuzScreen extends ConsumerWidget {
     ]);
   }
 
-  Widget optionGrid(QuizViewModel vm) {
+  Widget optionGrid() {
     final List<Widget> optionCards = [];
-    for (var i = 0; i < vm.currentQuestion.options.length; i++) {
-      final option = vm.currentQuestion.options[i];
-      final onTap = () => vm.answer(i);
+    for (var i = 0; i < viewModel.currentQuestion.options.length; i++) {
+      final option = viewModel.currentQuestion.options[i];
+      final onTap = () => viewModel.answer(i);
 
       var state = OptionState.Default;
-      if (vm.isAnswered)
-        state =
-            vm.currentAnswer.chosenOptionIndex == i ? OptionState.Selected : OptionState.Disabled;
+      final isSelected = viewModel.isAnswered && viewModel.currentAnswer.chosenOptionIndex == i;
+      if (viewModel.isAnswered) {
+        final currentOption = viewModel.currentQuestion.options[i];
+        if (currentOption.isCorrect)
+          state = OptionState.Correct;
+        else if (isSelected)
+          state = OptionState.Wrong;
+        else
+          state = OptionState.Disabled;
+      }
 
-      optionCards.add(OptionCard(option: option, state: state, onTap: onTap));
+      optionCards
+          .add(OptionCard(option: option, state: state, isSelected: isSelected, onTap: onTap));
     }
 
     return GridView.count(
