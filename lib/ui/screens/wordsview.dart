@@ -6,13 +6,17 @@ import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/services/auth_service.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'login_screen.dart';
 
 class WordsPage extends StatefulWidget {
   final name;
   final title;
-  WordsPage({Key key, @required this.name, @required this.title}) : super(key: key);
+
+  WordsPage({Key key, @required this.name, @required this.title})
+      : super(key: key);
+
   @override
   _WordsPageState createState() => _WordsPageState();
 }
@@ -23,6 +27,8 @@ class _WordsPageState extends State<WordsPage> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
@@ -35,7 +41,7 @@ class _WordsPageState extends State<WordsPage> {
                 fontWeight: FontWeight.bold,
                 fontFamily: "Montserrat",
                 fontSize: 22,
-                color: AppColors.black,
+                color: AppColors.darkBlue,
               )),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
@@ -44,106 +50,90 @@ class _WordsPageState extends State<WordsPage> {
           // Colors.white.withOpacity(0.1),
           elevation: 0,
         ),
-        body: SafeArea(
+        body: SingleChildScrollView(
             child: Column(
-          children: <Widget>[
-            Expanded(
-                flex: 8,
-                child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Container(
-                        child: FutureBuilder(
-                            future: WordRepository.instance.getWord(widget.name),
-                            builder: (BuildContext context, AsyncSnapshot text) {
-                              print(text.data);
-                              return text.data != null
-                                  ? Column(
-                                      children: [
-                                        TextButton(
-                                          onPressed: () => Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) => QuizScreen(
-                                                      quiz: Quiz.fromSubcategory(
-                                                          widget.title, text.data)))),
-                                          child: Text(
-                                            'Тренировать',
-                                            style: TextStyle(
-                                                fontSize: 20, fontWeight: FontWeight.bold),
-                                          ),
-                                          style: TextButton.styleFrom(
-                                              backgroundColor: AppColors.white,
-                                              padding: EdgeInsets.all(AppSpacing.defaultPadding)),
+                children: <Widget>[
+                  Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Container(
+                          child: FutureBuilder(
+                              future: WordRepository.instance.getWord(widget.name),
+                              builder: (BuildContext context, AsyncSnapshot text) {
+                                print(text.data);
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    text.data != null
+                                        ?  GridView.builder(
+                                        padding: EdgeInsets.all(10.0),
+                                        shrinkWrap: true,
+                                        physics: ScrollPhysics(),
+                                        scrollDirection: Axis.vertical,
+                                        gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                          mainAxisSpacing: 10,
+                                          crossAxisSpacing: 10,
+                                          crossAxisCount: 2,
                                         ),
-                                        GridView.builder(
-                                            padding: EdgeInsets.all(10.0),
-                                            shrinkWrap: true,
-                                            physics: ScrollPhysics(),
-                                            scrollDirection: Axis.vertical,
-                                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                              mainAxisSpacing: 10,
-                                              crossAxisSpacing: 10,
-                                              crossAxisCount: 2,
-                                            ),
-                                            itemCount: text.data.length,
-                                            itemBuilder: (context, index) {
-                                              print(text.data);
-                                              return GridCard(
-                                                  item: text.data[index],
-                                                  all_items: text.data,
-                                                  index: index);
-                                            })
-                                      ],
-                                    )
-                                  : Center(
+                                        itemCount: text.data.length,
+                                        itemBuilder: (context, index) {
+                                          print(text.data);
+                                          return GridCard(
+                                              item: text.data[index],
+                                              all_items: text.data,
+                                              index: index);
+                                        }): const Center(
                                       child: CircularProgressIndicator(
-                                        backgroundColor: Colors.white,
+                                        color: AppColors.element,
                                       ),
-                                    );
-                            })))),
-            Container(
-                // color: Colors.grey[100],
-                child: IconButton(
-                    icon: Icon(
-                      Icons.no_encryption,
-                      color: Colors.white60,
-                    ),
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                                title: Text(
-                                  "bebkeler",
-                                ),
-                                content: Text("Sign out?"),
-                                actions: <Widget>[
-                                  FlatButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text(
-                                      'No',
                                     ),
-                                  ),
-                                  FlatButton(
-                                    onPressed: () async {
-                                      setState(() => loading = true);
-                                      await _auth.signOut().whenComplete(() {
-                                        setState(() => loading = false);
-                                        Navigator.of(context).pushAndRemoveUntil(
-                                            MaterialPageRoute(builder: (context) {
-                                          return LoginPage();
-                                        }), ModalRoute.withName('/'));
-                                      });
-                                    },
-                                    child: Text(
-                                      'Yes',
-                                    ),
-                                  )
-                                ],
-                              ));
-                    })),
-          ],
-        )));
+                                    Container(
+                                      // color: Colors.grey[100],
+                                        child: IconButton(
+                                            icon: Icon(
+                                              Icons.no_encryption,
+                                              color: Colors.white60,
+                                            ),
+                                            onPressed: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) => AlertDialog(
+                                                    title: Text(
+                                                      "bebkeler",
+                                                    ),
+                                                    content: Text("Sign out?"),
+                                                    actions: <Widget>[
+                                                      FlatButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context).pop();
+                                                        },
+                                                        child: Text(
+                                                          'No',
+                                                        ),
+                                                      ),
+                                                      FlatButton(
+                                                        onPressed: () async {
+                                                          setState(() => loading = true);
+                                                          await _auth.signOut().whenComplete(() {
+                                                            setState(() => loading = false);
+                                                            Navigator.of(context)
+                                                                .pushAndRemoveUntil(
+                                                                MaterialPageRoute(
+                                                                    builder: (context) {
+                                                                      return LoginPage();
+                                                                    }), ModalRoute.withName('/'));
+                                                          });
+                                                        },
+                                                        child: Text(
+                                                          'Yes',
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ));
+                                            })),
+                                  ],
+                                );})))])));
   }
 
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);

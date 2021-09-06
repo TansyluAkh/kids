@@ -11,6 +11,8 @@ class GridCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PageController controller =  PageController(
+        initialPage: index);
     return GridTile(
         child: Padding(
             padding: EdgeInsets.all(10.0),
@@ -18,7 +20,7 @@ class GridCard extends StatelessWidget {
                 onTap: () {
                   print('TAPPED GRIDWORD');
                   Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Tinder(items: all_items)));
+                      .push(MaterialPageRoute(builder: (context) => Swiper(controller: controller, items: all_items)));
                 },
                 child: Stack(
                   children: [

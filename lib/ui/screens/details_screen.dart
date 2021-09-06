@@ -18,6 +18,7 @@ class DetailsScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 verticalDirection: VerticalDirection.down,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(capitalize(item.tatarWord),
                       style: Theme.of(context)
@@ -25,10 +26,10 @@ class DetailsScreen extends StatelessWidget {
                           .headline4
                           .copyWith(color: AppColors.darkBlue, fontWeight: FontWeight.bold)),
                   SizedBox(height: height * 0.05),
-                  Text(item.definition, style: Theme.of(context).textTheme.headline6),
-                  SizedBox(height: height * 0.05),
-                  Image.network(item.imageUrl,
-                      fit: BoxFit.contain, width: width * 0.9, height: height * 0.2),
+                  Text(item.definition, style: Theme.of(context).textTheme.subtitle1),
+                  SizedBox(height: height * 0.01),
+                  Align( alignment: Alignment.topCenter, child: Image.network(item.imageUrl,
+                      fit: BoxFit.contain, width: width * 0.6, height: height * 0.3)),
                 ])));
   }
 

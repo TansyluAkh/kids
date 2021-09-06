@@ -27,19 +27,18 @@ class _SubHomePageState extends State<SubHomePage> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: AppColors.element, //change your color here
-        ),
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+        iconTheme: const IconThemeData(
+          color: AppColors.element),
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
         centerTitle: false,
         title: Text(capitalize(widget.title),
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontFamily: "Montserrat",
               fontSize: 22,
-              color: AppColors.black,
+              color: AppColors.darkBlue,
             )),
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
         ),
         backgroundColor: Colors.transparent,
@@ -53,9 +52,8 @@ class _SubHomePageState extends State<SubHomePage> {
             Expanded(
                 flex: 8,
                 child: Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Container(
-                        child: FutureBuilder(
+                    padding: const EdgeInsets.all(20.0),
+                    child: FutureBuilder(
                             future: categoryRepository
                                 .getCategories('categories/' + widget.name + '/subs'),
                             builder:
@@ -81,17 +79,14 @@ class _SubHomePageState extends State<SubHomePage> {
                                             title: categories[index].title,
                                             name: categories[index].name);
                                       })
-                                  : Center(
+                                  : const Center(
                                       child: CircularProgressIndicator(
-                                        backgroundColor: Colors.white,
+                                        color: AppColors.element,
                                       ),
                                     );
-                            })))),
-            // !Signout Area
-            Container(
-                // color: Colors.grey[100],
-                child: IconButton(
-                    icon: Icon(
+                            }))),
+           IconButton(
+                    icon: const Icon(
                       Icons.no_encryption,
                       color: Colors.white60,
                     ),
@@ -99,16 +94,16 @@ class _SubHomePageState extends State<SubHomePage> {
                       showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                                title: Text(
+                                title: const Text(
                                   "bebkeler",
                                 ),
-                                content: Text("Sign out?"),
+                                content: const Text("Sign out?"),
                                 actions: <Widget>[
                                   FlatButton(
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       'No',
                                     ),
                                   ),
@@ -123,13 +118,13 @@ class _SubHomePageState extends State<SubHomePage> {
                                         }), ModalRoute.withName('/'));
                                       });
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       'Yes',
                                     ),
                                   )
                                 ],
                               ));
-                    })),
+                    }),
           ],
         ),
       ),

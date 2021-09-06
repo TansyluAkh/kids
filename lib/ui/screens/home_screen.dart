@@ -24,14 +24,15 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
-          title: Image.network('https://s6.gifyu.com/images/bklogo.png',
-              width: width * 0.4, height: height * 0.2, fit: BoxFit.contain),
-          systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-          leading: Icon(Icons.home, color: AppColors.element, size: 35),
-          shape: RoundedRectangleBorder(
+          centerTitle: true,
+          title:Image.network('https://s9.gifyu.com/images/indigo1.png',
+              width: width*0.35, height: height * 0.1, fit: BoxFit.contain),
+          systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+          leading: const Icon(Icons.home, color: AppColors.element, size: 45),
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
           ),
           backgroundColor: Colors.transparent,
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
           elevation: 0,
         ),
         body: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
             child: Container(
                 child: FutureBuilder(
                     future: categoryRepository.getCategories('categories'),

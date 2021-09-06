@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Timer(Duration(seconds: 6), () {
+    Timer(Duration(seconds: 4), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Wrapper()));
     });
   }
@@ -26,11 +26,11 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Hero(
-            tag: 'home_logo',
+        children: [
+        // ignore: prefer_const_literals_to_create_immutables
+        const Center(
             child: Image(
-              image: NetworkImage('https://s6.gifyu.com/images/bklogo.png'),
+              image: NetworkImage('https://s9.gifyu.com/images/indigo1.png'),
               height: 175.0,
             ),
           ),
