@@ -77,9 +77,9 @@ class _SwiperState extends State<Swiper> {
                   onTap: () {
                     print('tappedplay');
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => QuzScreen(
+                        builder: (context) => QuizScreen(
                             quiz: Quiz.fromSubcategory(
-                                widget.items[element].category2, widget.items))));
+                                widget.items[element].subCategory, widget.items))));
                   },
                   child: Container(
                       width: width * 0.22,
@@ -101,9 +101,9 @@ class _SwiperState extends State<Swiper> {
                         print('tappedplay');
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (context) => QuzScreen(
+                              builder: (context) => QuizScreen(
                                   quiz: Quiz.fromSubcategory(
-                                      widget.items[element].category2,
+                                      widget.items[element].subCategory,
                                       widget.items))),
                         );
                       })))
