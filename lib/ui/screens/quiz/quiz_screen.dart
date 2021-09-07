@@ -14,7 +14,7 @@ class QuizScreen extends View<QuizViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.white,
       appBar: backNavbar(context),
       body: SafeArea(
         child: Padding(
@@ -41,22 +41,26 @@ class QuizScreen extends View<QuizViewModel> {
   }
 
   Widget body(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        timeIndicator(),
-        const SizedBox(
-          height: 10,
-        ),
         Text(
-          viewModel.currentQuestion.text,
+          '„ '+viewModel.currentQuestion.text+' “',
           textAlign: TextAlign.center,
-          style: TextStyle(color: AppColors.indigo, fontSize: 25, fontWeight: FontWeight.bold),
+          style: TextStyle(color: AppColors.indigo, fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(
-          height: 24,
+
+        Container( height: height*0.25,  child: optionGrid()),
+        Text(
+          viewModel.currentQuestion.definition,
+          textAlign: TextAlign.left,
+          style: TextStyle(color: AppColors.black.withOpacity(0.7), fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        Expanded(child: optionGrid()),
-        nextButton(context)
+
+        nextButton(context),
+        timeIndicator(),
       ],
     );
   }
@@ -65,6 +69,7 @@ class QuizScreen extends View<QuizViewModel> {
     return AnimatedBuilder(
       animation: viewModel.animation,
       builder: (_, __) => Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
             width: 60,
@@ -72,13 +77,13 @@ class QuizScreen extends View<QuizViewModel> {
               viewModel.secondsLeft.toString(),
               textAlign: TextAlign.center,
               style: const TextStyle(
-                  color: AppColors.indigo, fontSize: 40, fontWeight: FontWeight.bold),
+                  color: AppColors.indigo, fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
               child: LinearProgressIndicator(
             value: viewModel.animation.value,
-            minHeight: 20,
+            minHeight: 5,
             color: AppColors.indigo,
           ))
         ],
@@ -89,7 +94,7 @@ class QuizScreen extends View<QuizViewModel> {
   Widget nextButton(context) {
     if (!viewModel.isAnswered) return const SizedBox();
 
-    final label = viewModel.isLastStep ? 'Закончить' : 'Дальше';
+    final label = viewModel.isLastStep ? 'Тәмам' : 'Киләсе';
     Function() onTap;
     if (viewModel.isLastStep) {
       onTap = () {
@@ -97,6 +102,7 @@ class QuizScreen extends View<QuizViewModel> {
           return QuizResultScreen(
               title: viewModel.quiz.title,
               questionCount: viewModel.quiz.questions.length,
+              tatcategory: viewModel.quiz.tatcategory,
               correctAnswersCount: viewModel.countCorrectAnswers());
         }));
       };
@@ -154,10 +160,12 @@ class QuizScreen extends View<QuizViewModel> {
     }
 
     return GridView.count(
+      padding: EdgeInsets.all(5),
+      shrinkWrap: true,
         crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        childAspectRatio: 1,
-        mainAxisSpacing: 20,
+        crossAxisSpacing: 5,
+        childAspectRatio: 2.5/1,
+        mainAxisSpacing: 5,
         children: optionCards);
   }
 }

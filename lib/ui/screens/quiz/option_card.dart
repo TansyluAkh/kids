@@ -24,7 +24,7 @@ class OptionCard extends StatelessWidget {
     switch (state) {
       case OptionState.Default:
       case OptionState.Disabled:
-        return AppColors.gray;
+        return AppColors.background;
       case OptionState.Wrong:
         return AppColors.darkRed;
       case OptionState.Correct:
@@ -36,7 +36,7 @@ class OptionCard extends StatelessWidget {
     switch (state) {
       case OptionState.Default:
       case OptionState.Disabled:
-        return AppColors.white;
+        return Colors.transparent;
       case OptionState.Wrong:
         return AppColors.lightRed;
       case OptionState.Correct:
@@ -61,7 +61,7 @@ class OptionCard extends StatelessWidget {
         break;
     }
 
-    return TextStyle(color: color, fontSize: 18, fontWeight: FontWeight.bold);
+    return TextStyle(color: color, fontSize: 18);
   }
 
   IconData getIcon() {
@@ -75,29 +75,15 @@ class OptionCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
+        elevation: 0,
         color: getBackgroundColor(),
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(5),
             side: BorderSide(color: getBorderColor(), width: 2)),
         child: Padding(
           padding: EdgeInsets.all(AppSpacing.defaultPadding),
           child: Stack(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    height: 26,
-                    width: 26,
-                    decoration: BoxDecoration(
-                      color: getBackgroundColor(),
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(color: getBorderColor()),
-                    ),
-                    child: Icon(getIcon(), size: 16),
-                  )
-                ],
-              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -106,8 +92,8 @@ class OptionCard extends StatelessWidget {
                       image: NetworkImage(option.imageUrl),
                     ),
                   if (option.text != null && option.imageUrl != null)
-                    SizedBox(
-                      height: 10,
+                    const SizedBox(
+                      height: 5,
                     ),
                   if (option.text != null)
                     Row(

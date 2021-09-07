@@ -64,7 +64,7 @@ class _SwiperState extends State<Swiper> {
               return get_arr(height, width, widget.items[index]);
             },
             height: height * 0.55,
-            viewportFraction: 0.8,
+            viewportFraction: 0.95,
           ),
           SizedBox(height: height*0.05),
           Chip(
@@ -79,7 +79,7 @@ class _SwiperState extends State<Swiper> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => QuizScreen(
                             quiz: Quiz.fromSubcategory(
-                                widget.items[element].subCategory, widget.items))));
+                                widget.items[element].subCategory, widget.items[element].tatarCategory, widget.items))));
                   },
                   child: Container(
                       width: width * 0.22,
@@ -104,6 +104,7 @@ class _SwiperState extends State<Swiper> {
                               builder: (context) => QuizScreen(
                                   quiz: Quiz.fromSubcategory(
                                       widget.items[element].subCategory,
+                                      widget.items[element].tatCategory,
                                       widget.items))),
                         );
                       })))

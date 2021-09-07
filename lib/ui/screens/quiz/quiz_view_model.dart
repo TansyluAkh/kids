@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'models.dart';
 
-const secondsPerQuestion = 10;
+const secondsPerQuestion = 25;
 
 class QuizViewModel extends ViewModel with SingleTickerProviderViewModelMixin {
   final Quiz quiz;

@@ -5,24 +5,28 @@ import 'package:flutter/foundation.dart';
 
 class Quiz {
   final String title;
+  final String tatcategory;
   final List<Question> questions;
 
   Quiz({
     @required this.title,
+    @required this.tatcategory,
     @required this.questions,
   });
 
-  factory Quiz.fromSubcategory(title, List<Word> words) {
-    return _createQuiz(title, words);
+  factory Quiz.fromSubcategory(title, tatcategory, List<Word> words) {
+    return _createQuiz(title, tatcategory, words);
   }
 }
 
 class Question {
   final String text;
+  final String definition;
   final List<Option> options;
 
   Question({
     @required this.text,
+    this.definition,
     @required this.options,
   });
 }
@@ -46,13 +50,13 @@ class UserAnswer {
   UserAnswer(this.questionIndex, this.chosenOptionIndex);
 }
 
-Quiz _createQuiz(String title, List<Word> words) {
+Quiz _createQuiz(String title,tatcategory, List<Word> words) {
   final List<Question> questions = [];
   for (int i = 0; i < words.length; i++) {
-    questions.add(Question(text: words[i].sentence, options: _generateOptions(i, words)));
+    questions.add(Question(text: words[i].sentence, definition: words[i].definition, options: _generateOptions(i, words)));
   }
 
-  return Quiz(title: title, questions: questions);
+  return Quiz(title: title, tatcategory: tatcategory, questions: questions);
 }
 
 // String _hideWord(String word, String sentence) {
@@ -68,8 +72,11 @@ List<Option> _generateOptions(int correctWordIndex, List<Word> words) {
   final randomInts = _generateInts(0, words.length, 3, excluded: {correctWordIndex});
   final List<Option> result = [];
   for (final index in randomInts) {
+    if (words[index].answer == 'null'){
+      print(words[index].imageName+ ' NULL');
+    }
     result.add(Option(
-      text: words[index].tatarWord,
+      text: words[index].answer,
     ));
   }
   result.add(Option(text: words[correctWordIndex].answer, isCorrect: true));
