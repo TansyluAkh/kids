@@ -19,6 +19,8 @@ class QuizResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     var s = capitalize(tatcategory);
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -58,7 +60,7 @@ class QuizResultScreen extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                    Image.network('https://s9.gifyu.com/images/duckpond.jpg'),
+                    Image.network('https://s9.gifyu.com/images/duckpond.jpg', fit: BoxFit.contain, width: width*0.7, height: height*0.3),
                     SizedBox(
                       height: 20,
                     ),

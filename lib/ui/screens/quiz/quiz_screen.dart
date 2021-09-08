@@ -3,6 +3,7 @@ import 'package:bebkeler/ui/screens/quiz/quiz_result_screen.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'models.dart';
 import 'quiz_view_model.dart';
@@ -28,15 +29,22 @@ class QuizScreen extends View<QuizViewModel> {
   Widget backNavbar(BuildContext context) {
     return AppBar(
       elevation: 0,
-      backgroundColor: Colors.transparent,
-      leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: AppColors.element,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          }),
+      iconTheme: const IconThemeData(
+          color: AppColors.darkBlue),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
+      ),
+      systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+      backgroundColor: AppColors.background,
+      centerTitle: true,
+      title: Text((viewModel.currentQuestionIndex+1).toString()+' / '+ viewModel.quiz.questions.length.toString(),
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontFamily: "Montserrat",
+            fontSize: 22,
+            color: AppColors.darkBlue,
+          )),
     );
   }
 
@@ -53,10 +61,11 @@ class QuizScreen extends View<QuizViewModel> {
         ),
 
         Container( height: height*0.25,  child: optionGrid()),
+    Container( height: height*0.2, child: Image.network(viewModel.currentQuestion.image, fit: BoxFit.contain)),
         Text(
           viewModel.currentQuestion.definition,
           textAlign: TextAlign.left,
-          style: TextStyle(color: AppColors.black.withOpacity(0.7), fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(color: AppColors.black.withOpacity(0.7), fontSize: 16, fontWeight: FontWeight.bold),
         ),
 
         nextButton(context),
@@ -168,4 +177,5 @@ class QuizScreen extends View<QuizViewModel> {
         mainAxisSpacing: 5,
         children: optionCards);
   }
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 }

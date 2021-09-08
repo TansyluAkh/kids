@@ -22,11 +22,13 @@ class Quiz {
 class Question {
   final String text;
   final String definition;
+  final String image;
   final List<Option> options;
 
   Question({
     @required this.text,
-    this.definition,
+  @required this.definition,
+  @required this.image,
     @required this.options,
   });
 }
@@ -53,7 +55,7 @@ class UserAnswer {
 Quiz _createQuiz(String title,tatcategory, List<Word> words) {
   final List<Question> questions = [];
   for (int i = 0; i < words.length; i++) {
-    questions.add(Question(text: words[i].sentence, definition: words[i].definition, options: _generateOptions(i, words)));
+    questions.add(Question(text: words[i].sentence, image: words[i].imageUrl, definition: words[i].definition, options: _generateOptions(i, words)));
   }
 
   return Quiz(title: title, tatcategory: tatcategory, questions: questions);

@@ -10,9 +10,8 @@ import 'details_screen.dart';
 
 class Swiper extends StatefulWidget {
   final items;
-  final controller;
 
-  const Swiper({Key key, this.items, this.controller}) : super(key: key);
+  const Swiper({Key key, this.items}) : super(key: key);
 
   @override
   _SwiperState createState() => _SwiperState();
@@ -52,8 +51,6 @@ class _SwiperState extends State<Swiper> {
           VxSwiper.builder(
             itemCount: widget.items.length,
             autoPlay: false,
-            autoPlayAnimationDuration: 3.seconds,
-            autoPlayCurve: Curves.easeInOut,
             enableInfiniteScroll: true,
             onPageChanged: (index) {
               setState(() {

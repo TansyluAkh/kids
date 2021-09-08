@@ -28,9 +28,9 @@ class DetailsScreen extends StatelessWidget {
                   SizedBox(height: height * 0.05),
                   Text(item.definition, style: Theme.of(context).textTheme.subtitle1),
                   SizedBox(height: height * 0.01),
-                  Align( alignment: Alignment.topCenter, child: Image.network(item.imageUrl,
+                  Expanded(child:Align( alignment: Alignment.topCenter, child: Image.network(item.imageUrl,
                       fit: BoxFit.contain, width: width * 0.6, height: height * 0.3)),
-                ])));
+                  )])));
   }
 
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);

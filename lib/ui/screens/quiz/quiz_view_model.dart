@@ -11,7 +11,7 @@ const secondsPerQuestion = 25;
 class QuizViewModel extends ViewModel with SingleTickerProviderViewModelMixin {
   final Quiz quiz;
   final List<UserAnswer> userAnswers;
-  int _currentQuestionIndex;
+  int currentQuestionIndex;
 
   int secondsLeft;
   AnimationController animationController;
@@ -21,7 +21,7 @@ class QuizViewModel extends ViewModel with SingleTickerProviderViewModelMixin {
   QuizViewModel({@required this.quiz})
       : userAnswers = [],
         secondsLeft = secondsPerQuestion,
-        _currentQuestionIndex = 0;
+        currentQuestionIndex = 0;
 
   @override
   void init() {
@@ -32,16 +32,16 @@ class QuizViewModel extends ViewModel with SingleTickerProviderViewModelMixin {
     animationController.forward();
   }
 
-  Question get currentQuestion => quiz.questions[_currentQuestionIndex];
-  bool get isLastStep => _currentQuestionIndex == quiz.questions.length - 1;
+  Question get currentQuestion => quiz.questions[currentQuestionIndex];
+  bool get isLastStep => currentQuestionIndex == quiz.questions.length - 1;
   bool get isAnswered =>
-      userAnswers.indexWhere((el) => el.questionIndex == _currentQuestionIndex) != -1;
+      userAnswers.indexWhere((el) => el.questionIndex == currentQuestionIndex) != -1;
   UserAnswer get currentAnswer =>
-      userAnswers.firstWhere((el) => el.questionIndex == _currentQuestionIndex, orElse: () => null);
+      userAnswers.firstWhere((el) => el.questionIndex == currentQuestionIndex, orElse: () => null);
 
   void answer(int chosenOptionIndex) {
     if (isAnswered) return;
-    userAnswers.add(UserAnswer(_currentQuestionIndex, chosenOptionIndex));
+    userAnswers.add(UserAnswer(currentQuestionIndex, chosenOptionIndex));
 
     _timer.cancel();
     animationController.stop();
@@ -50,7 +50,7 @@ class QuizViewModel extends ViewModel with SingleTickerProviderViewModelMixin {
   }
 
   void goNext() {
-    _currentQuestionIndex++;
+    currentQuestionIndex++;
 
     if (_timer.isActive) _timer.cancel();
     secondsLeft = secondsPerQuestion;
