@@ -1,8 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:bebkeler/models/user.dart';
 import 'package:bebkeler/ui/screens/splash_screen.dart';
-import 'package:bebkeler/services/auth_service.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
@@ -16,21 +14,16 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          StreamProvider<User>.value(value: AuthService().user),
-        ],
-        child: MaterialApp(
-          title: 'bebkeler',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.indigo,
-            fontFamily: 'Montserrat',
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
-          home: SplashScreen(),
-          routes: {},
-        ),
+    return MaterialApp(
+      title: 'bebkeler',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+        fontFamily: 'Montserrat',
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: SplashScreen(),
+      routes: {},
     );
   }
 }

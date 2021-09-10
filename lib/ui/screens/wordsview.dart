@@ -1,14 +1,10 @@
 import 'package:bebkeler/core/words/word_repository.dart';
+import 'package:bebkeler/infrastructure/auth/auth_service.dart';
 import 'package:bebkeler/ui/components/gridcard.dart';
-import 'package:bebkeler/ui/screens/quiz/models.dart';
-import 'package:bebkeler/ui/screens/quiz/quiz_screen.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
-import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:flutter/material.dart';
-import 'package:bebkeler/services/auth_service.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'login_screen.dart';
+import 'auth/auth_screen.dart';
 
 class WordsPage extends StatefulWidget {
   final name;
@@ -22,7 +18,6 @@ class WordsPage extends StatefulWidget {
 }
 
 class _WordsPageState extends State<WordsPage> {
-  final AuthService _auth = AuthService();
   bool loading = false;
 
   @override
@@ -115,13 +110,13 @@ class _WordsPageState extends State<WordsPage> {
                                                       FlatButton(
                                                         onPressed: () async {
                                                           setState(() => loading = true);
-                                                          await _auth.signOut().whenComplete(() {
+                                                          await AuthService.instance.signOut().whenComplete(() {
                                                             setState(() => loading = false);
                                                             Navigator.of(context)
                                                                 .pushAndRemoveUntil(
                                                                 MaterialPageRoute(
                                                                     builder: (context) {
-                                                                      return LoginPage();
+                                                                      return AuthScreen();
                                                                     }), ModalRoute.withName('/'));
                                                           });
                                                         },

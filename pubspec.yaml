@@ -26,6 +26,9 @@ dependencies:
   blobs: ^2.0.0
   velocity_x:
   font_awesome_flutter:
+  sign_in_with_apple: ^3.0.0
+  crypto: ^3.0.1
+  flutter_signin_button: ^2.0.0
 dev_dependencies:
   flutter_lints: ^1.0.4
   flutter_test:

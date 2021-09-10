@@ -3,7 +3,6 @@ import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:bebkeler/ui/screens/subcatscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/core/categories/category.dart';
-import 'package:bebkeler/services/auth_service.dart';
 import 'package:bebkeler/ui/components/maincategorycard.dart';
 import 'package:flutter/services.dart';
 
@@ -13,7 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final AuthService _auth = AuthService();
   bool loading = false;
 
   @override
@@ -28,8 +26,8 @@ class _HomePageState extends State<HomePage> {
             color: Colors.black, //change your color here
           ),
           centerTitle: true,
-          title:Image.network('https://s9.gifyu.com/images/indigo1.png',
-              width: width*0.35, height: height * 0.1, fit: BoxFit.contain),
+          title: Image.network('https://s9.gifyu.com/images/indigo1.png',
+              width: width * 0.35, height: height * 0.1, fit: BoxFit.contain),
           systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
           leading: const Icon(Icons.home, color: AppColors.element, size: 45),
           shape: const RoundedRectangleBorder(

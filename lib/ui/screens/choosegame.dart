@@ -1,10 +1,10 @@
-import 'package:bebkeler/services/auth_service.dart';
+import 'package:bebkeler/infrastructure/auth/auth_service.dart';
 import 'package:bebkeler/ui/components/maincategorycard.dart';
 import 'package:bebkeler/ui/screens/spelling_bee/home.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 
-import 'login_screen.dart';
+import 'auth/auth_screen.dart';
 import 'math_ninja/home.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final AuthService _auth = AuthService();
   bool loading = false;
 
   @override
@@ -93,11 +92,11 @@ class _HomePageState extends State<HomePage> {
                                   FlatButton(
                                     onPressed: () async {
                                       setState(() => loading = true);
-                                      await _auth.signOut().whenComplete(() {
+                                      await AuthService.instance.signOut().whenComplete(() {
                                         setState(() => loading = false);
                                         Navigator.of(context).pushAndRemoveUntil(
                                             MaterialPageRoute(builder: (context) {
-                                          return LoginPage();
+                                          return AuthScreen();
                                         }), ModalRoute.withName('/'));
                                       });
                                     },
