@@ -5,17 +5,20 @@ import 'package:flutter/foundation.dart';
 
 class Quiz {
   final String title;
+  final String collectionPath;
   final String tatcategory;
   final List<Question> questions;
 
   Quiz({
     @required this.title,
+    @required this.collectionPath,
     @required this.tatcategory,
     @required this.questions,
   });
 
-  factory Quiz.fromSubcategory(title, tatcategory, List<Word> words) {
-    return _createQuiz(title, tatcategory, words);
+  factory Quiz.fromSubcategory(
+      String title, String collectionPath, String tatcategory, List<Word> words) {
+    return _createQuiz(title, collectionPath, tatcategory, words);
   }
 }
 
@@ -50,13 +53,46 @@ class UserAnswer {
   UserAnswer(this.questionIndex, this.chosenOptionIndex);
 }
 
-Quiz _createQuiz(String title,tatcategory, List<Word> words) {
+class QuizResult {
+  final String categoryPath;
+  final String userId;
+  final String userDisplayName;
+  final int score;
+  final int maxScore;
+
+  QuizResult({this.categoryPath, this.userId, this.userDisplayName, this.score, this.maxScore});
+
+  QuizResult.fromJson(Map<String, Object> json)
+      : this(
+          categoryPath: json['categoryPath'] as String,
+          userDisplayName: json['userDisplayName'] as String,
+          userId: json['userId'] as String,
+          score: json['score'] as int,
+          maxScore: json['maxScore'] as int,
+        );
+
+  Map<String, Object> toJson() {
+    return {
+      'categoryPath': categoryPath,
+      'userDisplayName': userDisplayName,
+      'userId': userId,
+      'score': score,
+      'maxScore': maxScore,
+    };
+  }
+}
+
+Quiz _createQuiz(String title, String collectionPath, tatcategory, List<Word> words) {
   final List<Question> questions = [];
   for (int i = 0; i < words.length; i++) {
-    questions.add(Question(text: words[i].sentence, definition: words[i].definition, options: _generateOptions(i, words)));
+    questions.add(Question(
+        text: words[i].sentence,
+        definition: words[i].definition,
+        options: _generateOptions(i, words)));
   }
 
-  return Quiz(title: title, tatcategory: tatcategory, questions: questions);
+  return Quiz(
+      title: title, collectionPath: collectionPath, tatcategory: tatcategory, questions: questions);
 }
 
 // String _hideWord(String word, String sentence) {
@@ -72,8 +108,8 @@ List<Option> _generateOptions(int correctWordIndex, List<Word> words) {
   final randomInts = _generateInts(0, words.length, 3, excluded: {correctWordIndex});
   final List<Option> result = [];
   for (final index in randomInts) {
-    if (words[index].answer == 'null'){
-      print(words[index].imageName+ ' NULL');
+    if (words[index].answer == 'null') {
+      print(words[index].imageName + ' NULL');
     }
     result.add(Option(
       text: words[index].answer,

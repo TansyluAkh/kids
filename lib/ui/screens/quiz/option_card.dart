@@ -2,7 +2,7 @@ import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:flutter/material.dart';
 
-import 'models.dart';
+import '../../../core/quiz/models.dart';
 
 enum OptionState { Correct, Wrong, Disabled, Default }
 

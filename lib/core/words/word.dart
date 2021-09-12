@@ -12,6 +12,8 @@ class Word {
   final String tatarAudio;
   final String russianAudio;
 
+  String get categoryPath => category + '_' + subCategory;
+
   Word(
       {this.word,
       this.definition,

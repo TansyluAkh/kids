@@ -47,12 +47,10 @@ class _MNLeaderboardState extends State<MNLeaderboard> {
               backgroundColor: Colors.transparent,
               body: SafeArea(
                 child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 30.0, vertical: 60.0),
+                  padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 60.0),
                   child: Container(
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: Colors.white70),
+                        borderRadius: BorderRadius.circular(15.0), color: Colors.white70),
                     child: Column(
                       children: <Widget>[
                         Expanded(
@@ -61,8 +59,7 @@ class _MNLeaderboardState extends State<MNLeaderboard> {
                             padding: EdgeInsets.only(top: 40.0),
                             child: Text(
                               'MATH NINJA LEADERS',
-                              style: TextStyle(
-                                  fontSize: 20.0, color: Colors.indigo),
+                              style: TextStyle(fontSize: 20.0, color: Colors.indigo),
                             ),
                           ),
                         ),
@@ -72,9 +69,7 @@ class _MNLeaderboardState extends State<MNLeaderboard> {
                             child: ListView.builder(
                               itemCount: datas.length,
                               itemBuilder: (context, index) {
-                                return UserTile(
-                                    userdata: datas[index],
-                                    dataIndex: index + 1);
+                                return UserTile(userdata: datas[index], dataIndex: index + 1);
                               },
                             ),
                           ),
@@ -113,13 +108,10 @@ class UserTile extends StatelessWidget {
             title: Text(
               userdata['mn_username'],
               textAlign: TextAlign.end,
-              style: TextStyle(
-                  fontSize: 20.0, color: Colors.black.withOpacity(0.7)),
+              style: TextStyle(fontSize: 20.0, color: Colors.black.withOpacity(0.7)),
             ),
-            subtitle: Text(
-                'Points: ${userdata['mn_points']}    Ratio: ${userdata['mn_ratio']}',
-                textAlign: TextAlign.end,
-                style: TextStyle(fontSize: 15.0)),
+            subtitle: Text('Points: ${userdata['mn_points']}    Ratio: ${userdata['mn_ratio']}',
+                textAlign: TextAlign.end, style: TextStyle(fontSize: 15.0)),
           ),
         ),
       ),

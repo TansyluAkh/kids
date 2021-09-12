@@ -1,5 +1,6 @@
+import 'package:bebkeler/core/words/word.dart';
 import 'package:bebkeler/ui/screens/details_screen.dart';
-import 'package:bebkeler/ui/screens/quiz/models.dart';
+import 'package:bebkeler/core/quiz/models.dart';
 import 'package:bebkeler/ui/screens/quiz/quiz_screen.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,8 @@ import 'package:velocity_x/velocity_x.dart';
 import 'details_screen.dart';
 
 class Swiper extends StatefulWidget {
-  final items;
-  final controller;
+  final List<Word> items;
+  final PageController controller;
 
   const Swiper({Key key, this.items, this.controller}) : super(key: key);
 
@@ -32,15 +33,11 @@ class _SwiperState extends State<Swiper> {
           iconTheme: IconThemeData(
             color: AppColors.element, //change your color here
           ),
-          systemOverlayStyle:
-              SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+          systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
           centerTitle: true,
-          title: Text(
-              (element + 1).toString() + ' / ' + widget.items.length.toString(),
-              style: TextStyle(
-                  fontSize: 22,
-                  color: AppColors.darkBlue,
-                  fontWeight: FontWeight.bold)),
+          title: Text((element + 1).toString() + ' / ' + widget.items.length.toString(),
+              style:
+                  TextStyle(fontSize: 22, color: AppColors.darkBlue, fontWeight: FontWeight.bold)),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
           ),
@@ -66,7 +63,7 @@ class _SwiperState extends State<Swiper> {
             height: height * 0.55,
             viewportFraction: 0.95,
           ),
-          SizedBox(height: height*0.05),
+          SizedBox(height: height * 0.05),
           Chip(
               autofocus: true,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -79,7 +76,10 @@ class _SwiperState extends State<Swiper> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => QuizScreen(
                             quiz: Quiz.fromSubcategory(
-                                widget.items[element].subCategory, widget.items[element].tatarCategory, widget.items))));
+                                widget.items[element].subCategory,
+                                widget.items[element].categoryPath,
+                                widget.items[element].tatarCategory,
+                                widget.items))));
                   },
                   child: Container(
                       width: width * 0.22,
@@ -104,7 +104,8 @@ class _SwiperState extends State<Swiper> {
                               builder: (context) => QuizScreen(
                                   quiz: Quiz.fromSubcategory(
                                       widget.items[element].subCategory,
-                                      widget.items[element].tatCategory,
+                                      widget.items[element].categoryPath,
+                                      widget.items[element].tatarCategory,
                                       widget.items))),
                         );
                       })))

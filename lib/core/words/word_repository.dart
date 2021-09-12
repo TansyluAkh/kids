@@ -6,8 +6,8 @@ class WordRepository {
 
   WordRepository(this._firebase);
 
-  static WordRepository get instance =>
-      WordRepository(FirebaseFirestore.instance);
+  static WordRepository get instance => WordRepository(FirebaseFirestore.instance);
+
   Future<List<Word>> getWord(String name) async {
     CollectionReference categories = _firebase.collection(name);
     QuerySnapshot querySnapshot = await categories.get();
