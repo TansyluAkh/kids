@@ -1,10 +1,10 @@
+import 'package:bebkeler/core/quiz/models.dart';
 import 'package:bebkeler/infrastructure/mvvm/view.dart';
 import 'package:bebkeler/ui/screens/quiz/quiz_result_screen.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:flutter/material.dart';
 
-import 'models.dart';
 import 'quiz_view_model.dart';
 import 'option_card.dart';
 
@@ -47,18 +47,17 @@ class QuizScreen extends View<QuizViewModel> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          '„ '+viewModel.currentQuestion.text+' “',
+          '„ ' + viewModel.currentQuestion.text + ' “',
           textAlign: TextAlign.center,
           style: TextStyle(color: AppColors.indigo, fontSize: 20, fontWeight: FontWeight.bold),
         ),
-
-        Container( height: height*0.25,  child: optionGrid()),
+        Container(height: height * 0.25, child: optionGrid()),
         Text(
           viewModel.currentQuestion.definition,
           textAlign: TextAlign.left,
-          style: TextStyle(color: AppColors.black.withOpacity(0.7), fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: AppColors.black.withOpacity(0.7), fontSize: 20, fontWeight: FontWeight.bold),
         ),
-
         nextButton(context),
         timeIndicator(),
       ],
@@ -97,13 +96,10 @@ class QuizScreen extends View<QuizViewModel> {
     final label = viewModel.isLastStep ? 'Тәмам' : 'Киләсе';
     Function() onTap;
     if (viewModel.isLastStep) {
-      onTap = () {
+      onTap = () async {
+        final result = await viewModel.finish();
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-          return QuizResultScreen(
-              title: viewModel.quiz.title,
-              questionCount: viewModel.quiz.questions.length,
-              tatcategory: viewModel.quiz.tatcategory,
-              correctAnswersCount: viewModel.countCorrectAnswers());
+          return QuizResultScreen(tatcategory: viewModel.quiz.tatcategory, result: result);
         }));
       };
     } else {
@@ -160,11 +156,11 @@ class QuizScreen extends View<QuizViewModel> {
     }
 
     return GridView.count(
-      padding: EdgeInsets.all(5),
-      shrinkWrap: true,
+        padding: EdgeInsets.all(5),
+        shrinkWrap: true,
         crossAxisCount: 2,
         crossAxisSpacing: 5,
-        childAspectRatio: 2.5/1,
+        childAspectRatio: 2.5 / 1,
         mainAxisSpacing: 5,
         children: optionCards);
   }

@@ -1,10 +1,11 @@
 import 'dart:async';
 
+import 'package:bebkeler/core/quiz/models.dart';
+import 'package:bebkeler/core/quiz/quiz_repository.dart';
+import 'package:bebkeler/infrastructure/auth/auth_service.dart';
 import 'package:bebkeler/infrastructure/mvvm/ticker_provider.dart';
 import 'package:bebkeler/infrastructure/mvvm/view_model.dart';
 import 'package:flutter/material.dart';
-
-import 'models.dart';
 
 const secondsPerQuestion = 25;
 
@@ -69,15 +70,28 @@ class QuizViewModel extends ViewModel with SingleTickerProviderViewModelMixin {
     secondsLeft--;
   }
 
-  int countCorrectAnswers() {
-    var result = 0;
+  Future<QuizResult> finish() async {
+    setLoading(true);
+
+    var correctAnswers = 0;
     for (final answer in userAnswers) {
       final userOptionIndex = answer.chosenOptionIndex;
       final correctOptionIndex =
           quiz.questions[answer.questionIndex].options.indexWhere((opt) => opt.isCorrect);
 
-      if (userOptionIndex == correctOptionIndex) result++;
+      if (userOptionIndex == correctOptionIndex) correctAnswers++;
     }
+
+    final result = QuizResult(
+        categoryPath: quiz.collectionPath,
+        userId: AuthService.instance.currentUser.id,
+        userDisplayName: AuthService.instance.currentUser.displayName,
+        score: correctAnswers,
+        maxScore: quiz.questions.length);
+
+    await QuizRepository.instance.addResult(result);
+
+    setLoading(false);
 
     return result;
   }
