@@ -2,6 +2,7 @@ import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class QuizResultScreen extends StatelessWidget {
   final String title;
@@ -24,8 +25,20 @@ class QuizResultScreen extends StatelessWidget {
     var s = capitalize(tatcategory);
     return Scaffold(
       backgroundColor: AppColors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(AppSpacing.defaultPadding),
+      body:
+        Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/login_bg.jpg'),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(Colors.black12, BlendMode.dstATop),
+            ),
+          ),
+          // color: Colors.white,\child: Center(
+          child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.defaultPadding),
         child: Align(
           alignment: Alignment.center,
           child:
@@ -37,7 +50,7 @@ class QuizResultScreen extends StatelessWidget {
                     "Котлыйбыз!",
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                        color: AppColors.indigo, fontSize: 30, fontWeight: FontWeight.bold),
+                        color: AppColors.darkBlue, fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                     SizedBox(
                       height: 10,
@@ -46,7 +59,7 @@ class QuizResultScreen extends StatelessWidget {
                     "$s категориясе өчен балларыныз:",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: AppColors.indigo, fontSize: 20, fontWeight: FontWeight.bold),
+                        color: AppColors.darkBlue, fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                     SizedBox(
                       height: 10,
@@ -55,7 +68,7 @@ class QuizResultScreen extends StatelessWidget {
                     "$correctAnswersCount/$questionCount",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: AppColors.indigo, fontSize: 25, fontWeight: FontWeight.bold),
+                        color: AppColors.darkBlue, fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: 20,
@@ -64,21 +77,14 @@ class QuizResultScreen extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
-                  TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: AppColors.indigo.withOpacity(0.9),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
+                  IconButton(
+                    iconSize: height*0.05,
+                    icon: Icon(FontAwesomeIcons.redo),
+                        color: AppColors.darkBlue,
                       onPressed: () => Navigator.pop(context),
-                      child: Text("Кире кайтырга",
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: AppColors.white,
-                          ))),
+                  )
                 ]),
           ),
-        ));}
+        )));}
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 }

@@ -11,7 +11,7 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(70)),
         child: Padding(
             padding: EdgeInsets.all(10),
             child: Column(
@@ -26,7 +26,7 @@ class DetailsScreen extends StatelessWidget {
                           .headline4
                           .copyWith(color: AppColors.darkBlue, fontWeight: FontWeight.bold)),
                   SizedBox(height: height * 0.05),
-                  Text(item.definition, style: Theme.of(context).textTheme.subtitle1),
+                  Text(item.definition, style: Theme.of(context).textTheme.subtitle1, textAlign: TextAlign.center),
                   SizedBox(height: height * 0.01),
                   Expanded(child:Align( alignment: Alignment.topCenter, child: Image.network(item.imageUrl,
                       fit: BoxFit.contain, width: width * 0.6, height: height * 0.3)),

@@ -4,6 +4,7 @@ import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'models.dart';
 import 'quiz_view_model.dart';
@@ -14,6 +15,7 @@ class QuizScreen extends View<QuizViewModel> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: backNavbar(context),
@@ -64,11 +66,11 @@ class QuizScreen extends View<QuizViewModel> {
     Container( height: height*0.2, child: Image.network(viewModel.currentQuestion.image, fit: BoxFit.contain)),
         Text(
           viewModel.currentQuestion.definition,
-          textAlign: TextAlign.left,
+          textAlign: TextAlign.center,
           style: TextStyle(color: AppColors.black.withOpacity(0.7), fontSize: 16, fontWeight: FontWeight.bold),
         ),
 
-        nextButton(context),
+        nextButton(context, height),
         timeIndicator(),
       ],
     );
@@ -100,10 +102,8 @@ class QuizScreen extends View<QuizViewModel> {
     );
   }
 
-  Widget nextButton(context) {
+  Widget nextButton(context, height) {
     if (!viewModel.isAnswered) return const SizedBox();
-
-    final label = viewModel.isLastStep ? 'Тәмам' : 'Киләсе';
     Function() onTap;
     if (viewModel.isLastStep) {
       onTap = () {
@@ -120,30 +120,12 @@ class QuizScreen extends View<QuizViewModel> {
         viewModel.goNext();
       };
     }
-
-    return Row(children: [
-      Expanded(
-          child: SizedBox(
-        height: 48,
-        child: TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: AppColors.indigo,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
+    return IconButton(
+      icon: Icon(FontAwesomeIcons.arrowCircleRight),
+          iconSize: height*0.07,
+          color: AppColors.darkBlue,
           onPressed: onTap,
-          child: Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 15,
-              color: AppColors.white,
-            ),
-          ),
-        ),
-      ))
-    ]);
+        );
   }
 
   Widget optionGrid() {

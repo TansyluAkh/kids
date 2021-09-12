@@ -1,5 +1,4 @@
 import 'dart:async';
-// import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/wrapper.dart';
@@ -21,17 +20,20 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
         // ignore: prefer_const_literals_to_create_immutables
-        const Center(
+        Center(
             child: Image(
               image: NetworkImage('https://s9.gifyu.com/images/indigo1.png'),
-              height: 175.0,
+              height: height * 0.35,
+              width: width*0.6,
             ),
           ),
           // SizedBox(

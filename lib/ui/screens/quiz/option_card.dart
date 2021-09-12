@@ -26,9 +26,9 @@ class OptionCard extends StatelessWidget {
       case OptionState.Disabled:
         return AppColors.background;
       case OptionState.Wrong:
-        return AppColors.darkRed;
+        return AppColors.red;
       case OptionState.Correct:
-        return AppColors.darkGreen;
+        return AppColors.green;
     }
   }
 
@@ -38,9 +38,9 @@ class OptionCard extends StatelessWidget {
       case OptionState.Disabled:
         return Colors.transparent;
       case OptionState.Wrong:
-        return AppColors.lightRed;
+        return Colors.transparent;
       case OptionState.Correct:
-        return AppColors.lightGreen;
+        return Colors.transparent;
     }
   }
 
@@ -54,10 +54,10 @@ class OptionCard extends StatelessWidget {
         color = AppColors.lightGray;
         break;
       case OptionState.Wrong:
-        color = AppColors.darkRed;
+        color = AppColors.red;
         break;
       case OptionState.Correct:
-        color = AppColors.darkGreen;
+        color = AppColors.green;
         break;
     }
 
@@ -78,7 +78,7 @@ class OptionCard extends StatelessWidget {
         elevation: 0,
         color: getBackgroundColor(),
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(25),
             side: BorderSide(color: getBorderColor(), width: 2)),
         child: Padding(
           padding: EdgeInsets.all(AppSpacing.defaultPadding),

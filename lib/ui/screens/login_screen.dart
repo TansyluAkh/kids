@@ -1,3 +1,4 @@
+import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/ui/screens/home_screen.dart';
 import 'package:bebkeler/services/auth_service.dart';
@@ -16,10 +17,14 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return loading
         ? Loading()
         : Scaffold(
             body: Container(
+              width: width,
+              height: height,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/login_bg.jpg'),
@@ -27,29 +32,28 @@ class _LoginPageState extends State<LoginPage> {
                   colorFilter: ColorFilter.mode(Colors.black12, BlendMode.dstATop),
                 ),
               ),
-              // color: Colors.white,
-              child: Center(
+              // color: Colors.white,\child: Center(
                 child: Column(
-                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Image(
                       image: NetworkImage('https://s9.gifyu.com/images/indigo1.png'),
-                      height: 150.0,
+                      width: width*0.8,
+                      height: height*0.25,
                     ),
                     SizedBox(height: 30),
                     _signInButton(),
                   ],
                 ),
               ),
-            ),
-          );
+            );
   }
 
   Widget _signInButton() {
     return RaisedButton(
-      color: Colors.grey[200],
-      splashColor: Colors.grey,
+      color: AppColors.white,
+      splashColor: AppColors.white,
       onPressed: () async {
         setState(() => loading = true);
 
@@ -63,26 +67,15 @@ class _LoginPageState extends State<LoginPage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       // highlightElevation: 0,
       // borderSide: BorderSide(color: Colors.grey),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+      child:
+        Chip(
+          backgroundColor: AppColors.white,
+          avatar:
             Image(image: AssetImage("assets/images/google_logo.png"), height: 35.0),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                'Sign in with Google',
+            label: Text(
+                'Вход',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black54,
                 ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
+              )));}}

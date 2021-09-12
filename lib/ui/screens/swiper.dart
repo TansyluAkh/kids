@@ -91,7 +91,7 @@ class _SwiperState extends State<Swiper> {
               avatar: Align(
                   alignment: Alignment.topCenter,
                   child: IconButton(
-                      iconSize: height * 0.045,
+                      iconSize: height * 0.035,
                       color: AppColors.darkBlue,
                       icon: Icon(FontAwesomeIcons.play),
                       onPressed: () {
