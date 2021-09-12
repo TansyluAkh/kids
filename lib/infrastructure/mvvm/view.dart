@@ -1,53 +1,113 @@
-﻿import 'package:bebkeler/infrastructure/mvvm/view_model.dart';
+﻿import 'package:bebkeler/ui/shared/colors.dart';
+
+import 'view_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 abstract class View<Vm extends ViewModel> extends StatefulWidget {
   View({
     Key key,
     @required this.viewModel,
-  }) : super(key: key);
+    Widget Function(BuildContext) onLoading,
+    void Function(BuildContext) onNonBlockingLoading,
+  }) : super(key: key) {
+    this.onNonBlockingLoading = onNonBlockingLoading ?? loadingModal;
+    this.onLoading = onLoading ?? loadingWidget;
+  }
 
   final Vm viewModel;
+  Widget Function(BuildContext) onLoading;
+  void Function(BuildContext) onNonBlockingLoading;
 
   @protected
   Widget build(BuildContext context);
 
   @override
   _ViewState createState() => _ViewState();
+
+  Widget loadingWidget(BuildContext context) => Scaffold(
+      backgroundColor: AppColors.background,
+      body: Center(
+        child: CircularProgressIndicator(
+          color: AppColors.element,
+        ),
+      ));
+
+  loadingModal(BuildContext context) => showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Center(
+          child: CircularProgressIndicator(
+            color: AppColors.element,
+          ),
+        );
+      });
 }
 
 class _ViewState extends State<View> {
+  bool isWidgetWasShown = false;
+  bool isWidgetInLoadingState = false;
+
   @override
   void initState() {
     super.initState();
     widget.viewModel.init();
-    widget.viewModel.addListener(_handleChange);
+
+    widget.viewModel.addListener(rebuild);
+
+    isWidgetInLoadingState = widget.viewModel.isLoading;
+    widget.viewModel.loadingStateNotifier.addListener(handleLoadingChange);
   }
 
   @override
   void didUpdateWidget(View oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.viewModel != oldWidget.viewModel) {
-      oldWidget.viewModel.removeListener(_handleChange);
-      widget.viewModel.addListener(_handleChange);
+      oldWidget.viewModel.removeListener(rebuild);
+      widget.viewModel.addListener(rebuild);
+      oldWidget.viewModel.loadingStateNotifier.removeListener(handleLoadingChange);
+      widget.viewModel.loadingStateNotifier.addListener(handleLoadingChange);
     }
   }
 
   @override
   void dispose() {
-    widget.viewModel.removeListener(_handleChange);
+    widget.viewModel.removeListener(rebuild);
+    widget.viewModel.loadingStateNotifier.removeListener(handleLoadingChange);
     widget.viewModel.dispose();
     super.dispose();
   }
 
-  void _handleChange() {
+  void handleLoadingChange() {
+    if (isWidgetWasShown) {
+      if (isWidgetInLoadingState == true && widget.viewModel.isLoading == false) {
+        Navigator.of(context).pop();
+        isWidgetInLoadingState = false;
+      } else if (isWidgetInLoadingState == false && widget.viewModel.isLoading == true) {
+        widget.onNonBlockingLoading(context);
+        isWidgetInLoadingState = true;
+      }
+    } else if (isWidgetInLoadingState != widget.viewModel.isLoading) {
+      isWidgetInLoadingState = widget.viewModel.isLoading;
+      rebuild();
+    }
+  }
+
+  void rebuild() {
     setState(() {
       // Just trigger default rebuild mechanism because state (viewModel) is already updated
     });
   }
 
   @override
-  Widget build(BuildContext context) => widget.build(context);
+  Widget build(BuildContext context) {
+    if (!isWidgetWasShown && isWidgetInLoadingState) {
+      return widget.onLoading(context);
+    }
+    isWidgetWasShown = true;
+    return widget.build(context);
+  }
 }
 
 class ViewBuilder<Vm extends ViewModel> extends View<Vm> {
