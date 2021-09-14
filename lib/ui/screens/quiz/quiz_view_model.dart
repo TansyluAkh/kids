@@ -83,7 +83,7 @@ class QuizViewModel extends ViewModel with SingleTickerProviderViewModelMixin {
     }
 
     final result = QuizResult(
-        categoryPath: quiz.collectionPath,
+        collectionPath: quiz.collectionPath,
         userId: AuthService.instance.currentUser.id,
         userDisplayName: AuthService.instance.currentUser.displayName,
         score: correctAnswers,

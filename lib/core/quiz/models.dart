@@ -54,32 +54,20 @@ class UserAnswer {
 }
 
 class QuizResult {
-  final String categoryPath;
+  final String collectionPath;
   final String userId;
   final String userDisplayName;
   final int score;
   final int maxScore;
+  DateTime createdAt;
 
-  QuizResult({this.categoryPath, this.userId, this.userDisplayName, this.score, this.maxScore});
-
-  QuizResult.fromJson(Map<String, Object> json)
-      : this(
-          categoryPath: json['categoryPath'] as String,
-          userDisplayName: json['userDisplayName'] as String,
-          userId: json['userId'] as String,
-          score: json['score'] as int,
-          maxScore: json['maxScore'] as int,
-        );
-
-  Map<String, Object> toJson() {
-    return {
-      'categoryPath': categoryPath,
-      'userDisplayName': userDisplayName,
-      'userId': userId,
-      'score': score,
-      'maxScore': maxScore,
-    };
-  }
+  QuizResult(
+      {this.collectionPath,
+      this.userId,
+      this.userDisplayName,
+      this.score,
+      this.maxScore,
+      this.createdAt});
 }
 
 Quiz _createQuiz(String title, String collectionPath, tatcategory, List<Word> words) {

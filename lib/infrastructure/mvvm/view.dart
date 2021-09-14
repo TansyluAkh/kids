@@ -8,15 +8,15 @@ abstract class View<Vm extends ViewModel> extends StatefulWidget {
   View({
     Key key,
     @required this.viewModel,
-    Widget Function(BuildContext) onLoading,
+    Widget Function(BuildContext) loadingWidgetBuilder,
     void Function(BuildContext) onNonBlockingLoading,
   }) : super(key: key) {
+    this.loadingWidgetBuilder = loadingWidgetBuilder ?? buildLoadingWidget;
     this.onNonBlockingLoading = onNonBlockingLoading ?? loadingModal;
-    this.onLoading = onLoading ?? loadingWidget;
   }
 
   final Vm viewModel;
-  Widget Function(BuildContext) onLoading;
+  Widget Function(BuildContext) loadingWidgetBuilder;
   void Function(BuildContext) onNonBlockingLoading;
 
   @protected
@@ -25,7 +25,7 @@ abstract class View<Vm extends ViewModel> extends StatefulWidget {
   @override
   _ViewState createState() => _ViewState();
 
-  Widget loadingWidget(BuildContext context) => Scaffold(
+  Widget buildLoadingWidget(BuildContext context) => Scaffold(
       backgroundColor: AppColors.background,
       body: Center(
         child: CircularProgressIndicator(
@@ -103,7 +103,7 @@ class _ViewState extends State<View> {
   @override
   Widget build(BuildContext context) {
     if (!isWidgetWasShown && isWidgetInLoadingState) {
-      return widget.onLoading(context);
+      return widget.loadingWidgetBuilder(context);
     }
     isWidgetWasShown = true;
     return widget.build(context);

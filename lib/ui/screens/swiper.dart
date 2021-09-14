@@ -77,7 +77,7 @@ class _SwiperState extends State<Swiper> {
                         builder: (context) => QuizScreen(
                             quiz: Quiz.fromSubcategory(
                                 widget.items[element].subCategory,
-                                widget.items[element].categoryPath,
+                                widget.items[element].collectionPath,
                                 widget.items[element].tatarCategory,
                                 widget.items))));
                   },
@@ -104,7 +104,7 @@ class _SwiperState extends State<Swiper> {
                               builder: (context) => QuizScreen(
                                   quiz: Quiz.fromSubcategory(
                                       widget.items[element].subCategory,
-                                      widget.items[element].categoryPath,
+                                      widget.items[element].collectionPath,
                                       widget.items[element].tatarCategory,
                                       widget.items))),
                         );
