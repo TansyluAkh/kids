@@ -48,6 +48,7 @@ class _SwiperState extends State<Swiper> {
           elevation: 0,
         ),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
             children: [
           VxSwiper.builder(
             itemCount: widget.items.length,
@@ -61,8 +62,8 @@ class _SwiperState extends State<Swiper> {
             itemBuilder: (context, index) {
               return get_arr(height, width, widget.items[index]);
             },
-            height: height * 0.55,
-            viewportFraction: 0.95,
+            height: height * 0.5,
+            viewportFraction: 0.9,
           ),
           SizedBox(height: height*0.05),
           Chip(
@@ -106,7 +107,7 @@ class _SwiperState extends State<Swiper> {
                                       widget.items))),
                         );
                       })))
-        ]));
+    ]));
   }
 
   Widget get_arr(height, width, item) {

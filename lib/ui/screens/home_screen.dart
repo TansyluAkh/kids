@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
           elevation: 0,
         ),
         body:   Padding(
-        padding: EdgeInsets.only(left:15, top:10),
+        padding: EdgeInsets.only(left:15, top:10, bottom:10),
         child: Container( height: height, child: FutureBuilder(
                     future: categoryRepository.getCategories('categories'),
                     builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
@@ -54,41 +54,55 @@ class _HomePageState extends State<HomePage> {
                               shrinkWrap: true,
                               physics: ScrollPhysics(),
                               itemBuilder: (context, index) {
-                                print(categories[index][0].title);
+                                print(categories[index].title);
                                 return
                                 Container(
-                                    height: height*0.3, child:
-                                Column(children:[
+                                    height: height*0.25, child:
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                    children:[
                                 Padding(
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: 5,
-                                  vertical: 5,
+                                  horizontal: 10,
+                                  vertical: 10,
                                 ),
                                   child: Text(
-                                    capitalize(categories[index][0].title),
-                                    style: Theme.of(context).textTheme.headline3,
+                                    capitalize(categories[index].title),
+                                    textAlign: TextAlign.left,
+                                    style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.darkBlue, fontWeight: FontWeight.bold),
                                   ),
                                 ),
+                                FutureBuilder(
+                                future: categoryRepository.getCategories('categories/'+categories[index].name+'/subs'),
+                                builder: (BuildContext context, AsyncSnapshot<List<dynamic>> subsnapshot) {
+                                final subs = subsnapshot.data;
+                                return subs != null ?
                                 Expanded(
                                 child:
                                    ListView.builder(
+                                     itemCount: categories != null ? subs.length : 1,
+                                     shrinkWrap: true,
                                           scrollDirection: Axis.horizontal,
                                       itemBuilder: (BuildContext context, int number) {
                                         return GameModeCard(
-                                        icon: categories[index][1][number].imageUrl,
-                                        title: categories[index][1][number].title,
-                                        description: "234",
+                                        icon: subs[number].imageUrl,
+                                        title: subs[number].title,
+                                        description: subs.length,
                                         onTap: () {
-                                          print('TAPPED SUBS' + categories[index].name);
+                                          print('TAPPED SUBS' + categories[number].name);
                                           Navigator.of(context).push(MaterialPageRoute(
                                           builder: (context) => WordsPage(
-                                          name: categories[index][0].name,
-                                          title: categories[index][0].title)));
+                                          name: categories[index].name+'/'+subs[number].name,
+                                          title: subs[number].title)));
                                           },
                                         );
                                         },
                                         ),
-                                        )]));})
+                                        ): Center(
+    child: CircularProgressIndicator(
+    color: AppColors.element,
+    ),
+    );})]));})
                           : Center(
                               child: CircularProgressIndicator(
                                 color: AppColors.element,

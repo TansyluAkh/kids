@@ -14,11 +14,13 @@ class GameModeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return InkWell(
+    return Padding(
+        padding: EdgeInsets.only(right:10, top:5),
+    child: InkWell(
       onTap: onTap,
       child: Container(
-          width: height*0.2,
-          height: height*0.2,
+          width: height*0.19,
+          height: height*0.19,
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(color: AppColors.element, width: 5),
@@ -38,12 +40,12 @@ class GameModeCard extends StatelessWidget {
                   )),
                       Text(
                         capitalize(title),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12.0, color: AppColors.darkBlue),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 16.0, fontFamily: 'Montserrat',fontWeight: FontWeight.bold, color: AppColors.darkBlue),
                       ),
                     ],
                   ),
-                )));
+                ))));
 
   }
 

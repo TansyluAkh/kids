@@ -57,7 +57,7 @@ class _WordsPageState extends State<WordsPage> {
                   Expanded(
                       child: Container(
                           child: FutureBuilder(
-                              future: WordRepository.instance.getWord(widget.name),
+                              future: WordRepository.instance.getWord('categories/'+widget.name),
                               builder: (BuildContext context, AsyncSnapshot text) {
                                 print(text.data);
                                   return  text.data != null

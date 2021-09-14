@@ -29,7 +29,7 @@ class DetailsScreen extends StatelessWidget {
                   Text(item.definition, style: Theme.of(context).textTheme.subtitle1, textAlign: TextAlign.center),
                   SizedBox(height: height * 0.01),
                   Expanded(child:Align( alignment: Alignment.topCenter, child: Image.network(item.imageUrl,
-                      fit: BoxFit.contain, width: width * 0.6, height: height * 0.3)),
+                      fit: BoxFit.contain)),
                   )])));
   }
 
