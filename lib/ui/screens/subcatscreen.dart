@@ -7,6 +7,7 @@ import 'package:bebkeler/core/categories/category.dart';
 import 'package:bebkeler/services/auth_service.dart';
 import 'package:bebkeler/ui/components/maincategorycard.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class SubHomePage extends StatefulWidget {
   final name;
@@ -23,7 +24,8 @@ class _SubHomePageState extends State<SubHomePage> {
   @override
   Widget build(BuildContext context) {
     final categoryRepository = CategoryRepository.instance;
-
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -57,16 +59,21 @@ class _SubHomePageState extends State<SubHomePage> {
                             future: categoryRepository
                                 .getCategories('categories/' + widget.name + '/subs'),
                             builder:
-                                (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+                                (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
                               final categories = snapshot.data;
+                              print('CATEGORIES');
                               return categories != null
-                                  ? ListView.builder(
-                                      itemCount: categories?.length ?? 1,
-                                      scrollDirection: Axis.vertical,
-                                      shrinkWrap: true,
-                                      physics: ScrollPhysics(),
-                                      itemBuilder: (context, index) {
-                                        return GameModeCard(
+                                  ? StaggeredGridView.countBuilder(
+                                padding: EdgeInsets.all(20),
+                                crossAxisCount: 2,
+                                itemCount: categories.length,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 20,
+                                itemBuilder: (context, index) {
+                                  return Stack(
+                                      alignment: Alignment.bottomLeft,
+                                      children:[
+                                        InkWell(
                                             onTap: () {
                                               print('TAPPED SUBS' + categories[index].name);
                                               Navigator.of(context).push(MaterialPageRoute(
@@ -74,11 +81,29 @@ class _SubHomePageState extends State<SubHomePage> {
                                                       name: categories[index].name,
                                                       title: categories[index].title)));
                                             },
-                                            description: categories[index].description,
-                                            icon: categories[index].imageUrl,
-                                            title: categories[index].title,
-                                            name: categories[index].name);
-                                      })
+                                            child:
+                                            Container(
+                                              padding: EdgeInsets.all(20),
+                                              height: index.isEven ? height*0.2 : height*0.25,
+                                              decoration: BoxDecoration(
+                                                color: AppColors.white,
+                                                borderRadius: BorderRadius.circular(16),
+                                                image: DecorationImage(
+                                                  image: NetworkImage(categories[index].imageUrl),
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                            )), Chip(
+                                            backgroundColor: AppColors.white,
+                                            label: Text(
+                                              capitalize(categories[index].title),
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.darkBlue),
+                                            )),
+                                      ]);
+                                },
+                                staggeredTileBuilder: (index) => StaggeredTile.fit(1),
+                              )
                                   : const Center(
                                       child: CircularProgressIndicator(
                                         color: AppColors.element,

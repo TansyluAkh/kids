@@ -47,7 +47,8 @@ class _SwiperState extends State<Swiper> {
           // Colors.white.withOpacity(0.1),
           elevation: 0,
         ),
-        body: Column(children: [
+        body: Column(
+            children: [
           VxSwiper.builder(
             itemCount: widget.items.length,
             autoPlay: false,

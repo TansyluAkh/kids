@@ -7,6 +7,8 @@ import 'package:bebkeler/services/auth_service.dart';
 import 'package:bebkeler/ui/components/maincategorycard.dart';
 import 'package:flutter/services.dart';
 
+import 'wordsview.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -39,12 +41,11 @@ class _HomePageState extends State<HomePage> {
           // Colors.white.withOpacity(0.1),
           elevation: 0,
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Container(
-                child: FutureBuilder(
+        body:   Padding(
+        padding: EdgeInsets.only(left:15, top:10),
+        child: Container( height: height, child: FutureBuilder(
                     future: categoryRepository.getCategories('categories'),
-                    builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+                    builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
                       final categories = snapshot.data;
                       return categories != null
                           ? ListView.builder(
@@ -53,67 +54,48 @@ class _HomePageState extends State<HomePage> {
                               shrinkWrap: true,
                               physics: ScrollPhysics(),
                               itemBuilder: (context, index) {
-                                return GameModeCard(
-                                    onTap: () {
-                                      print('TAPPED');
-                                      Navigator.of(context).push(MaterialPageRoute(
-                                          builder: (context) => SubHomePage(
-                                                name: categories[index].name,
-                                                title: categories[index].title,
-                                              )));
-                                    },
-                                    description: categories[index].description,
-                                    icon: categories[index].imageUrl,
-                                    title: categories[index].title,
-                                    name: categories[index].name);
-                              })
+                                print(categories[index][0].title);
+                                return
+                                Container(
+                                    height: height*0.3, child:
+                                Column(children:[
+                                Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 5,
+                                  vertical: 5,
+                                ),
+                                  child: Text(
+                                    capitalize(categories[index][0].title),
+                                    style: Theme.of(context).textTheme.headline3,
+                                  ),
+                                ),
+                                Expanded(
+                                child:
+                                   ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                      itemBuilder: (BuildContext context, int number) {
+                                        return GameModeCard(
+                                        icon: categories[index][1][number].imageUrl,
+                                        title: categories[index][1][number].title,
+                                        description: "234",
+                                        onTap: () {
+                                          print('TAPPED SUBS' + categories[index].name);
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (context) => WordsPage(
+                                          name: categories[index][0].name,
+                                          title: categories[index][0].title)));
+                                          },
+                                        );
+                                        },
+                                        ),
+                                        )]));})
                           : Center(
                               child: CircularProgressIndicator(
                                 color: AppColors.element,
                               ),
                             );
                     }))));
-    // !Signout Area
-    // Container(
-    //     // color: Colors.grey[100],
-    //     child: IconButton(
-    //         icon: Icon(
-    //           Icons.no_encryption,
-    //           color: Colors.white60,
-    //         ),
-    //         onPressed: () {
-    //           showDialog(
-    //               context: context,
-    //               builder: (context) => AlertDialog(
-    //                     title: Text(
-    //                       "bebkeler",
-    //                     ),
-    //                     content: Text("Sign out?"),
-    //                     actions: <Widget>[
-    //                       FlatButton(
-    //                         onPressed: () {
-    //                           Navigator.of(context).pop();
-    //                         },
-    //                         child: Text(
-    //                           'No',
-    //                         ),
-    //                       ),
-    //                       FlatButton(
-    //                         onPressed: () async {
-    //                           setState(() => loading = true);
-    //                           await _auth.signOut().whenComplete(() {
-    //                             setState(() => loading = false);
-    //                             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {
-    //                               return LoginPage();
-    //                             }), ModalRoute.withName('/'));
-    //                           });
-    //                         },
-    //                         child: Text(
-    //                           'Yes',
-    //                         ),
-    //                       )
-    //                     ],
-    //                   ));
-    //         })),
+
   }
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 }
