@@ -5,9 +5,9 @@ import 'package:bebkeler/ui/screens/quiz/quiz_screen.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'details_screen.dart';
+import 'package:slider_button/slider_button.dart';
 
 class Swiper extends StatefulWidget {
   final List<Word> items;
@@ -61,52 +61,47 @@ class _SwiperState extends State<Swiper> {
             viewportFraction: 0.9,
           ),
           SizedBox(height: height * 0.05),
-          Chip(
-              autofocus: true,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              labelPadding: EdgeInsets.all(5),
-              padding: EdgeInsets.all(5),
-              backgroundColor: AppColors.white.withOpacity(0.6),
-              label: InkWell(
-                  onTap: () {
+          Container( width: width*0.7, height: height*0.2, child:Center(
+              child:SliderButton(
+                action: () {
                     print('tappedplay');
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => QuizScreen(
-                            quiz: Quiz.fromSubcategory(
-                                widget.items[element].subCategory,
-                                widget.items[element].collectionPath,
-                                widget.items[element].tatarCategory,
-                                widget.items))));
-                  },
-                  child: Container(
-                      width: width * 0.22,
-                      height: height * 0.05,
-                      child: const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text('Уйна',
-                              style: TextStyle(
-                                  color: AppColors.darkBlue,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold))))),
-              avatar: Align(
-                  alignment: Alignment.topCenter,
-                  child: IconButton(
-                      iconSize: height * 0.035,
-                      color: AppColors.darkBlue,
-                      icon: Icon(FontAwesomeIcons.play),
-                      onPressed: () {
-                        print('tappedplay');
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => QuizScreen(
-                                  quiz: Quiz.fromSubcategory(
-                                      widget.items[element].subCategory,
-                                      widget.items[element].collectionPath,
-                                      widget.items[element].tatarCategory,
-                                      widget.items))),
-                        );
-                      })))
-        ]));
+                    Navigator.of(context).push(
+                    MaterialPageRoute(
+                    builder: (context) => QuizScreen(
+                    quiz: Quiz.fromSubcategory(
+                    widget.items[element].subCategory,
+                    widget.items[element].collectionPath,
+                    widget.items[element].tatarCategory,
+                    widget.items))),
+                    );
+                    },
+                label: Text(
+                  "Уйна!",
+                  style: TextStyle(
+                      color: Color(0xff707cba),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22),
+                ),
+                icon: Center(
+                    child: Icon(
+                      Icons.play_arrow_rounded,
+                      color: Colors.white,
+                      size: 60.0,
+                      semanticLabel: 'Text to announce in accessibility modes',
+                    )),
+                boxShadow: BoxShadow(
+                  color: Color(0xff707cba),
+                  blurRadius: 4,
+                ),
+                width: width*0.5,
+                dismissible: false,
+                shimmer: false,
+                radius: 70,
+                buttonColor: Color(0xff707cba),
+                backgroundColor: Color(0xfffdfdfd),
+                highlightedColor: Color(0xfffdfdfd),
+                baseColor: Color(0xff707cba),
+              )))]));
   }
 
   Widget get_arr(height, width, item) {

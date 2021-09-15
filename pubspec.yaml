@@ -21,9 +21,8 @@ dependencies:
   google_sign_in:
   flutter_tts:
   flutter_launcher_icons:
-  animated_text_kit:
-  flutter_svg:
-  blobs: ^2.0.0
+  slider_button:
+  just_audio:
   velocity_x:
   font_awesome_flutter:
   flutter_staggered_grid_view:
