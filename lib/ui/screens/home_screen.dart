@@ -6,6 +6,8 @@ import 'package:bebkeler/core/categories/category.dart';
 import 'package:bebkeler/ui/components/maincategorycard.dart';
 import 'package:flutter/services.dart';
 
+import 'wordsview.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -37,12 +39,11 @@ class _HomePageState extends State<HomePage> {
           // Colors.white.withOpacity(0.1),
           elevation: 0,
         ),
-        body: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Container(
-                child: FutureBuilder(
+        body:   Padding(
+        padding: EdgeInsets.only(left:15, top:10, bottom:10),
+        child: Container( height: height, child: FutureBuilder(
                     future: categoryRepository.getCategories('categories'),
-                    builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+                    builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
                       final categories = snapshot.data;
                       return categories != null
                           ? ListView.builder(
@@ -51,67 +52,62 @@ class _HomePageState extends State<HomePage> {
                               shrinkWrap: true,
                               physics: ScrollPhysics(),
                               itemBuilder: (context, index) {
-                                return GameModeCard(
-                                    onTap: () {
-                                      print('TAPPED');
-                                      Navigator.of(context).push(MaterialPageRoute(
-                                          builder: (context) => SubHomePage(
-                                                name: categories[index].name,
-                                                title: categories[index].title,
-                                              )));
-                                    },
-                                    description: categories[index].description,
-                                    icon: categories[index].imageUrl,
-                                    title: categories[index].title,
-                                    name: categories[index].name);
-                              })
+                                print(categories[index].title);
+                                return
+                                Container(
+                                    height: height*0.25, child:
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                    children:[
+                                Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 10,
+                                ),
+                                  child: Text(
+                                    capitalize(categories[index].title),
+                                    textAlign: TextAlign.left,
+                                    style: Theme.of(context).textTheme.headline6.copyWith(color: AppColors.darkBlue, fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                FutureBuilder(
+                                future: categoryRepository.getCategories('categories/'+categories[index].name+'/subs'),
+                                builder: (BuildContext context, AsyncSnapshot<List<dynamic>> subsnapshot) {
+                                final subs = subsnapshot.data;
+                                return subs != null ?
+                                Expanded(
+                                child:
+                                   ListView.builder(
+                                     itemCount: categories != null ? subs.length : 1,
+                                     shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                      itemBuilder: (BuildContext context, int number) {
+                                        return GameModeCard(
+                                        icon: subs[number].imageUrl,
+                                        title: subs[number].title,
+                                        description: subs.length,
+                                        onTap: () {
+                                          print('TAPPED SUBS' + categories[number].name);
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (context) => WordsPage(
+                                          name: categories[index].name+'/'+subs[number].name,
+                                          title: subs[number].title)));
+                                          },
+                                        );
+                                        },
+                                        ),
+                                        ): Center(
+    child: CircularProgressIndicator(
+    color: AppColors.element,
+    ),
+    );})]));})
                           : Center(
                               child: CircularProgressIndicator(
                                 color: AppColors.element,
                               ),
                             );
                     }))));
-    // !Signout Area
-    // Container(
-    //     // color: Colors.grey[100],
-    //     child: IconButton(
-    //         icon: Icon(
-    //           Icons.no_encryption,
-    //           color: Colors.white60,
-    //         ),
-    //         onPressed: () {
-    //           showDialog(
-    //               context: context,
-    //               builder: (context) => AlertDialog(
-    //                     title: Text(
-    //                       "bebkeler",
-    //                     ),
-    //                     content: Text("Sign out?"),
-    //                     actions: <Widget>[
-    //                       FlatButton(
-    //                         onPressed: () {
-    //                           Navigator.of(context).pop();
-    //                         },
-    //                         child: Text(
-    //                           'No',
-    //                         ),
-    //                       ),
-    //                       FlatButton(
-    //                         onPressed: () async {
-    //                           setState(() => loading = true);
-    //                           await _auth.signOut().whenComplete(() {
-    //                             setState(() => loading = false);
-    //                             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {
-    //                               return LoginPage();
-    //                             }), ModalRoute.withName('/'));
-    //                           });
-    //                         },
-    //                         child: Text(
-    //                           'Yes',
-    //                         ),
-    //                       )
-    //                     ],
-    //                   ));
-    //         })),
+
   }
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 }

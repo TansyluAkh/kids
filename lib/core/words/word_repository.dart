@@ -9,6 +9,7 @@ class WordRepository {
   static WordRepository get instance => WordRepository(FirebaseFirestore.instance);
 
   Future<List<Word>> getWord(String name) async {
+    print(name);
     CollectionReference categories = _firebase.collection(name);
     QuerySnapshot querySnapshot = await categories.get();
     List<Word> arr = [];

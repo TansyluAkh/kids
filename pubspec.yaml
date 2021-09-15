@@ -26,6 +26,7 @@ dependencies:
   blobs: ^2.0.0
   velocity_x:
   font_awesome_flutter:
+  flutter_staggered_grid_view:
   sign_in_with_apple: ^3.0.0
   crypto: ^3.0.1
   flutter_signin_button: ^2.0.0

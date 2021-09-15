@@ -1,4 +1,3 @@
-import 'package:bebkeler/core/words/word.dart';
 import 'package:bebkeler/ui/screens/details_screen.dart';
 import 'package:bebkeler/core/quiz/models.dart';
 import 'package:bebkeler/ui/screens/quiz/quiz_screen.dart';
@@ -11,9 +10,8 @@ import 'details_screen.dart';
 
 class Swiper extends StatefulWidget {
   final List<Word> items;
-  final PageController controller;
 
-  const Swiper({Key key, this.items, this.controller}) : super(key: key);
+  const Swiper({Key key, this.items}) : super(key: key);
 
   @override
   _SwiperState createState() => _SwiperState();
@@ -45,12 +43,12 @@ class _SwiperState extends State<Swiper> {
           // Colors.white.withOpacity(0.1),
           elevation: 0,
         ),
-        body: Column(children: [
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+            children: [
           VxSwiper.builder(
             itemCount: widget.items.length,
             autoPlay: false,
-            autoPlayAnimationDuration: 3.seconds,
-            autoPlayCurve: Curves.easeInOut,
             enableInfiniteScroll: true,
             onPageChanged: (index) {
               setState(() {
@@ -60,8 +58,8 @@ class _SwiperState extends State<Swiper> {
             itemBuilder: (context, index) {
               return get_arr(height, width, widget.items[index]);
             },
-            height: height * 0.55,
-            viewportFraction: 0.95,
+            height: height * 0.5,
+            viewportFraction: 0.9,
           ),
           SizedBox(height: height * 0.05),
           Chip(
@@ -94,7 +92,7 @@ class _SwiperState extends State<Swiper> {
               avatar: Align(
                   alignment: Alignment.topCenter,
                   child: IconButton(
-                      iconSize: height * 0.045,
+                      iconSize: height * 0.035,
                       color: AppColors.darkBlue,
                       icon: Icon(FontAwesomeIcons.play),
                       onPressed: () {
@@ -109,7 +107,7 @@ class _SwiperState extends State<Swiper> {
                                       widget.items))),
                         );
                       })))
-        ]));
+    ]));
   }
 
   Widget get_arr(height, width, item) {

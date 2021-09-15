@@ -4,9 +4,13 @@ import 'package:bebkeler/infrastructure/auth/auth_service.dart';
 import 'package:bebkeler/ui/components/gridcard.dart';
 import 'package:bebkeler/ui/screens/quiz/leaderboard.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
+import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:bebkeler/services/auth_service.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'auth/auth_screen.dart';
+import 'login_screen.dart';
 
 class WordsPage extends StatefulWidget {
   final name;
@@ -19,6 +23,7 @@ class WordsPage extends StatefulWidget {
 }
 
 class _WordsPageState extends State<WordsPage> {
+  final AuthService _auth = AuthService.instance;
   bool loading = false;
 
   @override
@@ -46,98 +51,65 @@ class _WordsPageState extends State<WordsPage> {
           // Colors.white.withOpacity(0.1),
           elevation: 0,
         ),
-        body: SingleChildScrollView(
-            child: Column(children: <Widget>[
-          Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Container(
-                  child: FutureBuilder(
-                      future: WordRepository.instance.getWord(widget.name),
-                      builder: (BuildContext context, AsyncSnapshot<List<Word>> text) {
-                        print(text.data);
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            TextButton(
-                                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => QuizLeaderboard(
-                                          collectionPath: text.data[0].collectionPath,
-                                        ))),
-                            child: Text('leaderboard',),),
-                            text.data != null
-                                ? GridView.builder(
-                                    padding: EdgeInsets.all(10.0),
-                                    shrinkWrap: true,
-                                    physics: ScrollPhysics(),
-                                    scrollDirection: Axis.vertical,
-                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                      mainAxisSpacing: 10,
-                                      crossAxisSpacing: 10,
+        body: Column(
+                children: <Widget>[
+                  Expanded(
+                      child: Container(
+                          child: FutureBuilder(
+                              future: WordRepository.instance.getWord('categories/'+widget.name),
+                              builder: (BuildContext context, AsyncSnapshot text) {
+                                print(text.data);
+                                  return  text.data != null
+                                        ?  StaggeredGridView.countBuilder(
+                                      padding: EdgeInsets.all(20),
                                       crossAxisCount: 2,
-                                    ),
-                                    itemCount: text.data.length,
-                                    itemBuilder: (context, index) {
-                                      print(text.data);
-                                      return GridCard(
-                                          item: text.data[index],
-                                          all_items: text.data,
-                                          index: index);
-                                    })
-                                : const Center(
-                                    child: CircularProgressIndicator(
-                                      color: AppColors.element,
-                                    ),
-                                  ),
-                            Container(
-                                // color: Colors.grey[100],
-                                child: IconButton(
-                                    icon: Icon(
-                                      Icons.no_encryption,
-                                      color: Colors.white60,
-                                    ),
-                                    onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                                title: Text(
-                                                  "bebkeler",
-                                                ),
-                                                content: Text("Sign out?"),
-                                                actions: <Widget>[
-                                                  FlatButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                    child: Text(
-                                                      'No',
+                                      itemCount: text.data.length,
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 20,
+                                      itemBuilder: (context, index) {
+                                        return Stack(
+                                            alignment: Alignment.bottomLeft,
+                                            children:[
+                                              InkWell(
+                                                  onTap: () {
+                                          print('TAPPED GRIDWORD');
+                                          var all_items = text.data;
+                                          var item = text.data[index];
+                                          all_items.remove(all_items[index]);
+                                          all_items.insert(0, item);
+                                          print(all_items);
+                                          print('ALL ITEMS');
+                                          print(all_items[0].imageUrl);
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(builder: (context) => Swiper(items: all_items)));
+                                        },
+                                                  child:
+                                                  Container(
+                                                    padding: EdgeInsets.all(20),
+                                                    height: index.isEven ? height*0.15 : height*0.18,
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors.white,
+                                                      borderRadius: BorderRadius.circular(16),
+                                                      image: DecorationImage(
+                                                        image: NetworkImage(text.data[index].imageUrl),
+                                                        fit: BoxFit.contain,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  FlatButton(
-                                                    onPressed: () async {
-                                                      setState(() => loading = true);
-                                                      await AuthService.instance
-                                                          .signOut()
-                                                          .whenComplete(() {
-                                                        setState(() => loading = false);
-                                                        Navigator.of(context).pushAndRemoveUntil(
-                                                            MaterialPageRoute(builder: (context) {
-                                                          return AuthScreen();
-                                                        }), ModalRoute.withName('/'));
-                                                      });
-                                                    },
-                                                    child: Text(
-                                                      'Yes',
-                                                    ),
-                                                  )
-                                                ],
-                                              ));
-                                    })),
-                          ],
-                        );
-                      })))
-        ])));
-  }
+                                                  )), Chip(
+                                                  backgroundColor: AppColors.white,
+                                                  label: Text(
+                                                    capitalize(text.data[index].tatarWord),
+                                                    textAlign: TextAlign.start,
+                                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.darkBlue),
+                                                  )),
+                                            ]);
+                                      },
+                                      staggeredTileBuilder: (index) => StaggeredTile.fit(1),
+                                    ): const Center(
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.element,
+                                      ));
+  })))]));}
 
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 }

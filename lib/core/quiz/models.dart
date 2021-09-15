@@ -25,11 +25,13 @@ class Quiz {
 class Question {
   final String text;
   final String definition;
+  final String image;
   final List<Option> options;
 
   Question({
     @required this.text,
-    this.definition,
+    @required this.definition,
+    @required this.image,
     @required this.options,
   });
 }
@@ -63,11 +65,11 @@ class QuizResult {
 
   QuizResult(
       {this.collectionPath,
-      this.userId,
-      this.userDisplayName,
-      this.score,
-      this.maxScore,
-      this.createdAt});
+        this.userId,
+        this.userDisplayName,
+        this.score,
+        this.maxScore,
+        this.createdAt});
 }
 
 Quiz _createQuiz(String title, String collectionPath, tatcategory, List<Word> words) {
@@ -75,6 +77,7 @@ Quiz _createQuiz(String title, String collectionPath, tatcategory, List<Word> wo
   for (int i = 0; i < words.length; i++) {
     questions.add(Question(
         text: words[i].sentence,
+        image: words[i].imageUrl,
         definition: words[i].definition,
         options: _generateOptions(i, words)));
   }
@@ -96,8 +99,8 @@ List<Option> _generateOptions(int correctWordIndex, List<Word> words) {
   final randomInts = _generateInts(0, words.length, 3, excluded: {correctWordIndex});
   final List<Option> result = [];
   for (final index in randomInts) {
-    if (words[index].answer == 'null') {
-      print(words[index].imageName + ' NULL');
+    if (words[index].answer == 'null'){
+      print(words[index].imageName+ ' NULL');
     }
     result.add(Option(
       text: words[index].answer,

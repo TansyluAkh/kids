@@ -12,53 +12,41 @@ class GameModeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+    return Padding(
+        padding: EdgeInsets.only(right:10, top:5),
+    child: InkWell(
       onTap: onTap,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
-        child: Container(
+      child: Container(
+          width: height*0.19,
+          height: height*0.19,
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(color: AppColors.element, width: 5),
-            borderRadius: BorderRadius.circular(100),
+            borderRadius: BorderRadius.circular(25),
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                CircleAvatar(
-                  radius: 45.0,
-                  backgroundColor: Colors.transparent,
-                  child: Image.network(
+                 Expanded(child:Image.network(
                     icon,
+                    fit: BoxFit.contain,
                     errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
                       return Text('нет');
                     },
-                  ),
-                ),
-                SizedBox(
-                  width: 15.0,
-                ),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
+                  )),
                       Text(
                         capitalize(title),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18.0, color: AppColors.darkBlue),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 16.0, fontFamily: 'Montserrat',fontWeight: FontWeight.bold, color: AppColors.darkBlue),
                       ),
                     ],
                   ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+                ))));
+
   }
 
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
