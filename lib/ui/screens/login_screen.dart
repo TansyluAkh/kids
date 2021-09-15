@@ -1,7 +1,7 @@
+import 'package:bebkeler/infrastructure/auth/auth_service.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/ui/screens/home_screen.dart';
-import 'package:bebkeler/services/auth_service.dart';
 import 'package:bebkeler/ui/components/loading.dart';
 
 class LoginPage extends StatefulWidget {
@@ -10,7 +10,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final AuthService _auth = AuthService();
+  final AuthService _auth = AuthService.instance;
 
   String error = '';
   bool loading = false;
@@ -33,49 +33,49 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               // color: Colors.white,\child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Image(
-                      image: NetworkImage('https://s9.gifyu.com/images/indigo1.png'),
-                      width: width*0.8,
-                      height: height*0.25,
-                    ),
-                    SizedBox(height: 30),
-                    _signInButton(),
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image(
+                    image: NetworkImage('https://s9.gifyu.com/images/indigo1.png'),
+                    width: width * 0.8,
+                    height: height * 0.25,
+                  ),
+                  SizedBox(height: 30),
+                  _signInButton(),
+                ],
               ),
-            );
+            ),
+          );
   }
 
   Widget _signInButton() {
     return RaisedButton(
-      color: AppColors.white,
-      splashColor: AppColors.white,
-      onPressed: () async {
-        setState(() => loading = true);
+        color: AppColors.white,
+        splashColor: AppColors.white,
+        onPressed: () async {
+          setState(() => loading = true);
 
-        await _auth.signInWithGoogle().whenComplete(() {
-          setState(() => loading = false);
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {
-            return HomePage();
-          }), ModalRoute.withName('/'));
-        });
-      },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      // highlightElevation: 0,
-      // borderSide: BorderSide(color: Colors.grey),
-      child:
-        Chip(
-          backgroundColor: AppColors.white,
-          avatar:
-            Image(image: AssetImage("assets/images/google_logo.png"), height: 35.0),
+          await _auth.signIn(SignInProvider.google).whenComplete(() {
+            setState(() => loading = false);
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) {
+              return HomePage();
+            }), ModalRoute.withName('/'));
+          });
+        },
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+        // highlightElevation: 0,
+        // borderSide: BorderSide(color: Colors.grey),
+        child: Chip(
+            backgroundColor: AppColors.white,
+            avatar: Image(image: AssetImage("assets/images/google_logo.png"), height: 35.0),
             label: Text(
-                'Вход',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black54,
-                ),
-              )));}}
+              'Вход',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.black54,
+              ),
+            )));
+  }
+}

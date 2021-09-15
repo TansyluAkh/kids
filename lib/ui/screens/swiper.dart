@@ -1,3 +1,4 @@
+import 'package:bebkeler/core/words/word.dart';
 import 'package:bebkeler/ui/screens/details_screen.dart';
 import 'package:bebkeler/core/quiz/models.dart';
 import 'package:bebkeler/ui/screens/quiz/quiz_screen.dart';
@@ -43,9 +44,7 @@ class _SwiperState extends State<Swiper> {
           // Colors.white.withOpacity(0.1),
           elevation: 0,
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           VxSwiper.builder(
             itemCount: widget.items.length,
             autoPlay: false,
@@ -107,7 +106,7 @@ class _SwiperState extends State<Swiper> {
                                       widget.items))),
                         );
                       })))
-    ]));
+        ]));
   }
 
   Widget get_arr(height, width, item) {
