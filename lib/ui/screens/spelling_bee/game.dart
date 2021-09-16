@@ -1,22 +1,23 @@
-import 'package:flutter_tts/flutter_tts.dart';
+import 'package:bebkeler/infrastructure/auth/auth_service.dart';
+import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/models/user.dart';
 import 'package:bebkeler/ui/screens/home_screen.dart';
 import 'package:bebkeler/ui/screens/spelling_bee/summary.dart';
 import 'package:bebkeler/services/spelling_bee_service.dart';
 import 'dart:async';
-import 'package:provider/provider.dart';
 import 'package:bebkeler/services/database_service.dart';
 import 'package:bebkeler/ui/components/loading.dart';
+import 'package:just_audio/just_audio.dart';
 
 class SBInitPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<User>(context);
+    AppUser user = AuthService.instance.currentUser;
     final _service = SpellingBeeService();
 
     return StreamBuilder<SBUserSettings>(
-        stream: DatabaseService(uid: user.uid).getSbUserSettings,
+        stream: DatabaseService(uid: user.id).getSbUserSettings,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             SBUserSettings settings = snapshot.data;
@@ -42,28 +43,17 @@ class SBGamePage extends StatefulWidget {
   _SBGamePageState createState() => _SBGamePageState(words, amtQuestions);
 }
 
-// Defining TTS enum for state
-enum TtsState { playing, stopped }
 
 class _SBGamePageState extends State<SBGamePage> {
   final List<String> words;
   final int amtQuestions;
   _SBGamePageState(this.words, this.amtQuestions);
 
-  // TTS Setups
-  FlutterTts flutterTts;
-  final double volume = 1.0;
-  final double pitch = 1.0;
-  final double rate = 0.5;
-  TtsState ttsState = TtsState.playing;
-  get isPlaying => ttsState == TtsState.playing;
-  get isStopped => ttsState == TtsState.stopped;
-
   // Game variables
-  final Color rightColor = Colors.blueAccent;
-  final Color wrongColor = Colors.redAccent;
-  Color buttonColor = Color(0xff00D99E);
-  Color scoreColor = Color(0xff00D99E);
+  final rightColor = AppColors.element;
+  final wrongColor = AppColors.red;
+  var buttonColor = AppColors.darkBlue;
+  var scoreColor = AppColors.darkBlue;
   int score = 0;
   int i = 0;
   int timer = 15;
@@ -71,56 +61,20 @@ class _SBGamePageState extends State<SBGamePage> {
   String choosenAnswer;
   bool canceltimer = false;
   int currentQuestion = 1;
-  final double height = 40.0;
-  final double width = 35.0;
-  final double margin = 2.5;
-  final Color color = Colors.blueAccent;
+  final double height = 30.0;
+  final double width = 30.0;
+  final double margin = 2;
+  final color = AppColors.darkBlue;
   final Color fontColor = Colors.white;
-  final double fontSize = 20.0;
+  final double fontSize = 18.0;
   final TextEditingController _textController = TextEditingController();
+  AudioPlayer player;
 
   @override
   void initState() {
     super.initState();
+    player = AudioPlayer();
     starttimer();
-    initTts();
-  }
-
-  initTts() {
-    flutterTts = FlutterTts();
-    flutterTts.setVolume(volume);
-    flutterTts.setSpeechRate(rate);
-    flutterTts.setPitch(pitch);
-    flutterTts.setLanguage('en-GB');
-    ttsState = TtsState.playing;
-
-    _speak();
-
-    flutterTts.setStartHandler(() {
-      setState(() {
-        print("playing");
-        ttsState = TtsState.playing;
-      });
-    });
-    flutterTts.setCompletionHandler(() {
-      setState(() {
-        print("Complete");
-        ttsState = TtsState.stopped;
-      });
-    });
-    flutterTts.setCancelHandler(() {
-      setState(() {
-        print("Cancel");
-        ttsState = TtsState.stopped;
-      });
-    });
-
-    flutterTts.setErrorHandler((msg) {
-      setState(() {
-        print("error: $msg");
-        ttsState = TtsState.stopped;
-      });
-    });
   }
 
   void onpressedButton(String k) {
@@ -145,10 +99,6 @@ class _SBGamePageState extends State<SBGamePage> {
     Timer(Duration(seconds: 1), nextquestion);
   }
 
-  Future _speak() async {
-    print(words[i]);
-    await flutterTts.speak(words[i]);
-  }
 
   @override
   void setState(fn) {
@@ -175,15 +125,14 @@ class _SBGamePageState extends State<SBGamePage> {
   }
 
   void nextquestion() {
-    buttonColor = Color(0xff00D99E);
-    scoreColor = Color(0xff00D99E);
+    buttonColor = AppColors.element;
+    scoreColor = AppColors.darkBlue;
     canceltimer = false;
     timer = 15;
     setState(() {
       if (i < amtQuestions - 1) {
         currentQuestion++;
         i++;
-        _speak();
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => SBSummaryPage(
@@ -212,7 +161,7 @@ class _SBGamePageState extends State<SBGamePage> {
   @override
   void dispose() {
     super.dispose();
-    flutterTts.stop();
+    player.dispose();
     canceltimer = true;
   }
 
@@ -253,7 +202,9 @@ class _SBGamePageState extends State<SBGamePage> {
                 ));
       },
       child: Scaffold(
-        body: SafeArea(
+        backgroundColor: AppColors.background,
+        body: Padding(
+          padding: EdgeInsets.all(10),
           child: Column(
             children: <Widget>[
               //! Score and Timer
@@ -262,7 +213,8 @@ class _SBGamePageState extends State<SBGamePage> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 10.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Text(
                         '$currentQuestion / $amtQuestions',
@@ -277,7 +229,7 @@ class _SBGamePageState extends State<SBGamePage> {
                               '00:' + showTimer,
                               style: TextStyle(
                                   fontSize: 20.0,
-                                  color: Colors.deepOrangeAccent),
+                                  color: AppColors.darkBlue),
                             ),
                             SizedBox(
                               width: 10.0,
@@ -286,7 +238,7 @@ class _SBGamePageState extends State<SBGamePage> {
                               child: LinearProgressIndicator(
                                 value: double.parse(showTimer) / 10.0,
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                    Colors.deepOrangeAccent),
+                                    AppColors.darkBlue),
                               ),
                             )
                           ],
@@ -296,11 +248,11 @@ class _SBGamePageState extends State<SBGamePage> {
                         textAlign: TextAlign.center,
                         text: TextSpan(
                             style: TextStyle(
-                                fontFamily: 'Fredoka', fontSize: 40.0),
+                                fontFamily: 'Montserrat', fontSize: 25.0),
                             children: <TextSpan>[
                               TextSpan(
                                   text: 'Score: ',
-                                  style: TextStyle(color: Colors.blueGrey)),
+                                  style: TextStyle(color: AppColors.darkBlue)),
                               TextSpan(
                                   text: score.toString(),
                                   style: TextStyle(color: scoreColor)),
@@ -324,32 +276,33 @@ class _SBGamePageState extends State<SBGamePage> {
                           textCapitalization: TextCapitalization.characters,
                           readOnly: true,
                           cursorWidth: 3.0,
-                          cursorColor: Colors.greenAccent,
+                          cursorColor: AppColors.darkBlue,
                           maxLength: words[i].length,
                           showCursor: true,
                           textAlign: TextAlign.center,
                           autocorrect: false,
                           style: TextStyle(
                             fontSize: 25.0,
-                            color: Colors.indigoAccent,
+                            color: AppColors.darkBlue,
                             letterSpacing: 5.0,
                           ),
                           decoration: InputDecoration(
-                            fillColor: Colors.grey[200],
+                            focusColor: AppColors.darkBlue,
+                            fillColor: Colors.white,
                             filled: true,
                             contentPadding: EdgeInsets.symmetric(
                                 horizontal: 20.0, vertical: 12.0),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                              borderRadius: BorderRadius.circular(45.0),
                               borderSide: BorderSide(
-                                  color: Colors.greenAccent, width: 3.0),
+                                  color: AppColors.white, width: 15.0),
                             ),
                           ),
                         )),
                   )),
               //! Play Area
               SizedBox(
-                height: 10.0,
+                height: 5.0,
               ),
               Expanded(
                 flex: 1,
@@ -357,10 +310,10 @@ class _SBGamePageState extends State<SBGamePage> {
                   children: <Widget>[
                     Ink(
                       decoration: const ShapeDecoration(
-                        color: Color(0xff00D99E),
+                        color: AppColors.darkBlue,
                         shadows: <BoxShadow>[
                           BoxShadow(
-                              color: Color(0xff00D99E),
+                              color: AppColors.element,
                               blurRadius: 8,
                               offset: Offset(0, 5),
                               spreadRadius: -1)
@@ -371,8 +324,9 @@ class _SBGamePageState extends State<SBGamePage> {
                         icon: Icon(Icons.play_arrow),
                         color: Colors.white,
                         iconSize: 65.0,
-                        onPressed: () {
-                          _speak();
+                        onPressed: () async {
+                          await player.setUrl('https://firebasestorage.googleapis.com/v0/b/bebkeler-89a5e.appspot.com/o/pronunciation_tt_%D1%80%D3%99%D1%85%D0%BC%D3%99%D1%82.mp3?alt=media&token=1fa2d250-afc6-4b27-be6e-e5660021531a');
+                          player.play();
                         },
                         tooltip: 'Click to play again',
                       ),
@@ -428,444 +382,21 @@ class _SBGamePageState extends State<SBGamePage> {
                     ],
                   ),
                   SizedBox(
-                    height: 5.0,
+                    height: 2.0,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('Q');
-                            },
-                            child: Text(
-                              'Q',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('W');
-                            },
-                            child: Text(
-                              'W',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('E');
-                            },
-                            child: Text(
-                              'E',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('R');
-                            },
-                            child: Text(
-                              'R',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('T');
-                            },
-                            child: Text(
-                              'T',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('Y');
-                            },
-                            child: Text(
-                              'Y',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('U');
-                            },
-                            child: Text(
-                              'U',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('I');
-                            },
-                            child: Text(
-                              'I',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('O');
-                            },
-                            child: Text(
-                              'O',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('P');
-                            },
-                            child: Text(
-                              'P',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                    ],
+                    children: getkey('Й Ө У К Е Н Г Ш Ә З Х'.split(' ')),
                   ),
                   SizedBox(
-                    height: 5.0,
+                    height: 2.0,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('A');
-                            },
-                            child: Text(
-                              'A',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('S');
-                            },
-                            child: Text(
-                              'S',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('D');
-                            },
-                            child: Text(
-                              'D',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('F');
-                            },
-                            child: Text(
-                              'F',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('G');
-                            },
-                            child: Text(
-                              'G',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('H');
-                            },
-                            child: Text(
-                              'H',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('J');
-                            },
-                            child: Text(
-                              'J',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('K');
-                            },
-                            child: Text(
-                              'K',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('L');
-                            },
-                            child: Text(
-                              'L',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5.0,
-                  ),
+                    children: getkey('Һ Ф Ы В А П Р О Л Д Ң'.split(' '))),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('Z');
-                            },
-                            child: Text(
-                              'Z',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('X');
-                            },
-                            child: Text(
-                              'X',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('C');
-                            },
-                            child: Text(
-                              'C',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('V');
-                            },
-                            child: Text(
-                              'V',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('B');
-                            },
-                            child: Text(
-                              'B',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('N');
-                            },
-                            child: Text(
-                              'N',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          height: height,
-                          width: width,
-                          child: RaisedButton(
-                            color: color,
-                            onPressed: () {
-                              onpressedButton('M');
-                            },
-                            child: Text(
-                              'M',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                    ],
+                    children: getkey('Э Я Ч С М И Т Җ Б Ю Ү'.split(' ')),
                   ),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -909,4 +440,29 @@ class _SBGamePageState extends State<SBGamePage> {
       ),
     );
   }
+
+  List<Widget> getkey(letters) {
+    List<Widget> arr = [];
+    letters.forEach((l){
+      arr.add(Container(
+          margin: EdgeInsets.all(margin),
+          height: height,
+          width: width,
+          child: RaisedButton(
+            color: color,
+            onPressed: () {
+              onpressedButton(l);
+            },
+            child: Text(
+              l,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: fontColor, fontSize: fontSize),
+            ),
+          )),
+      );
+    });
+    return arr;
+  }
+
 }

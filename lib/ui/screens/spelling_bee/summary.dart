@@ -1,3 +1,4 @@
+import 'package:bebkeler/infrastructure/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/ui/screens/home_screen.dart';
 import 'package:bebkeler/ui/components/rounded_summary_button.dart';
@@ -49,10 +50,10 @@ class _SBSummaryPageState extends State<SBSummaryPage> {
 
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<User>(context);
+    AppUser user = AuthService.instance.currentUser;
 
     return StreamBuilder<SBUserGameData>(
-      stream: DatabaseService(uid: user.uid).getSbUserGameData,
+      stream: DatabaseService(uid: user.id).getSbUserGameData,
       builder: (context, snapshot) {
         // print(user.uid);
         // print(user.displayName);
@@ -164,7 +165,7 @@ class _SBSummaryPageState extends State<SBSummaryPage> {
                             title: 'Play Again',
                             color: Colors.greenAccent,
                             onPressed: () async {
-                              await DatabaseService(uid: user.uid)
+                              await DatabaseService(uid: user.id)
                                   .updateSbGameData(user.displayName,
                                       _newgamesplayed, _newpoints, _newratio);
                               Navigator.of(context)
@@ -178,7 +179,7 @@ class _SBSummaryPageState extends State<SBSummaryPage> {
                             title: 'Quit',
                             color: Colors.redAccent,
                             onPressed: () async {
-                              await DatabaseService(uid: user.uid)
+                              await DatabaseService(uid: user.id)
                                   .updateSbGameData(user.displayName,
                                       _newgamesplayed, _newpoints, _newratio);
                               Navigator.of(context).pushAndRemoveUntil(

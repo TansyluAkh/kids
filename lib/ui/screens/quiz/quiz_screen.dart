@@ -58,7 +58,7 @@ class QuizScreen extends View<QuizViewModel> {
         Text(
           '„ ' + viewModel.currentQuestion.text + ' “',
           textAlign: TextAlign.center,
-          style: TextStyle(color: AppColors.indigo, fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(color: AppColors.darkBlue, fontSize: 20, fontWeight: FontWeight.bold),
         ),
 
         Container( height: height*0.25,  child: optionGrid()),
@@ -87,14 +87,14 @@ class QuizScreen extends View<QuizViewModel> {
               viewModel.secondsLeft.toString(),
               textAlign: TextAlign.center,
               style: const TextStyle(
-                  color: AppColors.indigo, fontSize: 16, fontWeight: FontWeight.bold),
+                  color: AppColors.darkBlue, fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
               child: LinearProgressIndicator(
             value: viewModel.animation.value,
             minHeight: 5,
-            color: AppColors.indigo,
+            color: AppColors.darkBlue,
           ))
         ],
       ),

@@ -36,14 +36,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 verticalDirection: VerticalDirection.down,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
                     Text(capitalize(widget.item.tatarWord),
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline5
                           .copyWith(color: AppColors.darkBlue, fontWeight: FontWeight.bold)),
-                  IconButton(icon: Icon(FontAwesomeIcons.volumeUp), onPressed: () {  },)]),
-                  SizedBox(height: widget.height * 0.05),
+                  IconButton(icon: Icon(FontAwesomeIcons.volumeUp, color: AppColors.darkBlue), onPressed: () async {
+                    await player.setUrl('https://firebasestorage.googleapis.com/v0/b/bebkeler-89a5e.appspot.com/o/pronunciation_tt_%D1%80%D3%99%D1%85%D0%BC%D3%99%D1%82.mp3?alt=media&token=1fa2d250-afc6-4b27-be6e-e5660021531a');
+                    player.play();
+                    },)]),
+                  SizedBox(height: widget.height * 0.03),
                   Text(widget.item.definition, style: Theme.of(context).textTheme.subtitle1, textAlign: TextAlign.center),
                   SizedBox(height: widget.height * 0.01),
                   Expanded(child:Align( alignment: Alignment.topCenter, child: Image.network(widget.item.imageUrl,

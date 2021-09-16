@@ -12,10 +12,10 @@ class AppColors {
   static const Color green = Color(0xffBDE7BD);
   static const Color indigo = Color(0xff707cba);
   static const Color border = Color(0xfff3f1e3);
-  static const Color element = Color(0xFFD3D9F3);
-  static const Color background = Color(0xffe3e6f5);
+  static const Color element = Color(0xffe1eedd);
+  static const Color background = Color(0xfff8f4f0);
   static const Color yellow = Color(0xfff3f1e3);
   static const Color purple = Color(0xff887BB0);
   static const Color lightBlue = Color(0xff86cfff);
-  static const Color darkBlue = Color(0xff707cba);
+  static const Color darkBlue = Color(0xff4d765f);
 }

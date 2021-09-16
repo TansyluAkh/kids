@@ -1,7 +1,9 @@
 import 'package:bebkeler/core/words/word.dart';
+import 'package:bebkeler/ui/components/sliderbtn.dart';
 import 'package:bebkeler/ui/screens/details_screen.dart';
 import 'package:bebkeler/core/quiz/models.dart';
 import 'package:bebkeler/ui/screens/quiz/quiz_screen.dart';
+import 'package:bebkeler/ui/screens/spelling_bee/home.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -60,48 +62,10 @@ class _SwiperState extends State<Swiper> {
             height: height * 0.5,
             viewportFraction: 0.9,
           ),
-          SizedBox(height: height * 0.05),
-          Container( width: width*0.7, height: height*0.2, child:Center(
-              child:SliderButton(
-                action: () {
-                    print('tappedplay');
-                    Navigator.of(context).push(
-                    MaterialPageRoute(
-                    builder: (context) => QuizScreen(
-                    quiz: Quiz.fromSubcategory(
-                    widget.items[element].subCategory,
-                    widget.items[element].collectionPath,
-                    widget.items[element].tatarCategory,
-                    widget.items))),
-                    );
-                    },
-                label: Text(
-                  "Уйна!",
-                  style: TextStyle(
-                      color: Color(0xff707cba),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22),
-                ),
-                icon: Center(
-                    child: Icon(
-                      Icons.play_arrow_rounded,
-                      color: Colors.white,
-                      size: 60.0,
-                      semanticLabel: 'Text to announce in accessibility modes',
-                    )),
-                boxShadow: BoxShadow(
-                  color: Color(0xff707cba),
-                  blurRadius: 4,
-                ),
-                width: width*0.5,
-                dismissible: false,
-                shimmer: false,
-                radius: 70,
-                buttonColor: Color(0xff707cba),
-                backgroundColor: Color(0xfffdfdfd),
-                highlightedColor: Color(0xfffdfdfd),
-                baseColor: Color(0xff707cba),
-              )))]));
+          SizedBox(height: height * 0.03),
+          sliderbtn('Квиз уйна', Icons.psychology, 'playquiz',  width, context, widget.items[element], widget.items),
+          SizedBox(height: height * 0.03),
+          sliderbtn('Тавыш уйна', Icons.music_note, 'playspelling',  width, context, widget.items[element], widget.items)]));
   }
 
   Widget get_arr(height, width, item) {
