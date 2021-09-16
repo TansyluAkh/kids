@@ -1,5 +1,6 @@
 import 'package:bebkeler/core/quiz/models.dart';
 import 'package:bebkeler/ui/screens/quiz/quiz_screen.dart';
+import 'package:bebkeler/ui/screens/spelling_bee/game.dart';
 import 'package:bebkeler/ui/screens/spelling_bee/home.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,14 @@ Widget sliderbtn( label, icon, action, width, context, element, items){
                   element.tatarCategory,
                   items))),
   );
-} : (){Navigator.of(context).push(
+} : (){
+        var words_dict = {};
+        items.forEach((e){
+          words_dict[e.tatarWord] = e.tatarAudio;});
+        print(words_dict);
+        Navigator.of(context).push(
     MaterialPageRoute(
-    builder: (context) => SBHomePage()));},
+    builder: (context) => Spelling(items: words_dict)));},
       label: Text(
       label,
       style: TextStyle(

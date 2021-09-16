@@ -170,7 +170,7 @@ class _SBSummaryPageState extends State<SBSummaryPage> {
                                       _newgamesplayed, _newpoints, _newratio);
                               Navigator.of(context)
                                   .pushReplacement(MaterialPageRoute(
-                                builder: (context) => SBInitPage(),
+                                builder: (context) => Spelling(),
                               ));
                             },
                           ),

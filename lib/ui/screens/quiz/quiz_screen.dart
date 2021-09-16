@@ -36,7 +36,7 @@ class QuizScreen extends View<QuizViewModel> {
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
       ),
       systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.element,
       centerTitle: true,
       title: Text((viewModel.currentQuestionIndex+1).toString()+' / '+ viewModel.quiz.questions.length.toString(),
           textAlign: TextAlign.center,
@@ -66,7 +66,7 @@ class QuizScreen extends View<QuizViewModel> {
         Text(
           viewModel.currentQuestion.definition,
           textAlign: TextAlign.center,
-          style: TextStyle(color: AppColors.black.withOpacity(0.7), fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(color: AppColors.darkBlue, fontSize: 16, fontWeight: FontWeight.bold),
         ),
 
         nextButton(context, height),
@@ -92,6 +92,7 @@ class QuizScreen extends View<QuizViewModel> {
           ),
           Expanded(
               child: LinearProgressIndicator(
+                backgroundColor: AppColors.element,
             value: viewModel.animation.value,
             minHeight: 5,
             color: AppColors.darkBlue,

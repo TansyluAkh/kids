@@ -48,7 +48,7 @@ class SBHomePage extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SBInitPage(),
+                            builder: (context) => Spelling(),
                           ));
                         },
                         child: Image(

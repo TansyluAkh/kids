@@ -8,49 +8,21 @@ import 'package:bebkeler/services/spelling_bee_service.dart';
 import 'dart:async';
 import 'package:bebkeler/services/database_service.dart';
 import 'package:bebkeler/ui/components/loading.dart';
+import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 
-class SBInitPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    AppUser user = AuthService.instance.currentUser;
-    final _service = SpellingBeeService();
+class Spelling extends StatefulWidget {
+  final items;
 
-    return StreamBuilder<SBUserSettings>(
-        stream: DatabaseService(uid: user.id).getSbUserSettings,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            SBUserSettings settings = snapshot.data;
-            int _difficulty = settings.sbDifficulty;
-            int _numOfQuestions = settings.sbNumberOfQuestions;
-            dynamic words =
-                _service.generateWords(_difficulty, _numOfQuestions);
-            return SBGamePage(words: words, amtQuestions: _numOfQuestions);
-          } else {
-            return Loading();
-          }
-        });
-  }
-}
-
-class SBGamePage extends StatefulWidget {
-  final List<String> words;
-  final int amtQuestions;
-  SBGamePage({Key key, @required this.words, @required this.amtQuestions})
-      : super(key: key);
+  const Spelling({Key key, this.items}) : super(key: key);
 
   @override
-  _SBGamePageState createState() => _SBGamePageState(words, amtQuestions);
+  _SpellingState createState() => _SpellingState();
 }
 
+class _SpellingState extends State<Spelling> {
 
-class _SBGamePageState extends State<SBGamePage> {
-  final List<String> words;
-  final int amtQuestions;
-  _SBGamePageState(this.words, this.amtQuestions);
-
-  // Game variables
-  final rightColor = AppColors.element;
+  final rightColor = AppColors.darkBlue;
   final wrongColor = AppColors.red;
   var buttonColor = AppColors.darkBlue;
   var scoreColor = AppColors.darkBlue;
@@ -69,11 +41,15 @@ class _SBGamePageState extends State<SBGamePage> {
   final double fontSize = 18.0;
   final TextEditingController _textController = TextEditingController();
   AudioPlayer player;
+  int amtQuestions = 0;
+  List words = [];
 
   @override
   void initState() {
     super.initState();
     player = AudioPlayer();
+    amtQuestions = widget.items.length;
+    words = widget.items.keys.toList();
     starttimer();
   }
 
@@ -98,7 +74,6 @@ class _SBGamePageState extends State<SBGamePage> {
     score = score - 100;
     Timer(Duration(seconds: 1), nextquestion);
   }
-
 
   @override
   void setState(fn) {
@@ -125,7 +100,7 @@ class _SBGamePageState extends State<SBGamePage> {
   }
 
   void nextquestion() {
-    buttonColor = AppColors.element;
+    buttonColor = AppColors.darkBlue;
     scoreColor = AppColors.darkBlue;
     canceltimer = false;
     timer = 15;
@@ -146,6 +121,8 @@ class _SBGamePageState extends State<SBGamePage> {
   }
 
   void checkanswer() {
+    print(words[i]);
+    print('QUESTION');
     if (choosenAnswer.toLowerCase() == words[i].toLowerCase()) {
       score = score + 500;
       buttonColor = rightColor;
@@ -167,6 +144,8 @@ class _SBGamePageState extends State<SBGamePage> {
 
   @override
   Widget build(BuildContext context) {
+    var screenheight = MediaQuery.of(context).size.height;
+    var screenwidth = MediaQuery.of(context).size.width;
     _textController.text;
     return WillPopScope(
       onWillPop: () {
@@ -202,155 +181,103 @@ class _SBGamePageState extends State<SBGamePage> {
                 ));
       },
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          iconTheme: const IconThemeData(color: AppColors.darkBlue),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
+          ),
+          systemOverlayStyle:
+              const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+          backgroundColor: AppColors.element,
+          centerTitle: true,
+          title: Text('$currentQuestion / $amtQuestions',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontFamily: "Montserrat",
+                fontSize: 22,
+                color: AppColors.darkBlue,
+              )),
+        ),
         backgroundColor: AppColors.background,
         body: Padding(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.symmetric(horizontal:10, vertical: 30),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              //! Score and Timer
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        '$currentQuestion / $amtQuestions',
-                        style:
-                            TextStyle(fontSize: 25.0, color: Colors.blueGrey),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30.0),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              '00:' + showTimer,
-                              style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: AppColors.darkBlue),
-                            ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            Expanded(
-                              child: LinearProgressIndicator(
-                                value: double.parse(showTimer) / 10.0,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    AppColors.darkBlue),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                            style: TextStyle(
-                                fontFamily: 'Montserrat', fontSize: 25.0),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: 'Score: ',
-                                  style: TextStyle(color: AppColors.darkBlue)),
-                              TextSpan(
-                                  text: score.toString(),
-                                  style: TextStyle(color: scoreColor)),
-                            ]),
-                      ),
-                    ],
+          RichText(
+          textAlign: TextAlign.center,
+            text: TextSpan(
+                style: TextStyle(
+                    fontFamily: 'Montserrat', fontSize: 30.0),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: 'Score: ',
+                      style: TextStyle(color: Colors.blueGrey)),
+                  TextSpan(
+                      text: score.toString(),
+                      style: TextStyle(color: scoreColor)),
+                ])),
+            CircleAvatar(
+            radius: 40,
+            backgroundColor: AppColors.darkBlue, child: IconButton(
+        icon: Icon(Icons.volume_up_rounded),
+        color: AppColors.yellow,
+        iconSize: 65.0,
+        onPressed: () async {
+          await player.setUrl(
+              'https://firebasestorage.googleapis.com/v0/b/bebkeler-89a5e.appspot.com/o/pronunciation_tt_%D1%80%D3%99%D1%85%D0%BC%D3%99%D1%82.mp3?alt=media&token=1fa2d250-afc6-4b27-be6e-e5660021531a');
+          player.play();
+        },
+        tooltip: 'Click to play again',
+      )),
+            Container( width: screenwidth*0.6, child: TextFormField(
+                  controller: _textController,
+                  onChanged: (val) {
+                    choosenAnswer = val;
+                  },
+                  textCapitalization: TextCapitalization.characters,
+                  readOnly: true,
+                  cursorWidth: 3.0,
+                  cursorColor: AppColors.darkBlue,
+                  maxLength: words[i].length,
+                  showCursor: true,
+                  textAlign: TextAlign.center,
+                  autocorrect: false,
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    color: AppColors.darkBlue,
+                    letterSpacing: 5.0,
                   ),
-                ),
-              ),
-              //! Input Area
-              Expanded(
-                  flex: 1,
-                  child: Center(
-                    child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 50.0),
-                        child: TextFormField(
-                          controller: _textController,
-                          onChanged: (val) {
-                            choosenAnswer = val;
-                          },
-                          textCapitalization: TextCapitalization.characters,
-                          readOnly: true,
-                          cursorWidth: 3.0,
-                          cursorColor: AppColors.darkBlue,
-                          maxLength: words[i].length,
-                          showCursor: true,
-                          textAlign: TextAlign.center,
-                          autocorrect: false,
-                          style: TextStyle(
-                            fontSize: 25.0,
-                            color: AppColors.darkBlue,
-                            letterSpacing: 5.0,
-                          ),
-                          decoration: InputDecoration(
-                            focusColor: AppColors.darkBlue,
-                            fillColor: Colors.white,
-                            filled: true,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 12.0),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(45.0),
-                              borderSide: BorderSide(
-                                  color: AppColors.white, width: 15.0),
-                            ),
-                          ),
-                        )),
-                  )),
-              //! Play Area
-              SizedBox(
-                height: 5.0,
-              ),
-              Expanded(
-                flex: 1,
-                child: Column(
-                  children: <Widget>[
-                    Ink(
-                      decoration: const ShapeDecoration(
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(45),
+                      borderSide: BorderSide(
                         color: AppColors.darkBlue,
-                        shadows: <BoxShadow>[
-                          BoxShadow(
-                              color: AppColors.element,
-                              blurRadius: 8,
-                              offset: Offset(0, 5),
-                              spreadRadius: -1)
-                        ],
-                        shape: CircleBorder(),
-                      ),
-                      child: IconButton(
-                        icon: Icon(Icons.play_arrow),
-                        color: Colors.white,
-                        iconSize: 65.0,
-                        onPressed: () async {
-                          await player.setUrl('https://firebasestorage.googleapis.com/v0/b/bebkeler-89a5e.appspot.com/o/pronunciation_tt_%D1%80%D3%99%D1%85%D0%BC%D3%99%D1%82.mp3?alt=media&token=1fa2d250-afc6-4b27-be6e-e5660021531a');
-                          player.play();
-                        },
-                        tooltip: 'Click to play again',
+                        width: 5.0,
                       ),
                     ),
-                    SizedBox(
-                      height: 10.0,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(45),
+                      borderSide: BorderSide(
+                        color: AppColors.darkBlue,
+                        width: 5.0,
+                      ),
                     ),
-                    Text(
-                      'Play Sound',
-                      style: TextStyle(color: Colors.blueGrey, fontSize: 20.0),
-                    )
-                  ],
-                ),
-              ),
-              //! Keyboard Area
+                  ),
+                )),
               Column(
                 children: <Widget>[
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       Container(
                           margin: EdgeInsets.all(margin),
                           child: RaisedButton(
-                            color: Colors.orangeAccent,
+                            color: AppColors.yellow,
                             onPressed: () {
                               _textController.clear();
                               onSkip();
@@ -363,10 +290,9 @@ class _SBGamePageState extends State<SBGamePage> {
                             ),
                           )),
                       Container(
-                          width: 180.0,
                           margin: EdgeInsets.all(margin),
                           child: RaisedButton(
-                            color: buttonColor,
+                            color: AppColors.darkBlue,
                             onPressed: () {
                               choosenAnswer = _textController.text;
                               checkanswer();
@@ -382,7 +308,7 @@ class _SBGamePageState extends State<SBGamePage> {
                     ],
                   ),
                   SizedBox(
-                    height: 2.0,
+                    height: screenheight*0.02,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -392,11 +318,14 @@ class _SBGamePageState extends State<SBGamePage> {
                     height: 2.0,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: getkey('Һ Ф Ы В А П Р О Л Д Ң'.split(' '))),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: getkey('Һ Ф Ы В А П Р О Л Д Ң'.split(' '))),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: getkey('Э Я Ч С М И Т Җ Б Ю Ү'.split(' ')),
+                  ),
+                  SizedBox(
+                    height: screenheight*0.02,
                   ),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -434,7 +363,26 @@ class _SBGamePageState extends State<SBGamePage> {
                       ]),
                 ],
               ),
-            ],
+              Row(
+                children: <Widget>[
+                  Text(
+                    '00:' + showTimer,
+                    style: TextStyle(fontSize: 20.0, color: AppColors.darkBlue),
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Expanded(
+                    child: LinearProgressIndicator(
+                      value: 1 - double.parse(showTimer)/15 ,
+                      backgroundColor: AppColors.element,
+                      minHeight: 5,
+                      color: AppColors.darkBlue,
+                    ),
+                  )
+                ],
+              ), ],
+
           ),
         ),
       ),
@@ -443,26 +391,25 @@ class _SBGamePageState extends State<SBGamePage> {
 
   List<Widget> getkey(letters) {
     List<Widget> arr = [];
-    letters.forEach((l){
-      arr.add(Container(
-          margin: EdgeInsets.all(margin),
-          height: height,
-          width: width,
-          child: RaisedButton(
-            color: color,
-            onPressed: () {
-              onpressedButton(l);
-            },
-            child: Text(
-              l,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: fontColor, fontSize: fontSize),
-            ),
-          )),
+    letters.forEach((l) {
+      arr.add(
+        Container(
+            margin: EdgeInsets.all(margin),
+            height: height,
+            width: width,
+            child: RaisedButton(
+              color: color,
+              onPressed: () {
+                onpressedButton(l);
+              },
+              child: Text(
+                l,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: fontColor, fontSize: fontSize),
+              ),
+            )),
       );
     });
     return arr;
   }
-
 }

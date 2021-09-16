@@ -24,7 +24,7 @@ class OptionCard extends StatelessWidget {
     switch (state) {
       case OptionState.Default:
       case OptionState.Disabled:
-        return AppColors.background;
+        return AppColors.element;
       case OptionState.Wrong:
         return AppColors.red;
       case OptionState.Correct:
