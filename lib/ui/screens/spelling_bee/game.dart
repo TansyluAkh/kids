@@ -1,13 +1,8 @@
-import 'package:bebkeler/infrastructure/auth/auth_service.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:bebkeler/models/user.dart';
 import 'package:bebkeler/ui/screens/home_screen.dart';
 import 'package:bebkeler/ui/screens/spelling_bee/summary.dart';
-import 'package:bebkeler/services/spelling_bee_service.dart';
 import 'dart:async';
-import 'package:bebkeler/services/database_service.dart';
-import 'package:bebkeler/ui/components/loading.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -48,14 +43,13 @@ class _SpellingState extends State<Spelling> {
   void initState() {
     super.initState();
     player = AudioPlayer();
-    amtQuestions = widget.items.length;
+    amtQuestions = widget.items != null? widget.items.length:0;
     words = widget.items.keys.toList();
     starttimer();
   }
 
   void onpressedButton(String k) {
     _textController.text += k;
-    print(_textController.text);
   }
 
   void clearLast() {
@@ -71,7 +65,7 @@ class _SpellingState extends State<Spelling> {
 
   void onSkip() {
     scoreColor = wrongColor;
-    score = score - 100;
+    score = score - 1;
     Timer(Duration(seconds: 1), nextquestion);
   }
 
@@ -121,10 +115,8 @@ class _SpellingState extends State<Spelling> {
   }
 
   void checkanswer() {
-    print(words[i]);
-    print('QUESTION');
     if (choosenAnswer.toLowerCase() == words[i].toLowerCase()) {
-      score = score + 500;
+      score = score + 1;
       buttonColor = rightColor;
     } else {
       buttonColor = wrongColor;
@@ -152,17 +144,14 @@ class _SpellingState extends State<Spelling> {
         return showDialog(
             context: context,
             builder: (context) => AlertDialog(
-                  title: Text(
-                    "bebkeler",
-                  ),
-                  content: Text("Quit the game?"),
+                  content: Text("Уеннан чыгырга?"),
                   actions: <Widget>[
                     FlatButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        'No',
+                        'Юк',
                       ),
                     ),
                     FlatButton(
@@ -174,7 +163,7 @@ class _SpellingState extends State<Spelling> {
                         );
                       },
                       child: Text(
-                        'Yes',
+                        'Әйе',
                       ),
                     )
                   ],
@@ -191,48 +180,46 @@ class _SpellingState extends State<Spelling> {
               const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
           backgroundColor: AppColors.element,
           centerTitle: true,
-          title: Text('$currentQuestion / $amtQuestions',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontFamily: "Montserrat",
-                fontSize: 22,
-                color: AppColors.darkBlue,
-              )),
+          title:   Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Text('$currentQuestion / $amtQuestions',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Montserrat",
+                      fontSize: 22,
+                      color: AppColors.darkBlue,
+                    )),
+              Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [Icon(Icons.favorite_rounded, color: AppColors.red, size: screenheight*0.05),
+                Text( ' '+ score.toString(),
+                    style: TextStyle(color: scoreColor, fontWeight: FontWeight.bold, fontFamily: 'Montserrat', fontSize: 25)),
+              ])]),
         ),
         backgroundColor: AppColors.background,
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal:10, vertical: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-          RichText(
-          textAlign: TextAlign.center,
-            text: TextSpan(
-                style: TextStyle(
-                    fontFamily: 'Montserrat', fontSize: 30.0),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'Score: ',
-                      style: TextStyle(color: Colors.blueGrey)),
-                  TextSpan(
-                      text: score.toString(),
-                      style: TextStyle(color: scoreColor)),
-                ])),
             CircleAvatar(
             radius: 40,
-            backgroundColor: AppColors.darkBlue, child: IconButton(
+            backgroundColor: AppColors.red, child: IconButton(
         icon: Icon(Icons.volume_up_rounded),
-        color: AppColors.yellow,
+        color: AppColors.white,
         iconSize: 65.0,
         onPressed: () async {
           await player.setUrl(
               'https://firebasestorage.googleapis.com/v0/b/bebkeler-89a5e.appspot.com/o/pronunciation_tt_%D1%80%D3%99%D1%85%D0%BC%D3%99%D1%82.mp3?alt=media&token=1fa2d250-afc6-4b27-be6e-e5660021531a');
           player.play();
         },
-        tooltip: 'Click to play again',
+        tooltip: 'Киредән тыңлау өчен басыгыз',
       )),
             Container( width: screenwidth*0.6, child: TextFormField(
                   controller: _textController,
@@ -253,14 +240,14 @@ class _SpellingState extends State<Spelling> {
                     letterSpacing: 5.0,
                   ),
                   decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
+                    enabledBorder: UnderlineInputBorder(
                       borderRadius: BorderRadius.circular(45),
                       borderSide: BorderSide(
                         color: AppColors.darkBlue,
                         width: 5.0,
                       ),
                     ),
-                    focusedBorder: OutlineInputBorder(
+                    focusedBorder: UnderlineInputBorder(
                       borderRadius: BorderRadius.circular(45),
                       borderSide: BorderSide(
                         color: AppColors.darkBlue,
@@ -269,47 +256,9 @@ class _SpellingState extends State<Spelling> {
                     ),
                   ),
                 )),
+
               Column(
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          child: RaisedButton(
-                            color: AppColors.yellow,
-                            onPressed: () {
-                              _textController.clear();
-                              onSkip();
-                            },
-                            child: Text(
-                              'SKIP',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                      Container(
-                          margin: EdgeInsets.all(margin),
-                          child: RaisedButton(
-                            color: AppColors.darkBlue,
-                            onPressed: () {
-                              choosenAnswer = _textController.text;
-                              checkanswer();
-                              _textController.clear();
-                            },
-                            child: Text(
-                              'SUBMIT',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: fontColor, fontSize: fontSize),
-                            ),
-                          )),
-                    ],
-                  ),
-                  SizedBox(
-                    height: screenheight*0.02,
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: getkey('Й Ө У К Е Н Г Ш Ә З Х'.split(' ')),
@@ -324,69 +273,21 @@ class _SpellingState extends State<Spelling> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: getkey('Э Я Ч С М И Т Җ Б Ю Ү'.split(' ')),
                   ),
-                  SizedBox(
-                    height: screenheight*0.02,
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                            margin: EdgeInsets.all(margin),
-                            height: height,
-                            child: RaisedButton(
-                              color: Colors.redAccent,
-                              onPressed: () {
-                                clearAll();
-                              },
-                              child: Text(
-                                'Clear All',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: fontColor, fontSize: fontSize),
-                              ),
-                            )),
-                        Container(
-                            margin: EdgeInsets.all(margin),
-                            height: height,
-                            child: RaisedButton(
-                              color: Colors.orangeAccent,
-                              onPressed: () {
-                                clearLast();
-                              },
-                              child: Text(
-                                'Clear Last',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: fontColor, fontSize: fontSize),
-                              ),
-                            )),
                       ]),
-                ],
-              ),
               Row(
-                children: <Widget>[
-                  Text(
-                    '00:' + showTimer,
-                    style: TextStyle(fontSize: 20.0, color: AppColors.darkBlue),
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Expanded(
-                    child: LinearProgressIndicator(
-                      value: 1 - double.parse(showTimer)/15 ,
-                      backgroundColor: AppColors.element,
-                      minHeight: 5,
-                      color: AppColors.darkBlue,
-                    ),
-                  )
-                ],
-              ), ],
 
-          ),
-        ),
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.check_circle_outline_rounded),
+                      iconSize: height*0.07,
+                      color: AppColors.darkBlue,
+                      onPressed: () => checkanswer(),),
+                  ]),
+            ],
+
+              ),
       ),
-    );
+    ));
   }
 
   List<Widget> getkey(letters) {
