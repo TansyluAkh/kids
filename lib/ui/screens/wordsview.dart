@@ -1,7 +1,5 @@
 import 'package:bebkeler/core/words/word.dart';
 import 'package:bebkeler/core/words/word_repository.dart';
-import 'package:bebkeler/infrastructure/auth/auth_service.dart';
-import 'package:bebkeler/ui/screens/quiz/leaderboard.dart';
 import 'package:bebkeler/ui/screens/swiper.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
@@ -52,15 +50,6 @@ class _WordsPageState extends State<WordsPage> {
                   print(text.data);
                   return text.data != null
                       ? Column(children: [
-                          TextButton(
-                            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => QuizLeaderboard(
-                                    collectionPath: text.data[0].collectionPath))),
-                            child: Text(
-                              'Таблица',
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                            ),
-                          ),
                           Expanded(
                             child: StaggeredGridView.countBuilder(
                               padding: EdgeInsets.all(20),

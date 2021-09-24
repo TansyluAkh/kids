@@ -1,8 +1,6 @@
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/ui/screens/home_screen.dart';
-import 'package:bebkeler/ui/screens/spelling_bee/summary.dart';
-import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -17,27 +15,31 @@ class Spelling extends StatefulWidget {
 
 class _SpellingState extends State<Spelling> {
 
-  final rightColor = AppColors.darkBlue;
-  final wrongColor = AppColors.red;
   var buttonColor = AppColors.darkBlue;
   var scoreColor = AppColors.darkBlue;
   int score = 0;
   int i = 0;
-  int timer = 15;
-  String showTimer = '15';
+  bool iscorrect=false;
   String choosenAnswer;
-  bool canceltimer = false;
   int currentQuestion = 1;
-  final double height = 30.0;
-  final double width = 30.0;
+  final double height = 35.0;
+  final double width = 35.0;
   final double margin = 2;
   final color = AppColors.darkBlue;
   final Color fontColor = Colors.white;
   final double fontSize = 18.0;
+  final _style = const TextStyle(
+    fontFamily: "Montserrat",
+    fontSize: 18,
+    color: AppColors.darkBlue,
+  );
+
   final TextEditingController _textController = TextEditingController();
   AudioPlayer player;
   int amtQuestions = 0;
   List words = [];
+
+  get result => buttonColor;
 
   @override
   void initState() {
@@ -45,11 +47,14 @@ class _SpellingState extends State<Spelling> {
     player = AudioPlayer();
     amtQuestions = widget.items != null? widget.items.length:0;
     words = widget.items.keys.toList();
-    starttimer();
   }
 
   void onpressedButton(String k) {
-    _textController.text += k;
+    if (k == 'бушлык'){
+      _textController.text += ' ';
+    }
+    else{
+    _textController.text += k;}
   }
 
   void clearLast() {
@@ -64,9 +69,8 @@ class _SpellingState extends State<Spelling> {
   }
 
   void onSkip() {
-    scoreColor = wrongColor;
     score = score - 1;
-    Timer(Duration(seconds: 1), nextquestion);
+   nextquestion;
   }
 
   @override
@@ -76,62 +80,52 @@ class _SpellingState extends State<Spelling> {
     }
   }
 
-  void starttimer() async {
-    const onesec = Duration(seconds: 1);
-    Timer.periodic(onesec, (Timer t) {
-      setState(() {
-        if (timer < 1) {
-          t.cancel();
-          nextquestion();
-        } else if (canceltimer == true) {
-          t.cancel();
-        } else {
-          timer = timer - 1;
-        }
-        showTimer = timer.toString();
-      });
-    });
-  }
-
   void nextquestion() {
     buttonColor = AppColors.darkBlue;
     scoreColor = AppColors.darkBlue;
-    canceltimer = false;
-    timer = 15;
     setState(() {
       if (i < amtQuestions - 1) {
         currentQuestion++;
         i++;
       } else {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => SBSummaryPage(
-            score: score,
-            questions: amtQuestions,
-          ),
-        ));
+        // Navigator.of(context).pushReplacement(MaterialPageRoute(
+        //   builder: (context) => SBSummaryPage(
+        //     score: score,
+        //     questions: amtQuestions,
+        //   ),
+        // ));
       }
     });
-    starttimer();
   }
 
-  void checkanswer() {
+  void checkanswer(screenheight, screenwidth) {
+    print(choosenAnswer);
     if (choosenAnswer.toLowerCase() == words[i].toLowerCase()) {
       score = score + 1;
-      buttonColor = rightColor;
-    } else {
-      buttonColor = wrongColor;
-    }
-    setState(() {
-      canceltimer = true;
-    });
-    Timer(Duration(seconds: 1), nextquestion);
+      iscorrect = true;}
+    else {
+      iscorrect = false;};
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: iscorrect? Text("Җавабың дөрес - ${choosenAnswer.toLowerCase()}!\n +1 йөрәк",  style: _style) : Text("Җавабың ялгыш, дөресе - ${words[i].toLowerCase()} ", style: _style.copyWith(color: AppColors.red)),
+          actions: <Widget>[
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(primary: AppColors.darkBlue, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(45))), minimumSize: Size(screenwidth*0.35, screenheight*0.07), textStyle: _style.copyWith(color: AppColors.white, fontWeight: FontWeight.normal)),
+              icon: Icon(Icons.check_box_rounded, size:  screenheight*0.05),
+              onPressed:
+                  () { Navigator.of(context).pop();
+              }, label: Text('Киләсе\nсорау', overflow: TextOverflow.ellipsis, maxLines: 3,),
+            ),
+          ],
+        ));
+    nextquestion();
   }
 
   @override
   void dispose() {
     super.dispose();
     player.dispose();
-    canceltimer = true;
   }
 
   @override
@@ -144,14 +138,14 @@ class _SpellingState extends State<Spelling> {
         return showDialog(
             context: context,
             builder: (context) => AlertDialog(
-                  content: Text("Уеннан чыгырга?"),
+                  content: Text("Уеннан чыгырга мы?",  style: _style),
                   actions: <Widget>[
                     FlatButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        'Юк',
+                        'Юк',  style: _style
                       ),
                     ),
                     FlatButton(
@@ -163,7 +157,7 @@ class _SpellingState extends State<Spelling> {
                         );
                       },
                       child: Text(
-                        'Әйе',
+                        'Әйе',  style: _style
                       ),
                     )
                   ],
@@ -186,17 +180,12 @@ class _SpellingState extends State<Spelling> {
               children: [
                 Text('$currentQuestion / $amtQuestions',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "Montserrat",
-                      fontSize: 22,
-                      color: AppColors.darkBlue,
-                    )),
+                    style: _style),
               Row(
               mainAxisAlignment: MainAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
               children: [Icon(Icons.favorite_rounded, color: AppColors.red, size: screenheight*0.05),
-                Text( ' '+ score.toString(),
+                Text( ' '+ score.toString()+words[i],
                     style: TextStyle(color: scoreColor, fontWeight: FontWeight.bold, fontFamily: 'Montserrat', fontSize: 25)),
               ])]),
         ),
@@ -205,12 +194,20 @@ class _SpellingState extends State<Spelling> {
           padding: EdgeInsets.symmetric(horizontal:10, vertical: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-            CircleAvatar(
-            radius: 40,
-            backgroundColor: AppColors.red, child: IconButton(
+            Container(
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.red,
+                    boxShadow: [BoxShadow(
+                        color: AppColors.yellow,
+                        blurRadius: 15,
+                        spreadRadius: 5,
+                    )]
+                ), child: IconButton(
+
         icon: Icon(Icons.volume_up_rounded),
         color: AppColors.white,
         iconSize: 65.0,
@@ -240,6 +237,11 @@ class _SpellingState extends State<Spelling> {
                     letterSpacing: 5.0,
                   ),
                   decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      iconSize: 30,
+                      onPressed: clearLast,
+                      icon: Icon(Icons.backspace_rounded, size:35, color: AppColors.darkBlue),
+                    ),
                     enabledBorder: UnderlineInputBorder(
                       borderRadius: BorderRadius.circular(45),
                       borderSide: BorderSide(
@@ -256,41 +258,70 @@ class _SpellingState extends State<Spelling> {
                     ),
                   ),
                 )),
-
               Column(
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: getkey('Й Ө У К Е Н Г Ш Ә З Х'.split(' ')),
+                    children: getkey('У К Е Н Г Ш Ә З Х'.split(' '), height, width,  TextAlign.center),
                   ),
                   SizedBox(
-                    height: 2.0,
+                    height: 5.0,
                   ),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: getkey('Һ Ф Ы В А П Р О Л Д Ң'.split(' '))),
+                      children: getkey('Ы В А П Р О Л Д Ң'.split(' '), height, width,  TextAlign.center)),
+                  SizedBox(
+                    height: 5.0,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: getkey('Э Я Ч С М И Т Җ Б Ю Ү'.split(' ')),
+                    children: getkey('Ч С М И Т Җ Б Ю Ү'.split(' '), height, width,  TextAlign.center),
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: getkey('Э Я Й Ө Һ Ф Ъ Ь'.split(' '), height , width, TextAlign.center),
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [getkey(['бушлык'], 40.0, 105.00, TextAlign.start)[0], getkey(['-'], 40.0 , width, TextAlign.center)[0]]),
+                  SizedBox(
+                    height: 5.0,
                   ),
                       ]),
-              Row(
-
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.check_circle_outline_rounded),
-                      iconSize: height*0.07,
-                      color: AppColors.darkBlue,
-                      onPressed: () => checkanswer(),),
-                  ]),
-            ],
-
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+         ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(primary: AppColors.darkBlue, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(45))), minimumSize: Size(screenwidth*0.35, screenheight*0.07), textStyle: _style.copyWith(color: AppColors.white, fontWeight: FontWeight.normal)),
+                icon: Icon(Icons.skip_next_rounded, size: screenheight*0.05),
+                label: Text('Башка\nсорау', overflow: TextOverflow.ellipsis, maxLines: 3,),
+                onPressed:
+                      () {_textController.clear();
+    onSkip();},
               ),
-      ),
-    ));
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(primary: AppColors.darkBlue, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(45))), minimumSize: Size(screenwidth*0.35, screenheight*0.07), textStyle: _style.copyWith(color: AppColors.white, fontWeight: FontWeight.normal)),
+                icon: Icon(Icons.check_box_rounded, size: screenheight*0.05),
+                onPressed:
+                    () {
+                      choosenAnswer = _textController.text;
+                      checkanswer(screenheight, screenwidth);
+                      _textController.clear();
+                    }, label: Text('Җавап\nбир', overflow: TextOverflow.ellipsis, maxLines: 3,),
+              ),
+            ],
+              ),
+      ]),
+    )));
   }
 
-  List<Widget> getkey(letters) {
+  List<Widget> getkey(letters, height, width, textAlign) {
     List<Widget> arr = [];
     letters.forEach((l) {
       arr.add(
@@ -298,8 +329,8 @@ class _SpellingState extends State<Spelling> {
             margin: EdgeInsets.all(margin),
             height: height,
             width: width,
-            child: RaisedButton(
-              color: color,
+            child: TextButton(
+              style: TextButton.styleFrom(backgroundColor: color, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),)),
               onPressed: () {
                 onpressedButton(l);
               },

@@ -22,10 +22,11 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: AppColors.background,
         appBar: AppBar(
           iconTheme: const IconThemeData(
-            color: Colors.black, //change your color here
+            color: AppColors.darkBlue, //change your color here
           ),
+          centerTitle: true,
           title:  Image.network('https://s9.gifyu.com/images/indigo1.png',
-              width: width * 0.4, height: height * 0.15, fit: BoxFit.contain),
+              width: width * 0.35, height: height * 0.12, fit: BoxFit.contain),
          leading: Icon(Icons.home, size: height*0.05),
           systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
           shape: const RoundedRectangleBorder(

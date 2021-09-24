@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:bebkeler/wrapper.dart';
+
+import 'home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(Duration(seconds: 4), () {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Wrapper()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
     });
   }
 
@@ -28,7 +29,6 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-        // ignore: prefer_const_literals_to_create_immutables
         Center(
             child: Image(
               image: NetworkImage('https://s9.gifyu.com/images/indigo1.png'),
@@ -36,21 +36,6 @@ class _SplashScreenState extends State<SplashScreen> {
               width: width*0.6,
             ),
           ),
-          // SizedBox(
-          //   height: 10.0,
-          // ),
-          // TyperAnimatedTextKit(
-          //     text: [
-          //       'Made by Tansylu',
-          //     ],
-          //     speed: Duration(milliseconds: 150),
-          //     isRepeatingAnimation: false,
-          //     textAlign: TextAlign.center,
-          //     textStyle: TextStyle(
-          //         fontSize: 25.0,
-          //         fontFamily: "Pacifico",
-          //         color: Colors.white70),
-          //     alignment: AlignmentDirectional.topStart),
         ],
       ),
     );
