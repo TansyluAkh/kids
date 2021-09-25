@@ -26,7 +26,7 @@ Widget sliderbtn( label, icon, action, width, context, element, items){
         print(words_dict);
         Navigator.of(context).push(
     MaterialPageRoute(
-    builder: (context) => Spelling(items: words_dict)));},
+    builder: (context) => Spelling(items: words_dict, tatcategory: element.tatarCategory)));},
       label: Text(
       label,
       style: TextStyle(

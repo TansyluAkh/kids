@@ -1,3 +1,4 @@
+import 'package:bebkeler/ui/screens/spelling_bee/soundgame_result.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/ui/screens/home_screen.dart';
@@ -6,8 +7,8 @@ import 'package:just_audio/just_audio.dart';
 
 class Spelling extends StatefulWidget {
   final items;
-
-  const Spelling({Key key, this.items}) : super(key: key);
+  final tatcategory;
+  const Spelling({Key key, this.items, this.tatcategory}) : super(key: key);
 
   @override
   _SpellingState createState() => _SpellingState();
@@ -26,9 +27,10 @@ class _SpellingState extends State<Spelling> {
   final double width = 35.0;
   final double margin = 2;
   final color = AppColors.darkBlue;
-  final Color fontColor = Colors.white;
+  final Color fontColor = AppColors.background;
   final double fontSize = 18.0;
   final _style = const TextStyle(
+    fontWeight: FontWeight.w600,
     fontFamily: "Montserrat",
     fontSize: 18,
     color: AppColors.darkBlue,
@@ -47,6 +49,7 @@ class _SpellingState extends State<Spelling> {
     player = AudioPlayer();
     amtQuestions = widget.items != null? widget.items.length:0;
     words = widget.items.keys.toList();
+    words.shuffle();
   }
 
   void onpressedButton(String k) {
@@ -81,19 +84,18 @@ class _SpellingState extends State<Spelling> {
   }
 
   void nextquestion() {
-    buttonColor = AppColors.darkBlue;
-    scoreColor = AppColors.darkBlue;
     setState(() {
       if (i < amtQuestions - 1) {
         currentQuestion++;
         i++;
       } else {
-        // Navigator.of(context).pushReplacement(MaterialPageRoute(
-        //   builder: (context) => SBSummaryPage(
-        //     score: score,
-        //     questions: amtQuestions,
-        //   ),
-        // ));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => SoundGameResultScreen(
+            result: score,
+            qnum: amtQuestions,
+            tatcategory: widget.tatcategory,
+          ),
+        ));
       }
     });
   }
@@ -108,18 +110,31 @@ class _SpellingState extends State<Spelling> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          content: iscorrect? Text("Җавабың дөрес - ${choosenAnswer.toLowerCase()}!\n +1 йөрәк",  style: _style) : Text("Җавабың ялгыш, дөресе - ${words[i].toLowerCase()} ", style: _style.copyWith(color: AppColors.red)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          backgroundColor: iscorrect? AppColors.element.withOpacity(0.8) : AppColors.orange.withOpacity(0.8),
+          content: iscorrect? Text("Җавабың дөрес - ${choosenAnswer.toUpperCase()}!", style: TextStyle(color: AppColors.darkBlue, fontSize: 20)) : Text("Җавабың ялгыш, дөресе - ${words[i].toUpperCase()} ", style: TextStyle(color: AppColors.white, fontSize: 20)),
           actions: <Widget>[
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(primary: AppColors.darkBlue, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(45))), minimumSize: Size(screenwidth*0.35, screenheight*0.07), textStyle: _style.copyWith(color: AppColors.white, fontWeight: FontWeight.normal)),
-              icon: Icon(Icons.check_box_rounded, size:  screenheight*0.05),
+            Align(alignment: Alignment.center ,
+                child:
+           IconButton(icon: Icon(Icons.arrow_forward_ios_rounded, size:  screenheight*0.035, color: iscorrect? AppColors.darkBlue: AppColors.white),
               onPressed:
-                  () { Navigator.of(context).pop();
-              }, label: Text('Киләсе\nсорау', overflow: TextOverflow.ellipsis, maxLines: 3,),
-            ),
-          ],
-        ));
-    nextquestion();
+                  () {
+             setState(() {
+    if (i < amtQuestions - 1) {
+    currentQuestion++;
+    i++;
+    Navigator.of(context).pop();
+    }
+    else {Navigator.of(context).pushReplacement(MaterialPageRoute(
+    builder: (context) => SoundGameResultScreen(
+    result: score,
+    qnum: amtQuestions,
+    tatcategory: widget.tatcategory,
+    ),
+    ));
+    }
+    });
+    }))]));
   }
 
   @override
@@ -178,15 +193,15 @@ class _SpellingState extends State<Spelling> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Text('$currentQuestion / $amtQuestions',
+                Text('$currentQuestion / $amtQuestions '+words[i],
                     textAlign: TextAlign.center,
-                    style: _style),
+                    style: _style.copyWith(fontSize: 22)),
               Row(
               mainAxisAlignment: MainAxisAlignment.end,
               mainAxisSize: MainAxisSize.min,
-              children: [Icon(Icons.favorite_rounded, color: AppColors.red, size: screenheight*0.05),
-                Text( ' '+ score.toString()+words[i],
-                    style: TextStyle(color: scoreColor, fontWeight: FontWeight.bold, fontFamily: 'Montserrat', fontSize: 25)),
+              children: [Icon(Icons.favorite_rounded, color: AppColors.orange, size: screenheight*0.045),
+                Text( ' '+ score.toString(),
+                    style: TextStyle(color: AppColors.orange, fontWeight: FontWeight.bold, fontFamily: 'Montserrat', fontSize: 22)),
               ])]),
         ),
         backgroundColor: AppColors.background,
@@ -200,16 +215,16 @@ class _SpellingState extends State<Spelling> {
             Container(
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: AppColors.red,
+                    color: AppColors.orange.withOpacity(0.8),
                     boxShadow: [BoxShadow(
-                        color: AppColors.yellow,
-                        blurRadius: 15,
-                        spreadRadius: 5,
+                        color: AppColors.orange.withOpacity(0.4),
+                        blurRadius: 5,
+                        spreadRadius: 7,
                     )]
                 ), child: IconButton(
 
         icon: Icon(Icons.volume_up_rounded),
-        color: AppColors.white,
+        color: AppColors.background,
         iconSize: 65.0,
         onPressed: () async {
           await player.setUrl(
@@ -298,7 +313,7 @@ class _SpellingState extends State<Spelling> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
          ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(primary: AppColors.darkBlue, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(45))), minimumSize: Size(screenwidth*0.35, screenheight*0.07), textStyle: _style.copyWith(color: AppColors.white, fontWeight: FontWeight.normal)),
+                style: ElevatedButton.styleFrom(primary: AppColors.orange.withOpacity(0.9), shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(45))), minimumSize: Size(screenwidth*0.35, screenheight*0.07), textStyle: _style.copyWith(color: AppColors.background, fontWeight: FontWeight.normal)),
                 icon: Icon(Icons.skip_next_rounded, size: screenheight*0.05),
                 label: Text('Башка\nсорау', overflow: TextOverflow.ellipsis, maxLines: 3,),
                 onPressed:
@@ -306,7 +321,7 @@ class _SpellingState extends State<Spelling> {
     onSkip();},
               ),
               ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(primary: AppColors.darkBlue, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(45))), minimumSize: Size(screenwidth*0.35, screenheight*0.07), textStyle: _style.copyWith(color: AppColors.white, fontWeight: FontWeight.normal)),
+                style: ElevatedButton.styleFrom(primary: AppColors.darkBlue.withOpacity(1), shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(45))), minimumSize: Size(screenwidth*0.35, screenheight*0.07), textStyle: _style.copyWith(color: AppColors.background, fontWeight: FontWeight.normal)),
                 icon: Icon(Icons.check_box_rounded, size: screenheight*0.05),
                 onPressed:
                     () {
@@ -332,7 +347,7 @@ class _SpellingState extends State<Spelling> {
             child: TextButton(
               style: TextButton.styleFrom(backgroundColor: color, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),)),
               onPressed: () {
-                onpressedButton(l);
+                onpressedButton(l.toLowerCase());
               },
               child: Text(
                 l,
