@@ -107,9 +107,10 @@ class QuizScreen extends View<QuizViewModel> {
     Function() onTap;
     if (viewModel.isLastStep) {
       onTap = () async {
-        final result = await viewModel.finish();
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-          return QuizResultScreen(tatcategory: viewModel.quiz.tatcategory, result: result);
+          return QuizResultScreen(tatcategory: viewModel.quiz.tatcategory,
+              result: countscore(),
+             qnum: viewModel.quiz.questions.length);
         }));
       };
     } else {
@@ -157,4 +158,14 @@ class QuizScreen extends View<QuizViewModel> {
         children: optionCards);
   }
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+  int countscore(){
+    var correctAnswers = 0;
+    for (final answer in viewModel.userAnswers) {
+      final userOptionIndex = answer.chosenOptionIndex;
+      final correctOptionIndex =
+      viewModel.quiz.questions[answer.questionIndex].options.indexWhere((opt) => opt.isCorrect);
+      if (userOptionIndex == correctOptionIndex) correctAnswers++;
+    }
+    return correctAnswers;
+  }
 }

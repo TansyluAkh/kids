@@ -1,20 +1,23 @@
-import 'package:bebkeler/core/quiz/models.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../home_screen.dart';
+
 class QuizResultScreen extends StatelessWidget {
   final String tatcategory;
-  final QuizResult result;
+  final result;
+  final qnum;
 
-  const QuizResultScreen({Key key, this.tatcategory, this.result}) : super(key: key);
+
+  const QuizResultScreen({Key key, this.tatcategory, this.qnum, this.result}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     var s = capitalize(tatcategory);
     return Scaffold(
         backgroundColor: AppColors.white,
@@ -30,36 +33,28 @@ class QuizResultScreen extends StatelessWidget {
             ),
             // color: Colors.white,\child: Center(
             child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.defaultPadding),
+              padding: const EdgeInsets.only(left: AppSpacing.defaultPadding, right:  AppSpacing.defaultPadding, top: 70, bottom: 20 ),
               child: Align(
                 alignment: Alignment.center,
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+
                       Text(
-                        "Котлыйбыз!",
-                        textAlign: TextAlign.left,
+                        "$s категориясе өчен нәтиҗәгез:",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: AppColors.orange, fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "${result} / ${qnum}",
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             color: AppColors.darkBlue, fontSize: 30, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "$s категориясе өчен балларыныз:",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: AppColors.darkBlue, fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "${result.score}/${result.maxScore}",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: AppColors.darkBlue, fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                         height: 20,
@@ -69,13 +64,26 @@ class QuizResultScreen extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      IconButton(
-                        iconSize: height * 0.05,
-                        icon: Icon(FontAwesomeIcons.redo),
-                        color: AppColors.darkBlue,
-                        onPressed: () => Navigator.pop(context),
-                      )
-                    ]),
+                      Row(mainAxisAlignment: MainAxisAlignment.center,
+                          children:
+                          [IconButton(
+                            iconSize: height * 0.05,
+                            icon: Icon(FontAwesomeIcons.home),
+                            color: AppColors.darkBlue,
+                            onPressed: () =>  Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) => HomePage()),
+                            ),
+                          ),
+                            SizedBox(width: width*0.1),
+                            IconButton(
+                              iconSize: height * 0.045,
+                              icon: Icon(FontAwesomeIcons.redo),
+                              color: AppColors.darkBlue,
+                              onPressed: () => Navigator.pop(context),
+                            ),
+
+                          ])]),
               ),
             )));
   }

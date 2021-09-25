@@ -55,22 +55,6 @@ class UserAnswer {
   UserAnswer(this.questionIndex, this.chosenOptionIndex);
 }
 
-class QuizResult {
-  final String collectionPath;
-  final String userId;
-  final String userDisplayName;
-  final int score;
-  final int maxScore;
-  DateTime createdAt;
-
-  QuizResult(
-      {this.collectionPath,
-        this.userId,
-        this.userDisplayName,
-        this.score,
-        this.maxScore,
-        this.createdAt});
-}
 
 Quiz _createQuiz(String title, String collectionPath, tatcategory, List<Word> words) {
   final List<Question> questions = [];
@@ -86,14 +70,6 @@ Quiz _createQuiz(String title, String collectionPath, tatcategory, List<Word> wo
       title: title, collectionPath: collectionPath, tatcategory: tatcategory, questions: questions);
 }
 
-// String _hideWord(String word, String sentence) {
-//   final regex = RegExp(r'\pL', caseSensitive: false);
-//   final matches = regex.allMatches(sentence);
-//   for (final match in matches) {
-//     final matchedValue = match.group(0);
-//     if (!matchedValue.startsWith(word)) continue;
-//   }
-// }
 
 List<Option> _generateOptions(int correctWordIndex, List<Word> words) {
   final randomInts = _generateInts(0, words.length, 3, excluded: {correctWordIndex});

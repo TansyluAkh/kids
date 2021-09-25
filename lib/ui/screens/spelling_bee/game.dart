@@ -1,4 +1,4 @@
-import 'package:bebkeler/ui/screens/spelling_bee/soundgame_result.dart';
+import 'package:bebkeler/ui/screens/quiz/quiz_result_screen.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/ui/screens/home_screen.dart';
@@ -72,8 +72,8 @@ class _SpellingState extends State<Spelling> {
   }
 
   void onSkip() {
-    score = score - 1;
-   nextquestion;
+    setState(() { score = score - 1;});
+    nextquestion();
   }
 
   @override
@@ -90,7 +90,7 @@ class _SpellingState extends State<Spelling> {
         i++;
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => SoundGameResultScreen(
+          builder: (context) => QuizResultScreen(
             result: score,
             qnum: amtQuestions,
             tatcategory: widget.tatcategory,
@@ -126,7 +126,7 @@ class _SpellingState extends State<Spelling> {
     Navigator.of(context).pop();
     }
     else {Navigator.of(context).pushReplacement(MaterialPageRoute(
-    builder: (context) => SoundGameResultScreen(
+    builder: (context) => QuizResultScreen(
     result: score,
     qnum: amtQuestions,
     tatcategory: widget.tatcategory,
@@ -153,6 +153,7 @@ class _SpellingState extends State<Spelling> {
         return showDialog(
             context: context,
             builder: (context) => AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                   content: Text("Уеннан чыгырга мы?",  style: _style),
                   actions: <Widget>[
                     FlatButton(
@@ -206,7 +207,7 @@ class _SpellingState extends State<Spelling> {
         ),
         backgroundColor: AppColors.background,
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal:10, vertical: 30),
+          padding: EdgeInsets.symmetric(horizontal:4, vertical: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -227,8 +228,8 @@ class _SpellingState extends State<Spelling> {
         color: AppColors.background,
         iconSize: 65.0,
         onPressed: () async {
-          await player.setUrl(
-              'https://firebasestorage.googleapis.com/v0/b/bebkeler-89a5e.appspot.com/o/pronunciation_tt_%D1%80%D3%99%D1%85%D0%BC%D3%99%D1%82.mp3?alt=media&token=1fa2d250-afc6-4b27-be6e-e5660021531a');
+          print(widget.items[words[i]]);
+          await player.setUrl(widget.items[words[i]]);
           player.play();
         },
         tooltip: 'Киредән тыңлау өчен басыгыз',
@@ -240,8 +241,6 @@ class _SpellingState extends State<Spelling> {
                   },
                   textCapitalization: TextCapitalization.characters,
                   readOnly: true,
-                  cursorWidth: 3.0,
-                  cursorColor: AppColors.darkBlue,
                   maxLength: words[i].length,
                   showCursor: true,
                   textAlign: TextAlign.center,
