@@ -20,17 +20,10 @@ class QuizResultScreen extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     var s = capitalize(tatcategory);
     return Scaffold(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.background,
         body: Container(
             width: width,
             height: height,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/login_bg.jpg'),
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(Colors.black12, BlendMode.dstATop),
-              ),
-            ),
             // color: Colors.white,\child: Center(
             child: Padding(
               padding: const EdgeInsets.only(left: AppSpacing.defaultPadding, right:  AppSpacing.defaultPadding, top: 70, bottom: 20 ),
@@ -59,8 +52,8 @@ class QuizResultScreen extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      Image.network('https://s9.gifyu.com/images/duckpond.jpg',
-                          fit: BoxFit.contain, width: width * 0.7, height: height * 0.3),
+                      Image.network('https://urban.tatar/bebkeler/tatar/assets/biglogo.PNG',
+                          fit: BoxFit.contain, width: width*0.95, height: height * 0.35),
                       SizedBox(
                         height: 20,
                       ),

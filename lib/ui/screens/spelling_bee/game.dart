@@ -182,19 +182,19 @@ class _SpellingState extends State<Spelling> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          iconTheme: const IconThemeData(color: AppColors.darkBlue),
+          iconTheme: const IconThemeData(color: AppColors.orange),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
           ),
           systemOverlayStyle:
               const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-          backgroundColor: AppColors.element,
+          backgroundColor: Colors.transparent,
           centerTitle: true,
           title:   Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Text('$currentQuestion / $amtQuestions '+words[i],
+                Text('$currentQuestion / $amtQuestions ',
                     textAlign: TextAlign.center,
                     style: _style.copyWith(fontSize: 22)),
               Row(

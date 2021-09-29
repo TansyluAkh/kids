@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool loading = false;
-
+  var r = 'https://firebasestorage.googleapis.com/v0/b/bebkeler-89a5e.appspot.com/o/%D0%BE%D1%80%D0%B0%D0%BD%D0%B6%202.png?alt=media&token=92bd2bfa-6a96-4956-a605-2503adb22b64';
   @override
   Widget build(BuildContext context) {
     final categoryRepository = CategoryRepository.instance;
@@ -23,28 +23,23 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           iconTheme: const IconThemeData(
             color: AppColors.darkBlue, //change your color here
           ),
           centerTitle: true,
-          title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    mainAxisSize: MainAxisSize.max,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [Icon(Icons.home, color: AppColors.darkBlue, size: 35), Image.network('https://s9.gifyu.com/images/bebkelogos.png',
-    width: width * 0.4, height: height * 0.15, fit: BoxFit.contain),
-    IconButton(
+
+          title:
+      Padding( padding: EdgeInsets.only(left:10), child:ConstrainedBox( constraints: BoxConstraints.tightFor(height: height*0.08, width: width*0.45),child: Image.network(r,  fit:BoxFit.contain))),
+    leading: IconButton(
     icon: Icon(
     FontAwesomeIcons.info,
     color: AppColors.darkBlue,
     size: 30
     ),
     onPressed: () {Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => AboutScreen()));})]),
+        builder: (context) => AboutScreen()));}),
           systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
-          ),
           backgroundColor: Colors.transparent,
           // Colors.white.withOpacity(0.1),
           elevation: 0,

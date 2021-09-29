@@ -26,9 +26,9 @@ class OptionCard extends StatelessWidget {
       case OptionState.Disabled:
         return AppColors.element;
       case OptionState.Wrong:
-        return AppColors.orange;
+        return AppColors.red;
       case OptionState.Correct:
-        return AppColors.green;
+        return AppColors.darkBlue;
     }
   }
 
@@ -36,11 +36,11 @@ class OptionCard extends StatelessWidget {
     switch (state) {
       case OptionState.Default:
       case OptionState.Disabled:
-        return Colors.transparent;
+        return AppColors.orange.withOpacity(0.1);
       case OptionState.Wrong:
-        return Colors.transparent;
+        return AppColors.red.withOpacity(0.2);
       case OptionState.Correct:
-        return Colors.transparent;
+        return AppColors.darkBlue.withOpacity(0.2);
     }
   }
 
@@ -48,7 +48,7 @@ class OptionCard extends StatelessWidget {
     Color color;
     switch (state) {
       case OptionState.Default:
-        color = AppColors.black;
+        color = AppColors.orange;
         break;
       case OptionState.Disabled:
         color = AppColors.lightGray;
@@ -57,7 +57,7 @@ class OptionCard extends StatelessWidget {
         color = AppColors.red;
         break;
       case OptionState.Correct:
-        color = AppColors.green;
+        color = AppColors.darkBlue;
         break;
     }
 
@@ -78,8 +78,8 @@ class OptionCard extends StatelessWidget {
         elevation: 0,
         color: getBackgroundColor(),
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-            side: BorderSide(color: getBorderColor(), width: 2)),
+            borderRadius: BorderRadius.circular(105)),
+            //side: BorderSide(color: getBorderColor(), width: 1)),
         child: Padding(
           padding: EdgeInsets.all(AppSpacing.defaultPadding),
           child: Stack(
@@ -87,10 +87,6 @@ class OptionCard extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (option.imageUrl != null)
-                    Image(
-                      image: NetworkImage(option.imageUrl),
-                    ),
                   if (option.text != null && option.imageUrl != null)
                     const SizedBox(
                       height: 5,

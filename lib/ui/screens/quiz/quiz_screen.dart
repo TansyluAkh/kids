@@ -31,12 +31,12 @@ class QuizScreen extends View<QuizViewModel> {
     return AppBar(
       elevation: 0,
       iconTheme: const IconThemeData(
-          color: AppColors.darkBlue),
+          color: AppColors.orange),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
       ),
       systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-      backgroundColor: AppColors.element,
+      backgroundColor: Colors.transparent,
       centerTitle: true,
       title: Text((viewModel.currentQuestionIndex+1).toString()+' / '+ viewModel.quiz.questions.length.toString(),
           textAlign: TextAlign.center,
@@ -44,7 +44,7 @@ class QuizScreen extends View<QuizViewModel> {
             fontWeight: FontWeight.bold,
             fontFamily: "Montserrat",
             fontSize: 22,
-            color: AppColors.darkBlue,
+            color: AppColors.orange,
           )),
     );
   }
@@ -121,7 +121,7 @@ class QuizScreen extends View<QuizViewModel> {
     return IconButton(
       icon: Icon(FontAwesomeIcons.arrowCircleRight),
           iconSize: height*0.07,
-          color: AppColors.darkBlue,
+          color: AppColors.orange,
           onPressed: onTap,
         );
   }
@@ -153,7 +153,7 @@ class QuizScreen extends View<QuizViewModel> {
         shrinkWrap: true,
         crossAxisCount: 2,
         crossAxisSpacing: 5,
-        childAspectRatio: 2.5 / 1,
+        childAspectRatio: 2 / 1,
         mainAxisSpacing: 5,
         children: optionCards);
   }

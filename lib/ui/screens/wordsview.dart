@@ -26,7 +26,7 @@ class _WordsPageState extends State<WordsPage> {
         backgroundColor: AppColors.background,
         appBar: AppBar(
           iconTheme: IconThemeData(
-            color: AppColors.element, //change your color here
+            color: AppColors.orange, //change your color here
           ),
           centerTitle: false,
           title: Text(capitalize(widget.title),
