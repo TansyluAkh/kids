@@ -48,6 +48,7 @@ class _SwiperState extends State<Swiper> {
         ),
         body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           VxSwiper.builder(
+            scrollPhysics: ClampingScrollPhysics(),
             itemCount: widget.items.length,
             autoPlay: false,
             enableInfiniteScroll: true,

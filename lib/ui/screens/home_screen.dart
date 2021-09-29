@@ -1,8 +1,10 @@
 import 'package:bebkeler/core/categories/category_repository.dart';
+import 'package:bebkeler/ui/screens/aboutus.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/ui/components/maincategorycard.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'wordsview.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,9 +27,20 @@ class _HomePageState extends State<HomePage> {
             color: AppColors.darkBlue, //change your color here
           ),
           centerTitle: true,
-          title:  Image.network('https://s9.gifyu.com/images/indigo1.png',
-              width: width * 0.35, height: height * 0.12, fit: BoxFit.contain),
-         leading: Icon(Icons.home, size: height*0.05),
+          title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    mainAxisSize: MainAxisSize.max,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [Icon(Icons.home, color: AppColors.darkBlue, size: 35), Image.network('https://s9.gifyu.com/images/bebkelogos.png',
+    width: width * 0.4, height: height * 0.15, fit: BoxFit.contain),
+    IconButton(
+    icon: Icon(
+    FontAwesomeIcons.info,
+    color: AppColors.darkBlue,
+    size: 30
+    ),
+    onPressed: () {Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => AboutScreen()));})]),
           systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
