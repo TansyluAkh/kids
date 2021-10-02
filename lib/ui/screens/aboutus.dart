@@ -88,7 +88,7 @@ class AboutScreen extends StatelessWidget {
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
   Widget getelem(texter) {
-    var split = texter.split('\n').map((i) {
+    List<Widget> split = texter.split('\n').map((i) {
       if (i == "") {
         return Divider();
       } else {
@@ -100,6 +100,7 @@ class AboutScreen extends StatelessWidget {
           style: TextStyle(
               color: AppColors.black, fontSize: 18));
         }}).toList();
+    print(split);
     var displayElement = Column(children: split);
     return displayElement;
   }

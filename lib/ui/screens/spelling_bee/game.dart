@@ -50,6 +50,7 @@ class _SpellingState extends State<Spelling> {
     amtQuestions = widget.items != null? widget.items.length:0;
     words = widget.items.keys.toList();
     words.shuffle();
+
   }
 
   void onpressedButton(String k) {
@@ -83,12 +84,12 @@ class _SpellingState extends State<Spelling> {
     }
   }
 
-  void nextquestion() {
-    setState(() {
+  void nextquestion() async {
+    setState((){
       if (i < amtQuestions - 1) {
         currentQuestion++;
-        i++;
-      } else {
+        i++;}
+      else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => QuizResultScreen(
             result: score,
@@ -98,6 +99,8 @@ class _SpellingState extends State<Spelling> {
         ));
       }
     });
+    try {await player.setUrl(widget.items[words[i]]);
+    } on Exception catch (_){('no audio');}
   }
 
   void checkanswer(screenheight, screenwidth) {
@@ -118,7 +121,10 @@ class _SpellingState extends State<Spelling> {
                 child:
            IconButton(icon: Icon(Icons.arrow_forward_ios_rounded, size:  screenheight*0.035, color: iscorrect? AppColors.darkBlue: AppColors.white),
               onPressed:
-                  () {
+                  () async {
+                    if (i < amtQuestions - 1){
+                    try {await player.setUrl(widget.items[words[i+1]]);
+                    } on Exception catch (_){('no audio');}}
              setState(() {
     if (i < amtQuestions - 1) {
     currentQuestion++;
@@ -228,8 +234,9 @@ class _SpellingState extends State<Spelling> {
         color: AppColors.background,
         iconSize: 65.0,
         onPressed: () async {
+          try {await player.setUrl(widget.items[words[i]]);
+          } on Exception catch (_){('no audio');}
           print(widget.items[words[i]]);
-          await player.setUrl(widget.items[words[i]]);
           player.play();
         },
         tooltip: 'Киредән тыңлау өчен басыгыз',

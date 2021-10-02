@@ -21,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var r = 'https://s9.gifyu.com/images/green3873f83d7cfa4490.png';
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -31,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
         Center(
             child: Image(
-              image: NetworkImage('https://s9.gifyu.com/images/indigo1.png'),
+              image: NetworkImage(r),
               height: height * 0.35,
               width: width*0.6,
             ),

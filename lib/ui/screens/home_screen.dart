@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool loading = false;
-  var r = 'https://firebasestorage.googleapis.com/v0/b/bebkeler-89a5e.appspot.com/o/%D0%BE%D1%80%D0%B0%D0%BD%D0%B6%202.png?alt=media&token=92bd2bfa-6a96-4956-a605-2503adb22b64';
+  var r = 'https://s9.gifyu.com/images/green3873f83d7cfa4490.png';
   @override
   Widget build(BuildContext context) {
     final categoryRepository = CategoryRepository.instance;
