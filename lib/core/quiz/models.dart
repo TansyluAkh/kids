@@ -57,6 +57,7 @@ class UserAnswer {
 
 
 Quiz _createQuiz(String title, String collectionPath, tatcategory, List<Word> words) {
+  words.shuffle();
   final List<Question> questions = [];
   for (int i = 0; i < words.length; i++) {
     questions.add(Question(

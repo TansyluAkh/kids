@@ -24,6 +24,7 @@ class _WordsPageState extends State<WordsPage> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: AppColors.background,
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
           iconTheme: IconThemeData(
             color: AppColors.orange, //change your color here
@@ -44,12 +45,19 @@ class _WordsPageState extends State<WordsPage> {
           elevation: 0,
         ),
         body: Container(
+              decoration: BoxDecoration(
+              image: DecorationImage(
+              image: NetworkImage('https://urban.tatar/bebkeler/tatar/assets/terrazo.jpg'),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.15), BlendMode.dstATop),
+              ),),
             child: FutureBuilder(
                 future: WordRepository.instance.getWord('categories/' + widget.name),
                 builder: (BuildContext context, AsyncSnapshot<List<Word>> text) {
                   print(text.data);
                   return text.data != null
                       ? Column(children: [
+                        SizedBox(height: height*0.12),
                           Expanded(
                             child: StaggeredGridView.countBuilder(
                               padding: EdgeInsets.all(20),
@@ -74,7 +82,7 @@ class _WordsPageState extends State<WordsPage> {
                                       },
                                       child: Container(
                                         padding: EdgeInsets.all(20),
-                                        height: index.isEven ? height * 0.15 : height * 0.18,
+                                        height: height * 0.15,
                                         decoration: BoxDecoration(
                                           color: AppColors.white,
                                           borderRadius: BorderRadius.circular(16),

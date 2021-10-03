@@ -26,8 +26,6 @@ dependencies:
   velocity_x:
   font_awesome_flutter:
   flutter_staggered_grid_view:
-  sign_in_with_apple: ^3.0.0
-  crypto: ^3.0.1
   flutter_signin_button: ^2.0.0
 dev_dependencies:
   flutter_lints: ^1.0.4
@@ -37,13 +35,12 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: false
-  image_path: "assets/icon/icon.png"
+  image_path: "assets/icon.png"
 
 flutter:
   uses-material-design: true
   assets:
     - assets/images/
-    - assets/images/buttons/
   fonts:
 
     - family: Montserrat

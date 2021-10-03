@@ -25,6 +25,7 @@ class _SwiperState extends State<Swiper> {
     var width = MediaQuery.of(context).size.width;
     List<Widget> arr = [];
     return Scaffold(
+      extendBodyBehindAppBar: true,
         backgroundColor: AppColors.background,
         appBar: AppBar(
           iconTheme: IconThemeData(
@@ -46,7 +47,14 @@ class _SwiperState extends State<Swiper> {
           // Colors.white.withOpacity(0.1),
           elevation: 0,
         ),
-        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        body:  Container(
+    height: height,
+    decoration: BoxDecoration(
+    image: DecorationImage(
+    image: NetworkImage('https://urban.tatar/bebkeler/tatar/assets/terrazo.jpg'),
+    fit: BoxFit.cover,
+    colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.15), BlendMode.dstATop),
+    ),), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           VxSwiper.builder(
             scrollPhysics: ClampingScrollPhysics(),
             itemCount: widget.items.length,
@@ -69,7 +77,7 @@ class _SwiperState extends State<Swiper> {
           SizedBox(height: height * 0.03),
           sliderbtn('Тыңлап\nуйна', Icons.music_note, 'playspelling', width,
               height, context, widget.items[element], widget.items)
-        ]));
+        ])));
   }
 
   Widget get_arr(height, width, item) {

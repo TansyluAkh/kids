@@ -46,7 +46,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           .headline5
                           .copyWith(color: AppColors.orange, fontWeight: FontWeight.bold)),
                   IconButton(icon: Icon(FontAwesomeIcons.volumeUp, color: AppColors.orange), onPressed: () async {
-                    await player.setUrl('https://firebasestorage.googleapis.com/v0/b/bebkeler-89a5e.appspot.com/o/pronunciation_tt_%D1%80%D3%99%D1%85%D0%BC%D3%99%D1%82.mp3?alt=media&token=1fa2d250-afc6-4b27-be6e-e5660021531a');
+                    await player.setUrl(widget.item.tatarAudio);
+                    print(widget.item.tatarAudio);
                     player.play();
                     },)]),
                   SizedBox(height: widget.height * 0.03),

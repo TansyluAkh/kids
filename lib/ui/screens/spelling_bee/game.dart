@@ -186,6 +186,7 @@ class _SpellingState extends State<Spelling> {
                 ));
       },
       child: Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
           elevation: 0,
           iconTheme: const IconThemeData(color: AppColors.orange),
@@ -212,7 +213,17 @@ class _SpellingState extends State<Spelling> {
               ])]),
         ),
         backgroundColor: AppColors.background,
-        body: Padding(
+        body:  Container(
+        height: screenheight,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+          image: NetworkImage('https://urban.tatar/bebkeler/tatar/assets/terrazo.jpg'),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+          Colors.black.withOpacity(0.15), BlendMode.dstATop),
+          ),
+          ),
+          child: Padding(
           padding: EdgeInsets.symmetric(horizontal:4, vertical: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -249,7 +260,7 @@ class _SpellingState extends State<Spelling> {
                   textCapitalization: TextCapitalization.characters,
                   readOnly: true,
                   maxLength: words[i].length,
-                  showCursor: true,
+                  showCursor: false,
                   textAlign: TextAlign.center,
                   autocorrect: false,
                   style: TextStyle(
@@ -296,14 +307,14 @@ class _SpellingState extends State<Spelling> {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: getkey('Ч С М И Т Җ Б Ю Ү'.split(' '), height, width,  TextAlign.center),
+                    children: getkey('Ч С М И Т Җ Б Ы Ү'.split(' '), height, width,  TextAlign.center),
                   ),
                   SizedBox(
                     height: 5.0,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: getkey('Э Я Й Ө Һ Ф Ъ Ь'.split(' '), height , width, TextAlign.center),
+                    children: getkey('Э Я Й Ө Һ Ф Ъ Ь Ю'.split(' '), height , width, TextAlign.center),
                   ),
                   SizedBox(
                     height: 5.0,
@@ -339,7 +350,7 @@ class _SpellingState extends State<Spelling> {
             ],
               ),
       ]),
-    )));
+    ))));
   }
 
   List<Widget> getkey(letters, height, width, textAlign) {

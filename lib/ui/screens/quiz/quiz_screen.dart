@@ -2,7 +2,6 @@ import 'package:bebkeler/core/quiz/models.dart';
 import 'package:bebkeler/infrastructure/mvvm/view.dart';
 import 'package:bebkeler/ui/screens/quiz/quiz_result_screen.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
-import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,14 +15,11 @@ class QuizScreen extends View<QuizViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      extendBody: true,
       backgroundColor: AppColors.white,
       appBar: backNavbar(context),
-      body: SafeArea(
-        child: Padding(
-          padding: AppSpacing.screenPadding,
-          child: body(context),
-        ),
-      ),
+      body:  body(context),
     );
   }
 
@@ -32,11 +28,8 @@ class QuizScreen extends View<QuizViewModel> {
       elevation: 0,
       iconTheme: const IconThemeData(
           color: AppColors.orange),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
-      ),
-      systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
       backgroundColor: Colors.transparent,
+      systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
       centerTitle: true,
       title: Text((viewModel.currentQuestionIndex+1).toString()+' / '+ viewModel.quiz.questions.length.toString(),
           textAlign: TextAlign.center,
@@ -52,7 +45,14 @@ class QuizScreen extends View<QuizViewModel> {
   Widget body(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return Column(
+    return Container(
+      height: height,
+        decoration: BoxDecoration(
+        image: DecorationImage(
+        image: NetworkImage('https://urban.tatar/bebkeler/tatar/assets/terrazo.jpg'),
+        fit: BoxFit.fill,
+        colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.15), BlendMode.dstATop))),
+        child:  Padding( padding: EdgeInsets.only(top: height*0.12, left: 10, right:10, bottom:10), child:Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
@@ -60,7 +60,6 @@ class QuizScreen extends View<QuizViewModel> {
           textAlign: TextAlign.center,
           style: TextStyle(color: AppColors.darkBlue, fontSize: 20, fontWeight: FontWeight.bold),
         ),
-
         Container( height: height*0.25,  child: optionGrid()),
     Container( height: height*0.2, child: Image.network(viewModel.currentQuestion.image, fit: BoxFit.contain)),
         Text(
@@ -72,7 +71,7 @@ class QuizScreen extends View<QuizViewModel> {
         nextButton(context, height),
         timeIndicator(),
       ],
-    );
+    )));
   }
 
   Widget timeIndicator() {
