@@ -45,19 +45,20 @@ class _WordsPageState extends State<WordsPage> {
           elevation: 0,
         ),
         body: Container(
-              decoration: BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
-              image: NetworkImage('https://urban.tatar/bebkeler/tatar/assets/terrazo.jpg'),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.15), BlendMode.dstATop),
-              ),),
+                image: NetworkImage('https://urban.tatar/bebkeler/tatar/assets/terrazo.jpg'),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.15), BlendMode.dstATop),
+              ),
+            ),
             child: FutureBuilder(
                 future: WordRepository.instance.getWord('categories/' + widget.name),
                 builder: (BuildContext context, AsyncSnapshot<List<Word>> text) {
                   print(text.data);
                   return text.data != null
                       ? Column(children: [
-                        SizedBox(height: height*0.12),
+                          SizedBox(height: height * 0.12),
                           Expanded(
                             child: StaggeredGridView.countBuilder(
                               padding: EdgeInsets.all(20),
@@ -71,14 +72,12 @@ class _WordsPageState extends State<WordsPage> {
                                       onTap: () {
                                         print('TAPPED GRIDWORD');
                                         var all_items = text.data;
-                                        var item = text.data[index];
-                                        all_items.remove(all_items[index]);
-                                        all_items.insert(0, item);
                                         print(all_items);
                                         print('ALL ITEMS');
                                         print(all_items[0].imageUrl);
                                         Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (context) => Swiper(items: all_items)));
+                                            builder: (context) =>
+                                                Swiper(startIndex: index, items: all_items)));
                                       },
                                       child: Container(
                                         padding: EdgeInsets.all(20),

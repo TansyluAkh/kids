@@ -12,6 +12,7 @@ class DetailsScreen extends StatefulWidget {
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
 }
+
 class _DetailsScreenState extends State<DetailsScreen> {
   AudioPlayer player;
   @override
@@ -25,6 +26,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     player.dispose();
     super.dispose();
   }
+
   Widget build(BuildContext context) {
     return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(70)),
@@ -37,28 +39,36 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                    Text(capitalize(widget.item.tatarWord),
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          .copyWith(color: AppColors.orange, fontWeight: FontWeight.bold)),
-                  IconButton(icon: Icon(FontAwesomeIcons.volumeUp, color: AppColors.orange), onPressed: () async {
-                    await player.setUrl(widget.item.tatarAudio);
-                    print(widget.item.tatarAudio);
-                    player.play();
-                    },)]),
+                        Text(capitalize(widget.item.tatarWord),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(color: AppColors.orange, fontWeight: FontWeight.bold)),
+                        IconButton(
+                          icon: Icon(FontAwesomeIcons.volumeUp, color: AppColors.orange),
+                          onPressed: () async {
+                            await player.setUrl(widget.item.tatarAudio);
+                            print(widget.item.tatarAudio);
+                            player.play();
+                          },
+                        )
+                      ]),
                   SizedBox(height: widget.height * 0.03),
-                  Text(widget.item.definition, style: Theme.of(context).textTheme.subtitle1.copyWith(color: AppColors.darkBlue), textAlign: TextAlign.center),
+                  Text(widget.item.definition,
+                      style:
+                          Theme.of(context).textTheme.subtitle1.copyWith(color: AppColors.darkBlue),
+                      textAlign: TextAlign.center),
                   SizedBox(height: widget.height * 0.01),
-                  Expanded(child:Align( alignment: Alignment.topCenter, child: Image.network(widget.item.imageUrl,
-                      fit: BoxFit.contain)),
-                  )])));
+                  Expanded(
+                    child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Image.network(widget.item.imageUrl, fit: BoxFit.contain)),
+                  )
+                ])));
   }
 
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
-
-
 }
