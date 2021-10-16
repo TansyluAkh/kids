@@ -71,11 +71,14 @@ class _SwiperState extends State<Swiper> {
                 height: height * 0.5,
                 viewportFraction: 0.9,
               ),
-              SizedBox(height: height * 0.03),
+              SizedBox(height: height * 0.02),
               sliderbtn('Квиз\nуйна', Icons.psychology, 'playquiz', width, height, context,
                   widget.items[elementIndex], widget.items),
-              SizedBox(height: height * 0.03),
+              SizedBox(height: height * 0.02),
               sliderbtn('Тыңлап\nуйна', Icons.music_note, 'playspelling', width, height, context,
+                  widget.items[elementIndex], widget.items),
+              SizedBox(height: height * 0.02),
+              sliderbtn('Тест', Icons.videogame_asset, 'test', width, height, context,
                   widget.items[elementIndex], widget.items)
             ])));
   }
