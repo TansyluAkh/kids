@@ -8,19 +8,16 @@ import 'package:velocity_x/velocity_x.dart';
 import 'details_screen.dart';
 
 class Swiper extends StatefulWidget {
-  final int startIndex;
+  int elementIndex;
   final List<Word> items;
 
-  const Swiper({Key key, this.startIndex, this.items}) : super(key: key);
+  Swiper({Key key, this.elementIndex, this.items}) : super(key: key);
 
   @override
-  _SwiperState createState() => _SwiperState(startIndex);
+  _SwiperState createState() => _SwiperState();
 }
 
 class _SwiperState extends State<Swiper> {
-  int elementIndex;
-
-  _SwiperState(startIndex) : elementIndex = startIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +32,7 @@ class _SwiperState extends State<Swiper> {
           ),
           systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
           centerTitle: true,
-          title: Text((elementIndex + 1).toString() + ' / ' + widget.items.length.toString(),
+          title: Text((widget.elementIndex + 1).toString() + ' / ' + widget.items.length.toString(),
               style:
                   TextStyle(fontSize: 22, color: AppColors.darkBlue, fontWeight: FontWeight.bold)),
           shape: RoundedRectangleBorder(
@@ -58,28 +55,29 @@ class _SwiperState extends State<Swiper> {
               VxSwiper.builder(
                 scrollPhysics: ClampingScrollPhysics(),
                 itemCount: widget.items.length,
+                initialPage: widget.elementIndex,
                 autoPlay: false,
                 enableInfiniteScroll: true,
                 onPageChanged: (index) {
                   setState(() {
-                    elementIndex = index;
+                    widget.elementIndex = index;
                   });
                 },
                 itemBuilder: (context, index) {
-                  return DetailsScreen(item: widget.items[elementIndex], height: height, width: width);
+                  return DetailsScreen(item: widget.items[index], height: height, width: width);
                 },
                 height: height * 0.5,
                 viewportFraction: 0.9,
               ),
               SizedBox(height: height * 0.02),
               sliderbtn('Квиз\nуйна', Icons.psychology, 'playquiz', width, height, context,
-                  widget.items[elementIndex], widget.items),
+                  widget.items[widget.elementIndex], widget.items),
               SizedBox(height: height * 0.02),
               sliderbtn('Тыңлап\nуйна', Icons.music_note, 'playspelling', width, height, context,
-                  widget.items[elementIndex], widget.items),
+                  widget.items[widget.elementIndex], widget.items),
               SizedBox(height: height * 0.02),
               sliderbtn('Тест', Icons.videogame_asset, 'test', width, height, context,
-                  widget.items[elementIndex], widget.items)
+                  widget.items[widget.elementIndex], widget.items)
             ])));
   }
 }
