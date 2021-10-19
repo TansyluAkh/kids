@@ -12,37 +12,23 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
-  provider:
-  flutter_spinkit:
   cloud_firestore:
-  firebase_auth:
   firebase_core:
-  google_sign_in:
   url_launcher:
-  flutter_launcher_icons:
   slider_button:
   just_audio:
   velocity_x:
   font_awesome_flutter:
   flutter_staggered_grid_view:
-  flutter_signin_button: ^2.0.0
 dev_dependencies:
-  flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
-
-flutter_icons:
-  android: true
-  ios: false
-  image_path: "assets/icon.png"
 
 flutter:
   uses-material-design: true
   assets:
     - assets/images/
   fonts:
-
     - family: Montserrat
       fonts:
           - asset: assets/fonts/Montserrat-Regular.ttf
