@@ -113,12 +113,10 @@ class _HomePageState extends State<HomePage> {
                                                                       (BuildContext context,
                                                                           int number) {
                                                                     return CategoryCard(
-                                                                      iconUrl: subs[number].imageUrl,
+                                                                      iconUrl:
+                                                                          subs[number].imageUrl,
                                                                       title: subs[number].title,
                                                                       onTap: () {
-                                                                        print('TAPPED SUBS' +
-                                                                            categories[number]
-                                                                                .name);
                                                                         Navigator.of(context).push(
                                                                             MaterialPageRoute(
                                                                                 builder: (context) => WordsPage(
