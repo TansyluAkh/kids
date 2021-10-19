@@ -77,7 +77,7 @@ class _WordsPageState extends State<WordsPage> {
                                         print(all_items[0].imageUrl);
                                         Navigator.of(context).push(MaterialPageRoute(
                                             builder: (context) =>
-                                                Swiper(elementIndex: index, items: all_items)));
+                                                Swiper(itemIndex: index, items: all_items)));
                                       },
                                       child: Container(
                                         padding: EdgeInsets.all(20),

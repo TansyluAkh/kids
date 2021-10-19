@@ -1,23 +1,29 @@
+import 'package:bebkeler/core/quiz/models.dart';
 import 'package:bebkeler/core/words/word.dart';
-import 'package:bebkeler/ui/components/sliderbtn.dart';
+import 'package:bebkeler/ui/components/slider_button.dart';
 import 'package:bebkeler/ui/screens/details_screen.dart';
+import 'package:bebkeler/ui/screens/quiz/quiz_screen.dart';
+import 'package:bebkeler/ui/screens/spelling_bee/game.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'details_screen.dart';
+import 'drag_and_drop/dnd_screen.dart';
 
 class Swiper extends StatefulWidget {
-  int elementIndex;
+  int itemIndex;
   final List<Word> items;
 
-  Swiper({Key key, this.elementIndex, this.items}) : super(key: key);
+  Swiper({Key key, this.itemIndex, this.items}) : super(key: key);
 
   @override
   _SwiperState createState() => _SwiperState();
 }
 
 class _SwiperState extends State<Swiper> {
+  Word get currentWord => widget.items[widget.itemIndex];
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -32,7 +38,7 @@ class _SwiperState extends State<Swiper> {
           ),
           systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
           centerTitle: true,
-          title: Text((widget.elementIndex + 1).toString() + ' / ' + widget.items.length.toString(),
+          title: Text((widget.itemIndex + 1).toString() + ' / ' + widget.items.length.toString(),
               style:
                   TextStyle(fontSize: 22, color: AppColors.darkBlue, fontWeight: FontWeight.bold)),
           shape: RoundedRectangleBorder(
@@ -55,12 +61,12 @@ class _SwiperState extends State<Swiper> {
               VxSwiper.builder(
                 scrollPhysics: ClampingScrollPhysics(),
                 itemCount: widget.items.length,
-                initialPage: widget.elementIndex,
+                initialPage: widget.itemIndex,
                 autoPlay: false,
                 enableInfiniteScroll: true,
                 onPageChanged: (index) {
                   setState(() {
-                    widget.elementIndex = index;
+                    widget.itemIndex = index;
                   });
                 },
                 itemBuilder: (context, index) {
@@ -70,14 +76,45 @@ class _SwiperState extends State<Swiper> {
                 viewportFraction: 0.9,
               ),
               SizedBox(height: height * 0.02),
-              sliderbtn('Квиз\nуйна', Icons.psychology, 'playquiz', width, height, context,
-                  widget.items[widget.elementIndex], widget.items),
+              SliderButton(
+                  label: 'Квиз\nуйна',
+                  icon: Icons.psychology,
+                  width: width,
+                  height: height,
+                  onSlide: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => QuizScreen(
+                                quiz: Quiz.fromSubcategory(
+                                    currentWord.subCategory,
+                                    currentWord.collectionPath,
+                                    currentWord.tatarCategory,
+                                    widget.items))),
+                      )),
               SizedBox(height: height * 0.02),
-              sliderbtn('Тыңлап\nуйна', Icons.music_note, 'playspelling', width, height, context,
-                  widget.items[widget.elementIndex], widget.items),
+              SliderButton(
+                label: 'Тыңлап\nуйна',
+                icon: Icons.music_note,
+                width: width,
+                height: height,
+                onSlide: () {
+                  Map<String, String> words_dict = {};
+                  for (final item in widget.items)
+                    words_dict[item.tatarWord] = item.tatarAudio;
+
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (text) =>
+                          Spelling(items: words_dict, tatCategory: currentWord.tatarCategory)));
+                },
+              ),
               SizedBox(height: height * 0.02),
-              sliderbtn('Тест', Icons.videogame_asset, 'test', width, height, context,
-                  widget.items[widget.elementIndex], widget.items)
+              SliderButton(
+                label: 'Тест',
+                icon: Icons.videogame_asset,
+                width: width,
+                height: height,
+                onSlide: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => DndTest(words: widget.items))),
+              )
             ])));
   }
 }
