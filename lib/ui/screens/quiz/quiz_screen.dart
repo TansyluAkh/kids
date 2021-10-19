@@ -19,19 +19,21 @@ class QuizScreen extends View<QuizViewModel> {
       extendBody: true,
       backgroundColor: AppColors.white,
       appBar: backNavbar(context),
-      body:  body(context),
+      body: body(context),
     );
   }
 
   Widget backNavbar(BuildContext context) {
     return AppBar(
       elevation: 0,
-      iconTheme: const IconThemeData(
-          color: AppColors.orange),
+      iconTheme: const IconThemeData(color: AppColors.orange),
       backgroundColor: Colors.transparent,
       systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
       centerTitle: true,
-      title: Text((viewModel.currentQuestionIndex+1).toString()+' / '+ viewModel.quiz.questions.length.toString(),
+      title: Text(
+          (viewModel.currentQuestionIndex + 1).toString() +
+              ' / ' +
+              viewModel.quiz.questions.length.toString(),
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
@@ -44,34 +46,39 @@ class QuizScreen extends View<QuizViewModel> {
 
   Widget body(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-    return Container(
-      height: height,
-        decoration: BoxDecoration(
-        image: DecorationImage(
-        image: NetworkImage('https://urban.tatar/bebkeler/tatar/assets/terrazo.jpg'),
-        fit: BoxFit.fill,
-        colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.15), BlendMode.dstATop))),
-        child:  Padding( padding: EdgeInsets.only(top: height*0.12, left: 10, right:10, bottom:10), child:Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text(
-          '„ ' + viewModel.currentQuestion.text + ' “',
-          textAlign: TextAlign.center,
-          style: TextStyle(color: AppColors.darkBlue, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        Container( height: height*0.25,  child: optionGrid()),
-    Container( height: height*0.2, child: Image.network(viewModel.currentQuestion.image, fit: BoxFit.contain)),
-        Text(
-          viewModel.currentQuestion.definition,
-          textAlign: TextAlign.center,
-          style: TextStyle(color: AppColors.darkBlue, fontSize: 16, fontWeight: FontWeight.bold),
-        ),
 
-        nextButton(context, height),
-        timeIndicator(),
-      ],
-    )));
+    return Container(
+        height: height,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage('https://urban.tatar/bebkeler/tatar/assets/terrazo.jpg'),
+                fit: BoxFit.fill,
+                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.15), BlendMode.dstATop))),
+        child: Padding(
+            padding: EdgeInsets.only(top: height * 0.12, left: 10, right: 10, bottom: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  '„ ' + viewModel.currentQuestion.text + ' “',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: AppColors.darkBlue, fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                Container(height: height * 0.25, child: optionGrid()),
+                Container(
+                    height: height * 0.2,
+                    child: Image.network(viewModel.currentQuestion.image, fit: BoxFit.contain)),
+                Text(
+                  viewModel.currentQuestion.definition,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: AppColors.darkBlue, fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                nextButton(context, height),
+                timeIndicator(),
+              ],
+            )));
   }
 
   Widget timeIndicator() {
@@ -91,7 +98,7 @@ class QuizScreen extends View<QuizViewModel> {
           ),
           Expanded(
               child: LinearProgressIndicator(
-                backgroundColor: AppColors.element,
+            backgroundColor: AppColors.element,
             value: viewModel.animation.value,
             minHeight: 5,
             color: AppColors.darkBlue,
@@ -107,9 +114,10 @@ class QuizScreen extends View<QuizViewModel> {
     if (viewModel.isLastStep) {
       onTap = () async {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-          return QuizResultScreen(tatcategory: viewModel.quiz.tatcategory,
-              result: countscore(),
-             qnum: viewModel.quiz.questions.length);
+          return QuizResultScreen(
+              tatCategory: viewModel.quiz.tatCategory,
+              result: viewModel.countScore(),
+              maxResult: viewModel.quiz.questions.length);
         }));
       };
     } else {
@@ -119,10 +127,10 @@ class QuizScreen extends View<QuizViewModel> {
     }
     return IconButton(
       icon: Icon(FontAwesomeIcons.arrowCircleRight),
-          iconSize: height*0.07,
-          color: AppColors.orange,
-          onPressed: onTap,
-        );
+      iconSize: height * 0.07,
+      color: AppColors.orange,
+      onPressed: onTap,
+    );
   }
 
   Widget optionGrid() {
@@ -156,15 +164,7 @@ class QuizScreen extends View<QuizViewModel> {
         mainAxisSpacing: 5,
         children: optionCards);
   }
+
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
-  int countscore(){
-    var correctAnswers = 0;
-    for (final answer in viewModel.userAnswers) {
-      final userOptionIndex = answer.chosenOptionIndex;
-      final correctOptionIndex =
-      viewModel.quiz.questions[answer.questionIndex].options.indexWhere((opt) => opt.isCorrect);
-      if (userOptionIndex == correctOptionIndex) correctAnswers++;
-    }
-    return correctAnswers;
-  }
+
 }

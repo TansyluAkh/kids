@@ -6,19 +6,19 @@ import 'package:flutter/foundation.dart';
 class Quiz {
   final String title;
   final String collectionPath;
-  final String tatcategory;
+  final String tatCategory;
   final List<Question> questions;
 
   Quiz({
     @required this.title,
     @required this.collectionPath,
-    @required this.tatcategory,
+    @required this.tatCategory,
     @required this.questions,
   });
 
   factory Quiz.fromSubcategory(
-      String title, String collectionPath, String tatcategory, List<Word> words) {
-    return _createQuiz(title, collectionPath, tatcategory, words);
+      String title, String collectionPath, String tatCategory, List<Word> words) {
+    return _createQuiz(title, collectionPath, tatCategory, words);
   }
 }
 
@@ -56,7 +56,7 @@ class UserAnswer {
 }
 
 
-Quiz _createQuiz(String title, String collectionPath, tatcategory, List<Word> words) {
+Quiz _createQuiz(String title, String collectionPath, tatCategory, List<Word> words) {
   words.shuffle();
   final List<Question> questions = [];
   for (int i = 0; i < words.length; i++) {
@@ -68,7 +68,7 @@ Quiz _createQuiz(String title, String collectionPath, tatcategory, List<Word> wo
   }
 
   return Quiz(
-      title: title, collectionPath: collectionPath, tatcategory: tatcategory, questions: questions);
+      title: title, collectionPath: collectionPath, tatCategory: tatCategory, questions: questions);
 }
 
 

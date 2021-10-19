@@ -67,7 +67,19 @@ class QuizViewModel extends ViewModel with SingleTickerProviderViewModelMixin {
     secondsLeft--;
   }
 
+  int countScore() {
+    var correctAnswers = 0;
 
+    for (final answer in userAnswers) {
+      final userOptionIndex = answer.chosenOptionIndex;
+      final correctOptionIndex =
+          quiz.questions[answer.questionIndex].options.indexWhere((opt) => opt.isCorrect);
+
+      if (userOptionIndex == correctOptionIndex) correctAnswers++;
+    }
+
+    return correctAnswers;
+  }
 
   @override
   void dispose() {

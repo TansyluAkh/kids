@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class WordsPage extends StatefulWidget {
-  final name;
-  final title;
+  final String name;
+  final String title;
 
   WordsPage({Key key, @required this.name, @required this.title}) : super(key: key);
 
@@ -21,7 +21,7 @@ class _WordsPageState extends State<WordsPage> {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+
     return Scaffold(
         backgroundColor: AppColors.background,
         extendBodyBehindAppBar: true,

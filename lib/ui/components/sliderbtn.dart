@@ -27,7 +27,7 @@ Widget sliderbtn(label, icon, action, width, height, context, element, items) {
       });
       print(words_dict);
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (text) => Spelling(items: words_dict, tatcategory: element.tatarCategory)));
+          builder: (text) => Spelling(items: words_dict, tatCategory: element.tatarCategory)));
     };
   }
   else {

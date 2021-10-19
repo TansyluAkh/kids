@@ -2,18 +2,18 @@ import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class GameModeCard extends StatelessWidget {
-  final title;
-  final description;
-  final icon;
-  final onTap;
-  final name;
-  GameModeCard({this.title, this.name, this.description, this.icon, this.onTap});
+class CategoryCard extends StatelessWidget {
+  final String title;
+  final String iconUrl;
+  final Function() onTap;
+  final String name;
+
+  CategoryCard({this.title, this.name, this.iconUrl, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+
     return Padding(
         padding: EdgeInsets.only(right: 10, top: 5),
         child: InkWell(
@@ -33,7 +33,7 @@ class GameModeCard extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                           child: Image.network(
-                        icon,
+                        iconUrl,
                         fit: BoxFit.contain,
                         errorBuilder:
                             (BuildContext context, Object exception, StackTrace stackTrace) {

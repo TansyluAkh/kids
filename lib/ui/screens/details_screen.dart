@@ -1,3 +1,4 @@
+import 'package:bebkeler/core/words/word.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
@@ -5,10 +6,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:just_audio/just_audio.dart';
 
 class DetailsScreen extends StatefulWidget {
-  final item;
-  final width;
-  final height;
+  final Word item;
+  final double width;
+  final double height;
+
   const DetailsScreen({Key key, this.item, this.height, this.width}) : super(key: key);
+
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
 }
