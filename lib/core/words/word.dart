@@ -39,7 +39,7 @@ class Word {
       imageName: map['image'].toString(),
       imageUrl: map['image_url'].toString(),
       tatarWord: map['tatword'].toString(),
-      tatarCategory: map['tatCategory'].toString(),
+      tatarCategory: map['tatcategory'].toString(),
       tatarAudio: map['audio1'].toString(),
       russianAudio: map['audio2'].toString(),
     );

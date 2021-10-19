@@ -21,7 +21,7 @@ Widget sliderbtn(label, icon, action, width, height, context, element, items) {
     };
   } else if (action == 'playspelling') {
     onSlide = () {
-      var words_dict = {};
+      Map<String, String> words_dict = {};
       items.forEach((e) {
         words_dict[e.tatarWord] = e.tatarAudio;
       });

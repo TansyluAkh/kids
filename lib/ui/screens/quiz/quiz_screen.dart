@@ -112,7 +112,7 @@ class QuizScreen extends View<QuizViewModel> {
     if (!viewModel.isAnswered) return const SizedBox();
     Function() onTap;
     if (viewModel.isLastStep) {
-      onTap = () async {
+      onTap = () {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
           return QuizResultScreen(
               tatCategory: viewModel.quiz.tatCategory,
