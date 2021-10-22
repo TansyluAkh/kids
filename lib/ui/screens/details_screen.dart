@@ -10,19 +10,15 @@ class DetailsScreen extends StatefulWidget {
   final double width;
   final double height;
 
-  const DetailsScreen({Key key, this.item, this.height, this.width}) : super(key: key);
+  const DetailsScreen({Key? key, required this.item, required this.height, required this.width})
+      : super(key: key);
 
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  AudioPlayer player;
-  @override
-  void initState() {
-    super.initState();
-    player = AudioPlayer();
-  }
+  AudioPlayer player = new AudioPlayer();
 
   @override
   void dispose() {
@@ -49,7 +45,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5
-                                .copyWith(color: AppColors.orange, fontWeight: FontWeight.bold)),
+                                ?.copyWith(color: AppColors.orange, fontWeight: FontWeight.bold)),
                         IconButton(
                           icon: Icon(FontAwesomeIcons.volumeUp, color: AppColors.orange),
                           onPressed: () async {
@@ -61,8 +57,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ]),
                   SizedBox(height: widget.height * 0.03),
                   Text(widget.item.definition,
-                      style:
-                          Theme.of(context).textTheme.subtitle1.copyWith(color: AppColors.darkBlue),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          ?.copyWith(color: AppColors.darkBlue),
                       textAlign: TextAlign.center),
                   SizedBox(height: widget.height * 0.01),
                   Expanded(

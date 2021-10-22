@@ -12,11 +12,11 @@ class QuizViewModel extends ViewModel with SingleTickerProviderViewModelMixin {
   int currentQuestionIndex;
 
   int secondsLeft;
-  AnimationController animationController;
-  Animation<double> animation;
-  Timer _timer;
+  late AnimationController animationController;
+  late Animation<double> animation;
+  late Timer _timer;
 
-  QuizViewModel({@required this.quiz})
+  QuizViewModel({required this.quiz})
       : userAnswers = [],
         secondsLeft = secondsPerQuestion,
         currentQuestionIndex = 0;
@@ -35,7 +35,7 @@ class QuizViewModel extends ViewModel with SingleTickerProviderViewModelMixin {
   bool get isAnswered =>
       userAnswers.indexWhere((el) => el.questionIndex == currentQuestionIndex) != -1;
   UserAnswer get currentAnswer =>
-      userAnswers.firstWhere((el) => el.questionIndex == currentQuestionIndex, orElse: () => null);
+      userAnswers.firstWhere((el) => el.questionIndex == currentQuestionIndex);
 
   void answer(int chosenOptionIndex) {
     if (isAnswered) return;

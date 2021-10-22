@@ -10,7 +10,9 @@ class QuizResultScreen extends StatelessWidget {
   final int result;
   final int maxResult;
 
-  const QuizResultScreen({Key key, this.tatCategory, this.maxResult, this.result}) : super(key: key);
+  const QuizResultScreen(
+      {Key? key, required this.tatCategory, required this.maxResult, required this.result})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

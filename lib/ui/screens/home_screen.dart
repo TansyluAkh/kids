@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
                               Expanded(
                                   child: ListView.builder(
                                       padding: EdgeInsets.only(top: 10, bottom: 10),
-                                      itemCount: categories != null ? categories.length : 1,
+                                      itemCount: categories.length,
                                       scrollDirection: Axis.vertical,
                                       shrinkWrap: true,
                                       physics: ScrollPhysics(),
@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .headline6
-                                                          .copyWith(
+                                                          ?.copyWith(
                                                               color: AppColors.darkBlue,
                                                               fontWeight: FontWeight.bold),
                                                     ),
@@ -104,9 +104,7 @@ class _HomePageState extends State<HomePage> {
                                                         return subs != null
                                                             ? Expanded(
                                                                 child: ListView.builder(
-                                                                  itemCount: categories != null
-                                                                      ? subs.length
-                                                                      : 1,
+                                                                  itemCount: subs.length,
                                                                   shrinkWrap: true,
                                                                   scrollDirection: Axis.horizontal,
                                                                   itemBuilder:

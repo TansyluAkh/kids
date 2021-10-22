@@ -9,7 +9,7 @@ class Spelling extends StatefulWidget {
   final Map<String, String> items;
   final String tatCategory;
 
-  const Spelling({Key key, this.items, this.tatCategory}) : super(key: key);
+  const Spelling({Key? key, required this.items, required this.tatCategory}) : super(key: key);
 
   @override
   _SpellingState createState() => _SpellingState();
@@ -21,7 +21,7 @@ class _SpellingState extends State<Spelling> {
   int score = 0;
   int i = 0;
   bool isCorrect = false;
-  String chosenAnswer;
+  String? chosenAnswer;
   int currentQuestion = 1;
   final double height = 35.0;
   final double width = 35.0;
@@ -37,17 +37,14 @@ class _SpellingState extends State<Spelling> {
   );
 
   final TextEditingController _textController = TextEditingController();
-  AudioPlayer player;
+  AudioPlayer player = AudioPlayer();
   int amtQuestions = 0;
-  List words = [];
+  List<String> words = [];
 
   get result => buttonColor;
 
-  @override
-  void initState() {
-    super.initState();
-    player = AudioPlayer();
-    amtQuestions = widget.items != null ? widget.items.length : 0;
+  _SpellingState() {
+    amtQuestions = widget.items.length;
     words = widget.items.keys.toList();
     words.shuffle();
   }
@@ -100,7 +97,7 @@ class _SpellingState extends State<Spelling> {
       }
     });
     try {
-      await player.setUrl(widget.items[words[i]]);
+      await player.setUrl(widget.items[words[i]]!);
     } on Exception catch (_) {
       ('no audio');
     }
@@ -108,13 +105,12 @@ class _SpellingState extends State<Spelling> {
 
   void checkAnswer(double screenHeight, double screenWidth) {
     print(chosenAnswer);
-    if (chosenAnswer.toLowerCase() == words[i].toLowerCase()) {
+    if (chosenAnswer?.toLowerCase() == words[i].toLowerCase()) {
       score = score + 1;
       isCorrect = true;
     } else {
       isCorrect = false;
     }
-    ;
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -123,7 +119,7 @@ class _SpellingState extends State<Spelling> {
                     ? AppColors.element.withOpacity(0.8)
                     : AppColors.orange.withOpacity(0.8),
                 content: isCorrect
-                    ? Text("Җавабың дөрес - ${chosenAnswer.toUpperCase()}!",
+                    ? Text("Җавабың дөрес - ${chosenAnswer?.toUpperCase()}!",
                         style: TextStyle(color: AppColors.darkBlue, fontSize: 20))
                     : Text("Җавабың ялгыш, дөресе - ${words[i].toUpperCase()} ",
                         style: TextStyle(color: AppColors.white, fontSize: 20)),
@@ -137,7 +133,7 @@ class _SpellingState extends State<Spelling> {
                           onPressed: () async {
                             if (i < amtQuestions - 1) {
                               try {
-                                await player.setUrl(widget.items[words[i + 1]]);
+                                await player.setUrl(widget.items[words[i + 1]]!);
                               } on Exception catch (_) {
                                 ('no audio');
                               }
@@ -173,30 +169,31 @@ class _SpellingState extends State<Spelling> {
     var screenWidth = MediaQuery.of(context).size.width;
 
     return WillPopScope(
-        onWillPop: () {
-          return showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                    content: Text("Уеннан чыгырга мы?", style: _style),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('Юк', style: _style),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (BuildContext context) => HomePage()),
-                            ModalRoute.withName('/'),
-                          );
-                        },
-                        child: Text('Әйе', style: _style),
-                      )
-                    ],
-                  ));
+        onWillPop: () async {
+          return await showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                        content: Text("Уеннан чыгырга мы?", style: _style),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Юк', style: _style),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(builder: (BuildContext context) => HomePage()),
+                                ModalRoute.withName('/'),
+                              );
+                            },
+                            child: Text('Әйе', style: _style),
+                          )
+                        ],
+                      )) ??
+              false;
         },
         child: Scaffold(
             extendBodyBehindAppBar: true,
@@ -265,7 +262,7 @@ class _SpellingState extends State<Spelling> {
                               iconSize: 65.0,
                               onPressed: () async {
                                 try {
-                                  await player.setUrl(widget.items[words[i]]);
+                                  await player.setUrl(widget.items[words[i]]!);
                                 } on Exception catch (_) {
                                   ('no audio');
                                 }

@@ -9,7 +9,13 @@ class SliderButton extends StatelessWidget {
   final double height;
   final double width;
 
-  const SliderButton({Key key, this.label, this.icon, this.onSlide, this.width, this.height})
+  const SliderButton(
+      {Key? key,
+      required this.label,
+      required this.icon,
+      required this.onSlide,
+      required this.width,
+      required this.height})
       : super(key: key);
 
   @override

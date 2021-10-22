@@ -4,7 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
 mixin SingleTickerProviderViewModelMixin on ViewModel implements TickerProvider {
-  Ticker _ticker;
+  Ticker? _ticker;
 
   @override
   Ticker createTicker(TickerCallback onTick) {
@@ -27,13 +27,13 @@ mixin SingleTickerProviderViewModelMixin on ViewModel implements TickerProvider 
       );
     }());
     _ticker = Ticker(onTick, debugLabel: kDebugMode ? 'created by $this' : null);
-    return _ticker;
+    return _ticker!;
   }
 
   @override
   void dispose() {
     assert(() {
-      if (_ticker == null || !_ticker.isActive) return true;
+      if (_ticker == null || !_ticker!.isActive) return true;
       throw FlutterError.fromParts(
         <DiagnosticsNode>[
           ErrorSummary(
@@ -49,7 +49,7 @@ mixin SingleTickerProviderViewModelMixin on ViewModel implements TickerProvider 
             'should be disposed by calling dispose() on the AnimationController itself. '
             'Otherwise, the ticker will leak.',
           ),
-          _ticker.describeForError('The offending ticker was'),
+          _ticker!.describeForError('The offending ticker was'),
         ],
       );
     }());
@@ -108,7 +108,7 @@ class _WidgetTicker extends Ticker {
   _WidgetTicker(
     TickerCallback onTick,
     this._creator, {
-    String debugLabel,
+    String? debugLabel,
   }) : super(
           onTick,
           debugLabel: debugLabel,

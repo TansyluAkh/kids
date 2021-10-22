@@ -1,7 +1,6 @@
 ﻿import 'dart:math';
 
 import 'package:bebkeler/core/words/word.dart';
-import 'package:flutter/foundation.dart';
 
 class Quiz {
   final String title;
@@ -10,10 +9,10 @@ class Quiz {
   final List<Question> questions;
 
   Quiz({
-    @required this.title,
-    @required this.collectionPath,
-    @required this.tatCategory,
-    @required this.questions,
+    required this.title,
+    required this.collectionPath,
+    required this.tatCategory,
+    required this.questions,
   });
 
   factory Quiz.fromSubcategory(
@@ -25,24 +24,24 @@ class Quiz {
 class Question {
   final String text;
   final String definition;
-  final String image;
+  final String imageUrl;
   final List<Option> options;
 
   Question({
-    @required this.text,
-    @required this.definition,
-    @required this.image,
-    @required this.options,
+    required this.text,
+    required this.definition,
+    required this.imageUrl,
+    required this.options,
   });
 }
 
 class Option {
   final String text;
-  final String imageUrl;
+  final String? imageUrl;
   final bool isCorrect;
 
   Option({
-    this.text,
+    required this.text,
     this.imageUrl,
     this.isCorrect = false,
   });
@@ -62,7 +61,7 @@ Quiz _createQuiz(String title, String collectionPath, tatCategory, List<Word> wo
   for (int i = 0; i < words.length; i++) {
     questions.add(Question(
         text: words[i].sentence,
-        image: words[i].imageUrl,
+        imageUrl: words[i].imageUrl,
         definition: words[i].definition,
         options: _generateOptions(i, words)));
   }
@@ -90,7 +89,7 @@ List<Option> _generateOptions(int correctWordIndex, List<Word> words) {
 
 // It probably can go infinity loop if all numbers are excluded from range.
 // TODO Consider fix this. Or hope for the best.
-List<int> _generateInts(int min, int max, int amount, {Set<int> excluded}) {
+List<int> _generateInts(int min, int max, int amount, {Set<int>? excluded}) {
   excluded ??= Set();
   final List<int> result = [];
   final random = Random();

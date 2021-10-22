@@ -10,13 +10,13 @@ class OptionCard extends StatelessWidget {
   final Option option;
   final OptionState state;
   final bool isSelected;
-  final Function() onTap;
+  final Function()? onTap;
 
   const OptionCard({
-    Key key,
-    @required this.option,
-    @required this.isSelected,
-    @required this.onTap,
+    Key? key,
+    required this.option,
+    required this.isSelected,
+    this.onTap,
     this.state = OptionState.Default,
   }) : super(key: key);
 
@@ -64,7 +64,7 @@ class OptionCard extends StatelessWidget {
     return TextStyle(color: color, fontSize: 18);
   }
 
-  IconData getIcon() {
+  IconData? getIcon() {
     if (isSelected) {
       return option.isCorrect ? Icons.done : Icons.close;
     }
@@ -87,11 +87,10 @@ class OptionCard extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (option.text != null && option.imageUrl != null)
+                  if (option.imageUrl != null)
                     const SizedBox(
                       height: 5,
                     ),
-                  if (option.text != null)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

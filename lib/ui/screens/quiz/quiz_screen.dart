@@ -10,7 +10,7 @@ import 'quiz_view_model.dart';
 import 'option_card.dart';
 
 class QuizScreen extends View<QuizViewModel> {
-  QuizScreen({Key key, Quiz quiz}) : super(key: key, viewModel: QuizViewModel(quiz: quiz));
+  QuizScreen({Key? key, required Quiz quiz}) : super(key: key, viewModel: QuizViewModel(quiz: quiz));
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class QuizScreen extends View<QuizViewModel> {
     );
   }
 
-  Widget backNavbar(BuildContext context) {
+  AppBar backNavbar(BuildContext context) {
     return AppBar(
       elevation: 0,
       iconTheme: const IconThemeData(color: AppColors.orange),
@@ -68,7 +68,7 @@ class QuizScreen extends View<QuizViewModel> {
                 Container(height: height * 0.25, child: optionGrid()),
                 Container(
                     height: height * 0.2,
-                    child: Image.network(viewModel.currentQuestion.image, fit: BoxFit.contain)),
+                    child: Image.network(viewModel.currentQuestion.imageUrl, fit: BoxFit.contain)),
                 Text(
                   viewModel.currentQuestion.definition,
                   textAlign: TextAlign.center,

@@ -15,7 +15,7 @@ class Swiper extends StatefulWidget {
   int itemIndex;
   final List<Word> items;
 
-  Swiper({Key key, this.itemIndex, this.items}) : super(key: key);
+  Swiper({Key? key, required this.itemIndex, required this.items}) : super(key: key);
 
   @override
   _SwiperState createState() => _SwiperState();
@@ -98,8 +98,7 @@ class _SwiperState extends State<Swiper> {
                 height: height,
                 onSlide: () {
                   Map<String, String> words_dict = {};
-                  for (final item in widget.items)
-                    words_dict[item.tatarWord] = item.tatarAudio;
+                  for (final item in widget.items) words_dict[item.tatarWord] = item.tatarAudio;
 
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (text) =>

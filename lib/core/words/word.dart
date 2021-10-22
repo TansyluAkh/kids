@@ -15,18 +15,18 @@ class Word {
   String get collectionPath => category + '_' + subCategory;
 
   Word(
-      {this.word,
-      this.definition,
-      this.sentence,
-      this.answer,
-      this.category,
-      this.subCategory,
-      this.imageName,
-      this.imageUrl,
-      this.tatarWord,
-      this.tatarCategory,
-      this.tatarAudio,
-      this.russianAudio});
+      {required this.word,
+      required this.definition,
+      required this.sentence,
+      required this.answer,
+      required this.category,
+      required this.subCategory,
+      required this.imageName,
+      required this.imageUrl,
+      required this.tatarWord,
+      required this.tatarCategory,
+      required this.tatarAudio,
+      required this.russianAudio});
 
   static Word fromMap(Map<String, dynamic> map) {
     return Word(

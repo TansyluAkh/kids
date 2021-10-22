@@ -26,9 +26,7 @@ class DndViewModel extends ViewModel {
   makeMatch(Word lhs, Word rhs) {
     final pair = wordMatches.firstWhere((w) => w.word.word == lhs.word);
 
-    if (pair == null) {
-      return;
-    } else if (lhs.word == rhs.word) {
+    if (lhs.word == rhs.word) {
       pair.match = Match.correct;
       words.removeFirst();
     } else {

@@ -6,9 +6,8 @@ class CategoryCard extends StatelessWidget {
   final String title;
   final String iconUrl;
   final Function() onTap;
-  final String name;
 
-  CategoryCard({this.title, this.name, this.iconUrl, this.onTap});
+  CategoryCard({required this.title, required this.iconUrl, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +34,7 @@ class CategoryCard extends StatelessWidget {
                           child: Image.network(
                         iconUrl,
                         fit: BoxFit.contain,
-                        errorBuilder:
-                            (BuildContext context, Object exception, StackTrace stackTrace) {
+                        errorBuilder: (context, exception, stackTrace) {
                           return Text(' ');
                         },
                       )),

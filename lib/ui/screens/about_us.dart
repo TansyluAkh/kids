@@ -17,8 +17,6 @@ class About extends StatefulWidget {
 class _AboutState extends State<About> {
   List<bool> isSelected = [true, false];
 
-  Future<void> _launched;
-
   Future<void> _launchInBrowser(String url) async {
     print(url);
     if (await canLaunch(url)) {
@@ -38,8 +36,8 @@ class _AboutState extends State<About> {
     return FutureBuilder(
         future: getInfo('info', 'about'),
         builder: (BuildContext context, AsyncSnapshot<Info> text) {
-          print(text.data);
-          return text.data != null
+          final data = text.data;
+          return data != null
               ? Scaffold(
                   backgroundColor: AppColors.background,
                   extendBodyBehindAppBar: true,
@@ -93,10 +91,8 @@ class _AboutState extends State<About> {
                       ),
                       IconButton(
                           icon: Icon(FontAwesomeIcons.link, color: AppColors.darkBlue, size: 25),
-                          onPressed: () {
-                            print(_launched);
-                            print(text.data.social);
-                            _launched = _launchInBrowser(text.data.social);
+                          onPressed: () async {
+                            await _launchInBrowser(data.social);
                           })
                     ],
                     systemOverlayStyle:
@@ -127,8 +123,8 @@ class _AboutState extends State<About> {
                                         EdgeInsets.only(left: 25, right: 10, top: 30, bottom: 10),
                                     child: SingleChildScrollView(
                                         child: getElem(isSelected[0]
-                                            ? text.data.tat_desc
-                                            : text.data.rus_desc)))))
+                                            ? data.tatDescription
+                                            : data.rusDescription)))))
                       ])))
               : Scaffold(
                   backgroundColor: AppColors.background,
@@ -143,7 +139,7 @@ class _AboutState extends State<About> {
 
   Widget getElem(String text) {
     print(text);
-    List split = text.split('%').map<Widget>((i) {
+    final split = text.split('%').map<Widget>((i) {
       if (i == "") {
         return SizedBox(height: 0);
       } else {

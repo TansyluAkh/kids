@@ -6,18 +6,18 @@ import 'package:flutter/widgets.dart';
 
 abstract class View<Vm extends ViewModel> extends StatefulWidget {
   View({
-    Key key,
-    @required this.viewModel,
-    Widget Function(BuildContext) loadingWidgetBuilder,
-    void Function(BuildContext) onNonBlockingLoading,
+    Key? key,
+    required this.viewModel,
+    Widget Function(BuildContext)? loadingWidgetBuilder,
+    void Function(BuildContext)? onNonBlockingLoading,
   }) : super(key: key) {
     this.loadingWidgetBuilder = loadingWidgetBuilder ?? buildLoadingWidget;
     this.onNonBlockingLoading = onNonBlockingLoading ?? loadingModal;
   }
 
   final Vm viewModel;
-  Widget Function(BuildContext) loadingWidgetBuilder;
-  void Function(BuildContext) onNonBlockingLoading;
+  Widget Function(BuildContext)? loadingWidgetBuilder;
+  void Function(BuildContext)? onNonBlockingLoading;
 
   @protected
   Widget build(BuildContext context);
@@ -85,7 +85,7 @@ class _ViewState extends State<View> {
         Navigator.of(context).pop();
         isWidgetInLoadingState = false;
       } else if (isWidgetInLoadingState == false && widget.viewModel.isLoading == true) {
-        widget.onNonBlockingLoading(context);
+        widget.onNonBlockingLoading?.call(context);
         isWidgetInLoadingState = true;
       }
     } else if (isWidgetInLoadingState != widget.viewModel.isLoading) {
@@ -102,8 +102,8 @@ class _ViewState extends State<View> {
 
   @override
   Widget build(BuildContext context) {
-    if (!isWidgetWasShown && isWidgetInLoadingState) {
-      return widget.loadingWidgetBuilder(context);
+    if (!isWidgetWasShown && isWidgetInLoadingState && widget.loadingWidgetBuilder != null) {
+      return widget.loadingWidgetBuilder!.call(context);
     }
     isWidgetWasShown = true;
     return widget.build(context);
@@ -111,10 +111,10 @@ class _ViewState extends State<View> {
 }
 
 class ViewBuilder<Vm extends ViewModel> extends View<Vm> {
-  final Widget Function(BuildContext, Vm, Widget) builder;
-  final Widget child;
+  final Widget Function(BuildContext, Vm, Widget?) builder;
+  final Widget? child;
 
-  ViewBuilder({Key key, @required Vm viewModel, @required this.builder, this.child})
+  ViewBuilder({Key? key, required Vm viewModel, required this.builder, this.child})
       : super(key: key, viewModel: viewModel);
 
   @override

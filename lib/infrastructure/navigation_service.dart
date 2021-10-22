@@ -1,4 +1,5 @@
-﻿import 'package:flutter/widgets.dart';
+﻿// @dart=2.11
+import 'package:flutter/widgets.dart';
 
 typedef _RoutePredicate = bool Function(Route<dynamic>);
 

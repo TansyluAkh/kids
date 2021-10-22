@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 class DndTest extends StatelessWidget {
   final DndViewModel vm;
 
-  DndTest({Key key, List<Word> words})
+  DndTest({Key? key, required List<Word> words})
       : vm = DndViewModel(words),
         super(key: key);
 
@@ -47,7 +47,7 @@ class DndTest extends StatelessWidget {
           ),
           child: ViewBuilder(
             viewModel: vm,
-            builder: (context, vm, _) => Column(
+            builder: (context, DndViewModel vm, _) => Column(
               children: [
                 Container(
                   height: height * 0.8,

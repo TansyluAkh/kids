@@ -9,7 +9,7 @@ class WordsPage extends StatefulWidget {
   final String name;
   final String title;
 
-  WordsPage({Key key, @required this.name, @required this.title}) : super(key: key);
+  WordsPage({Key? key, required this.name, required this.title}) : super(key: key);
 
   @override
   _WordsPageState createState() => _WordsPageState();
@@ -54,16 +54,16 @@ class _WordsPageState extends State<WordsPage> {
             ),
             child: FutureBuilder(
                 future: WordRepository.instance.getWord('categories/' + widget.name),
-                builder: (BuildContext context, AsyncSnapshot<List<Word>> text) {
-                  print(text.data);
-                  return text.data != null
+                builder: (BuildContext context, AsyncSnapshot<List<Word>> snapshot) {
+                  final data = snapshot.data;
+                  return data != null
                       ? Column(children: [
                           SizedBox(height: height * 0.12),
                           Expanded(
                             child: StaggeredGridView.countBuilder(
                               padding: EdgeInsets.all(20),
                               crossAxisCount: 2,
-                              itemCount: text.data.length,
+                              itemCount: data.length,
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 20,
                               itemBuilder: (context, index) {
@@ -71,7 +71,7 @@ class _WordsPageState extends State<WordsPage> {
                                   InkWell(
                                       onTap: () {
                                         print('TAPPED GRIDWORD');
-                                        var all_items = text.data;
+                                        var all_items = data;
                                         print(all_items);
                                         print('ALL ITEMS');
                                         print(all_items[0].imageUrl);
@@ -86,7 +86,7 @@ class _WordsPageState extends State<WordsPage> {
                                           color: AppColors.white,
                                           borderRadius: BorderRadius.circular(16),
                                           image: DecorationImage(
-                                            image: NetworkImage(text.data[index].imageUrl),
+                                            image: NetworkImage(data[index].imageUrl),
                                             fit: BoxFit.contain,
                                           ),
                                         ),
@@ -94,7 +94,7 @@ class _WordsPageState extends State<WordsPage> {
                                   Chip(
                                       backgroundColor: AppColors.white,
                                       label: Text(
-                                        capitalize(text.data[index].tatarWord),
+                                        capitalize(data[index].tatarWord),
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
                                             fontSize: 16,

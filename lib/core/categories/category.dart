@@ -4,7 +4,7 @@ class Category {
   final String description;
   final String imageUrl;
 
-  Category({this.title, this.name, this.description, this.imageUrl});
+  Category({required this.title, required this.name, required this.description, required this.imageUrl});
 
   static Category fromMap(Map<String, dynamic> map) {
     return Category(
