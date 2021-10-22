@@ -1,5 +1,5 @@
-﻿import 'package:bebkeler/core/words/word.dart';
-import 'package:bebkeler/infrastructure/mvvm/view.dart';
+﻿import 'package:bebkeler/core/word.dart';
+import 'package:bebkeler/infrastructure/mvvm.dart';
 import 'package:bebkeler/ui/screens/drag_and_drop/dnd_vm.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/cupertino.dart';

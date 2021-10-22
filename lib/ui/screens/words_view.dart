@@ -1,5 +1,4 @@
-import 'package:bebkeler/core/words/word.dart';
-import 'package:bebkeler/core/words/word_repository.dart';
+import 'package:bebkeler/core/word.dart';
 import 'package:bebkeler/ui/screens/swiper.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +52,7 @@ class _WordsPageState extends State<WordsPage> {
               ),
             ),
             child: FutureBuilder(
-                future: WordRepository.instance.getWord('categories/' + widget.name),
+                future: getWord('categories/' + widget.name),
                 builder: (BuildContext context, AsyncSnapshot<List<Word>> snapshot) {
                   final data = snapshot.data;
                   return data != null

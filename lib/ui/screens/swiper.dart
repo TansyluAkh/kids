@@ -1,5 +1,5 @@
-import 'package:bebkeler/core/quiz/models.dart';
-import 'package:bebkeler/core/words/word.dart';
+import 'package:bebkeler/core/quiz.dart';
+import 'package:bebkeler/core/word.dart';
 import 'package:bebkeler/ui/components/slider_button.dart';
 import 'package:bebkeler/ui/screens/details_screen.dart';
 import 'package:bebkeler/ui/screens/quiz/quiz_screen.dart';

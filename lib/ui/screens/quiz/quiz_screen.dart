@@ -1,5 +1,5 @@
-import 'package:bebkeler/core/quiz/models.dart';
-import 'package:bebkeler/infrastructure/mvvm/view.dart';
+import 'package:bebkeler/core/quiz.dart';
+import 'package:bebkeler/infrastructure/mvvm.dart';
 import 'package:bebkeler/ui/screens/quiz/quiz_result_screen.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';

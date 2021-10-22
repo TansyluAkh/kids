@@ -1,6 +1,6 @@
 ﻿import 'dart:math';
 
-import 'package:bebkeler/core/words/word.dart';
+import 'package:bebkeler/core/word.dart';
 
 class Quiz {
   final String title;
@@ -54,7 +54,6 @@ class UserAnswer {
   UserAnswer(this.questionIndex, this.chosenOptionIndex);
 }
 
-
 Quiz _createQuiz(String title, String collectionPath, tatCategory, List<Word> words) {
   words.shuffle();
   final List<Question> questions = [];
@@ -70,13 +69,12 @@ Quiz _createQuiz(String title, String collectionPath, tatCategory, List<Word> wo
       title: title, collectionPath: collectionPath, tatCategory: tatCategory, questions: questions);
 }
 
-
 List<Option> _generateOptions(int correctWordIndex, List<Word> words) {
   final randomInts = _generateInts(0, words.length, 3, excluded: {correctWordIndex});
   final List<Option> result = [];
   for (final index in randomInts) {
-    if (words[index].answer == 'null'){
-      print(words[index].imageName+ ' NULL');
+    if (words[index].answer == 'null') {
+      print(words[index].imageName + ' NULL');
     }
     result.add(Option(
       text: words[index].answer,

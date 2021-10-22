@@ -1,4 +1,4 @@
-import 'package:bebkeler/core/info/info.dart';
+import 'package:bebkeler/core/about_info.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'home_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:bebkeler/core/info/info_repository.dart';
 
 class About extends StatefulWidget {
   @override
@@ -34,8 +33,8 @@ class _AboutState extends State<About> {
     final height = MediaQuery.of(context).size.height;
 
     return FutureBuilder(
-        future: getInfo('info', 'about'),
-        builder: (BuildContext context, AsyncSnapshot<Info> text) {
+        future: getAboutInfo('info', 'about'),
+        builder: (BuildContext context, AsyncSnapshot<AboutInfo> text) {
           final data = text.data;
           return data != null
               ? Scaffold(

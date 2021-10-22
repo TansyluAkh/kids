@@ -1,7 +1,7 @@
 ﻿import 'dart:collection';
 
-import 'package:bebkeler/core/words/word.dart';
-import 'package:bebkeler/infrastructure/mvvm/view_model.dart';
+import 'package:bebkeler/core/word.dart';
+import 'package:bebkeler/infrastructure/mvvm.dart';
 import 'package:bebkeler/infrastructure/navigation_service.dart';
 
 enum Match { correct, wrong, none }

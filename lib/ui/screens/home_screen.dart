@@ -1,4 +1,4 @@
-import 'package:bebkeler/core/categories/category_repository.dart';
+import 'package:bebkeler/core/category.dart';
 import 'package:bebkeler/ui/screens/about_us.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,6 @@ class _HomePageState extends State<HomePage> {
   var r = 'https://urban.tatar/bebkeler/tatar/assets/green.png';
   @override
   Widget build(BuildContext context) {
-    final categoryRepository = CategoryRepository.instance;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -55,7 +54,7 @@ class _HomePageState extends State<HomePage> {
             child: Padding(
                 padding: EdgeInsets.only(left: 10, bottom: 15),
                 child: FutureBuilder(
-                    future: categoryRepository.getCategories('categories'),
+                    future: getCategories('categories'),
                     builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
                       final categories = snapshot.data;
                       return categories != null
@@ -93,10 +92,9 @@ class _HomePageState extends State<HomePage> {
                                                     ),
                                                   ),
                                                   FutureBuilder(
-                                                      future: categoryRepository.getCategories(
-                                                          'categories/' +
-                                                              categories[index].name +
-                                                              '/subs'),
+                                                      future: getCategories('categories/' +
+                                                          categories[index].name +
+                                                          '/subs'),
                                                       builder: (BuildContext context,
                                                           AsyncSnapshot<List<dynamic>>
                                                               subSnapshot) {

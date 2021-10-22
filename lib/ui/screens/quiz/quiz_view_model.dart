@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'package:bebkeler/core/quiz/models.dart';
-import 'package:bebkeler/infrastructure/mvvm/ticker_provider.dart';
-import 'package:bebkeler/infrastructure/mvvm/view_model.dart';
+import 'package:bebkeler/core/quiz.dart';
+import 'package:bebkeler/infrastructure/mvvm.dart';
 import 'package:flutter/material.dart';
 
 const secondsPerQuestion = 25;
