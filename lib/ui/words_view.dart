@@ -1,5 +1,5 @@
 import 'package:bebkeler/core/word.dart';
-import 'package:bebkeler/ui/screens/swiper.dart';
+import 'package:bebkeler/ui/swiper.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';

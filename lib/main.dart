@@ -1,7 +1,7 @@
 import 'package:bebkeler/infrastructure/navigation_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:bebkeler/ui/screens/splash_screen.dart';
+import 'package:bebkeler/ui/splash_screen.dart';
 import 'package:flutter/services.dart';
 
 void main() async {

@@ -1,10 +1,11 @@
 ﻿import 'package:bebkeler/core/word.dart';
 import 'package:bebkeler/infrastructure/mvvm.dart';
-import 'package:bebkeler/ui/screens/drag_and_drop/dnd_vm.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'dnd_vm.dart';
 
 class DndTest extends StatelessWidget {
   final DndViewModel vm;

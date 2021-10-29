@@ -1,8 +1,8 @@
 import 'package:bebkeler/core/category.dart';
-import 'package:bebkeler/ui/screens/about_us.dart';
+import 'package:bebkeler/ui/about_us.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:bebkeler/ui/components/category_card.dart';
+import 'package:bebkeler/ui/shared/category_card.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'words_view.dart';

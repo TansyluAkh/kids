@@ -1,7 +1,7 @@
-import 'package:bebkeler/ui/screens/quiz/quiz_result_screen.dart';
+import 'package:bebkeler/ui/quiz/quiz_result_screen.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:bebkeler/ui/screens/home_screen.dart';
+import 'package:bebkeler/ui/home_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 

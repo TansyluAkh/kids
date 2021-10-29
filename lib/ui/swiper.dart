@@ -1,10 +1,10 @@
 import 'package:bebkeler/core/quiz.dart';
 import 'package:bebkeler/core/word.dart';
-import 'package:bebkeler/ui/components/slider_button.dart';
-import 'package:bebkeler/ui/screens/details_screen.dart';
-import 'package:bebkeler/ui/screens/quiz/quiz_screen.dart';
-import 'package:bebkeler/ui/screens/spelling_bee/game.dart';
+import 'package:bebkeler/ui/quiz/quiz_screen.dart';
+import 'package:bebkeler/ui/shared/slider_button.dart';
+import 'package:bebkeler/ui/details_screen.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
+import 'package:bebkeler/ui/spelling_bee/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -39,8 +39,7 @@ class _SwiperState extends State<Swiper> {
           systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
           centerTitle: true,
           title: Text((widget.itemIndex + 1).toString() + ' / ' + widget.items.length.toString(),
-              style:
-                  TextStyle(fontSize: 22, color: AppColors.green, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 22, color: AppColors.green, fontWeight: FontWeight.bold)),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
           ),

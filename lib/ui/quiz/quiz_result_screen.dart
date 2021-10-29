@@ -1,4 +1,4 @@
-import 'package:bebkeler/ui/screens/home_screen.dart';
+import 'package:bebkeler/ui/home_screen.dart';
 import 'package:bebkeler/ui/shared/colors.dart';
 import 'package:bebkeler/ui/shared/spacing.dart';
 import 'package:flutter/cupertino.dart';
