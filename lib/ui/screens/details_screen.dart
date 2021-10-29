@@ -60,7 +60,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       style: Theme.of(context)
                           .textTheme
                           .subtitle1
-                          ?.copyWith(color: AppColors.darkBlue),
+                          ?.copyWith(color: AppColors.green),
                       textAlign: TextAlign.center),
                   SizedBox(height: widget.height * 0.01),
                   Expanded(

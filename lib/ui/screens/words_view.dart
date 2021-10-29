@@ -34,7 +34,7 @@ class _WordsPageState extends State<WordsPage> {
                 fontWeight: FontWeight.bold,
                 fontFamily: "Montserrat",
                 fontSize: 22,
-                color: AppColors.darkBlue,
+                color: AppColors.green,
               )),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
@@ -98,7 +98,7 @@ class _WordsPageState extends State<WordsPage> {
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
-                                            color: AppColors.darkBlue),
+                                            color: AppColors.green),
                                       )),
                                 ]);
                               },

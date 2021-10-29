@@ -51,7 +51,7 @@ class _AboutState extends State<About> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          fontWeight: FontWeight.bold, color: AppColors.darkBlue, fontSize: 22),
+                          fontWeight: FontWeight.bold, color: AppColors.green, fontSize: 22),
                     ),
                     leading: IconButton(
                       icon: Icon(Icons.arrow_back_rounded, color: AppColors.orange, size: 35),
@@ -63,8 +63,8 @@ class _AboutState extends State<About> {
                     actions: [
                       ToggleButtons(
                         borderRadius: BorderRadius.circular(10),
-                        color: AppColors.darkBlue,
-                        selectedColor: AppColors.darkBlue,
+                        color: AppColors.green,
+                        selectedColor: AppColors.green,
                         fillColor: AppColors.element,
                         splashColor: AppColors.element,
                         hoverColor: AppColors.element,
@@ -89,7 +89,7 @@ class _AboutState extends State<About> {
                         },
                       ),
                       IconButton(
-                          icon: Icon(FontAwesomeIcons.link, color: AppColors.darkBlue, size: 25),
+                          icon: Icon(FontAwesomeIcons.link, color: AppColors.green, size: 25),
                           onPressed: () async {
                             await _launchInBrowser(data.social);
                           })
@@ -158,7 +158,7 @@ class _AboutState extends State<About> {
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
-          style: TextStyle(color: AppColors.darkBlue, fontSize: 12),
+          style: TextStyle(color: AppColors.green, fontSize: 12),
         )));
     print(split);
     var displayElement = Column(children: split);

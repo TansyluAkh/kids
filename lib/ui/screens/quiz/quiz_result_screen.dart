@@ -60,7 +60,7 @@ class QuizResultScreen extends StatelessWidget {
                         "${result} / ${maxResult}",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: AppColors.darkBlue, fontSize: 30, fontWeight: FontWeight.bold),
+                            color: AppColors.green, fontSize: 30, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                         height: 20,
@@ -79,7 +79,7 @@ class QuizResultScreen extends StatelessWidget {
                         IconButton(
                           iconSize: height * 0.05,
                           icon: Icon(FontAwesomeIcons.home),
-                          color: AppColors.darkBlue,
+                          color: AppColors.green,
                           onPressed: () => Navigator.of(context).push(
                             MaterialPageRoute(builder: (BuildContext context) => HomePage()),
                           ),
@@ -88,7 +88,7 @@ class QuizResultScreen extends StatelessWidget {
                         IconButton(
                           iconSize: height * 0.045,
                           icon: Icon(FontAwesomeIcons.redo),
-                          color: AppColors.darkBlue,
+                          color: AppColors.green,
                           onPressed: () => Navigator.pop(context),
                         ),
                       ])

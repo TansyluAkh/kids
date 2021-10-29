@@ -27,7 +27,7 @@ class SliderButton extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         maxLines: 3,
         textAlign: TextAlign.center,
-        style: TextStyle(color: AppColors.darkBlue, fontSize: 16),
+        style: TextStyle(color: AppColors.green, fontSize: 16),
       ),
       icon: Center(
           child: Icon(
@@ -36,7 +36,7 @@ class SliderButton extends StatelessWidget {
         size: height * 0.055,
       )),
       boxShadow: BoxShadow(
-        color: AppColors.darkBlue,
+        color: AppColors.green,
         blurRadius: 4,
       ),
       buttonSize: height * 0.075,
@@ -45,10 +45,10 @@ class SliderButton extends StatelessWidget {
       dismissible: false,
       shimmer: false,
       radius: 70,
-      buttonColor: AppColors.darkBlue,
+      buttonColor: AppColors.green,
       backgroundColor: AppColors.white,
-      highlightedColor: AppColors.darkBlue,
-      baseColor: AppColors.darkBlue,
+      highlightedColor: AppColors.green,
+      baseColor: AppColors.green,
     );
   }
 }

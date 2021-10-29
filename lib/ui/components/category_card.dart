@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 class CategoryCard extends StatelessWidget {
   final String title;
   final String iconUrl;
-  final Function() onTap;
+  final Function()? onTap;
 
-  CategoryCard({required this.title, required this.iconUrl, required this.onTap});
+  CategoryCard({required this.title, required this.iconUrl, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class CategoryCard extends StatelessWidget {
                             fontSize: 16.0,
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold,
-                            color: AppColors.darkBlue),
+                            color: AppColors.green),
                       ),
                     ],
                   ),

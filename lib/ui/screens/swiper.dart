@@ -40,7 +40,7 @@ class _SwiperState extends State<Swiper> {
           centerTitle: true,
           title: Text((widget.itemIndex + 1).toString() + ' / ' + widget.items.length.toString(),
               style:
-                  TextStyle(fontSize: 22, color: AppColors.darkBlue, fontWeight: FontWeight.bold)),
+                  TextStyle(fontSize: 22, color: AppColors.green, fontWeight: FontWeight.bold)),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
           ),

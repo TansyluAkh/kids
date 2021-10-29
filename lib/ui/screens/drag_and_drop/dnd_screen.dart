@@ -27,8 +27,7 @@ class DndTest extends StatelessWidget {
           systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
           centerTitle: true,
           title: Text('Тест',
-              style:
-                  TextStyle(fontSize: 22, color: AppColors.darkBlue, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 22, color: AppColors.green, fontWeight: FontWeight.bold)),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
           ),

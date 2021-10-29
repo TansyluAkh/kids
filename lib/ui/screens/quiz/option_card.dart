@@ -27,7 +27,7 @@ class OptionCard extends StatelessWidget {
       case OptionState.Wrong:
         return AppColors.red;
       case OptionState.Correct:
-        return AppColors.darkBlue;
+        return AppColors.green;
     }
   }
 
@@ -39,7 +39,7 @@ class OptionCard extends StatelessWidget {
       case OptionState.Wrong:
         return AppColors.red.withOpacity(0.2);
       case OptionState.Correct:
-        return AppColors.darkBlue.withOpacity(0.2);
+        return AppColors.green.withOpacity(0.2);
     }
   }
 
@@ -56,7 +56,7 @@ class OptionCard extends StatelessWidget {
         color = AppColors.red;
         break;
       case OptionState.Correct:
-        color = AppColors.darkBlue;
+        color = AppColors.green;
         break;
     }
 

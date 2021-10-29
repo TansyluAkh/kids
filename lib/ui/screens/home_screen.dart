@@ -25,13 +25,13 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           iconTheme: const IconThemeData(
-            color: AppColors.darkBlue, //change your color here
+            color: AppColors.green, //change your color here
           ),
           centerTitle: true,
           title: Image.network(r, fit: BoxFit.contain, height: height * 0.12, width: width * 0.45),
           actions: [
             IconButton(
-                icon: Icon(FontAwesomeIcons.info, color: AppColors.darkBlue, size: 30),
+                icon: Icon(FontAwesomeIcons.info, color: AppColors.green, size: 30),
                 onPressed: () {
                   Navigator.of(context)
                       .pushReplacement(MaterialPageRoute(builder: (context) => About()));
@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                                                           .textTheme
                                                           .headline6
                                                           ?.copyWith(
-                                                              color: AppColors.darkBlue,
+                                                              color: AppColors.green,
                                                               fontWeight: FontWeight.bold),
                                                     ),
                                                   ),

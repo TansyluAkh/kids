@@ -16,8 +16,8 @@ class Spelling extends StatefulWidget {
 }
 
 class _SpellingState extends State<Spelling> {
-  var buttonColor = AppColors.darkBlue;
-  var scoreColor = AppColors.darkBlue;
+  var buttonColor = AppColors.green;
+  var scoreColor = AppColors.green;
   int score = 0;
   int i = 0;
   bool isCorrect = false;
@@ -26,14 +26,14 @@ class _SpellingState extends State<Spelling> {
   final double height = 35.0;
   final double width = 35.0;
   final double margin = 2;
-  final color = AppColors.darkBlue;
+  final color = AppColors.green;
   final Color fontColor = AppColors.background;
   final double fontSize = 18.0;
   final _style = const TextStyle(
     fontWeight: FontWeight.w600,
     fontFamily: "Montserrat",
     fontSize: 18,
-    color: AppColors.darkBlue,
+    color: AppColors.green,
   );
 
   final TextEditingController _textController = TextEditingController();
@@ -43,10 +43,12 @@ class _SpellingState extends State<Spelling> {
 
   get result => buttonColor;
 
-  _SpellingState() {
+  @override
+  void initState() {
     amtQuestions = widget.items.length;
     words = widget.items.keys.toList();
     words.shuffle();
+    super.initState();
   }
 
   void onPressedButton(String k) {
@@ -120,7 +122,7 @@ class _SpellingState extends State<Spelling> {
                     : AppColors.orange.withOpacity(0.8),
                 content: isCorrect
                     ? Text("Җавабың дөрес - ${chosenAnswer?.toUpperCase()}!",
-                        style: TextStyle(color: AppColors.darkBlue, fontSize: 20))
+                        style: TextStyle(color: AppColors.green, fontSize: 20))
                     : Text("Җавабың ялгыш, дөресе - ${words[i].toUpperCase()} ",
                         style: TextStyle(color: AppColors.white, fontSize: 20)),
                 actions: <Widget>[
@@ -129,7 +131,7 @@ class _SpellingState extends State<Spelling> {
                       child: IconButton(
                           icon: Icon(Icons.arrow_forward_ios_rounded,
                               size: screenHeight * 0.035,
-                              color: isCorrect ? AppColors.darkBlue : AppColors.white),
+                              color: isCorrect ? AppColors.green : AppColors.white),
                           onPressed: () async {
                             if (i < amtQuestions - 1) {
                               try {
@@ -286,7 +288,7 @@ class _SpellingState extends State<Spelling> {
                               autocorrect: false,
                               style: TextStyle(
                                 fontSize: 25.0,
-                                color: AppColors.darkBlue,
+                                color: AppColors.green,
                                 letterSpacing: 5.0,
                               ),
                               decoration: InputDecoration(
@@ -294,19 +296,19 @@ class _SpellingState extends State<Spelling> {
                                   iconSize: 30,
                                   onPressed: clearLast,
                                   icon: Icon(Icons.backspace_rounded,
-                                      size: 35, color: AppColors.darkBlue),
+                                      size: 35, color: AppColors.green),
                                 ),
                                 enabledBorder: UnderlineInputBorder(
                                   borderRadius: BorderRadius.circular(45),
                                   borderSide: BorderSide(
-                                    color: AppColors.darkBlue,
+                                    color: AppColors.green,
                                     width: 5.0,
                                   ),
                                 ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderRadius: BorderRadius.circular(45),
                                   borderSide: BorderSide(
-                                    color: AppColors.darkBlue,
+                                    color: AppColors.green,
                                     width: 5.0,
                                   ),
                                 ),
@@ -376,7 +378,7 @@ class _SpellingState extends State<Spelling> {
                             ),
                             ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
-                                  primary: AppColors.darkBlue.withOpacity(1),
+                                  primary: AppColors.green.withOpacity(1),
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(Radius.circular(45))),
                                   minimumSize: Size(screenWidth * 0.35, screenHeight * 0.07),
