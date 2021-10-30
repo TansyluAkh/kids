@@ -11,7 +11,6 @@ class DraggableCard extends StatefulWidget {
 
 class _DraggableCardState extends State<DraggableCard> with SingleTickerProviderStateMixin {
   OverlayEntry? _overlay;
-  bool isAnimating = false;
   late AnimationController _controller;
   Offset? _currentPosition;
   Offset? _startPosition;
@@ -19,13 +18,13 @@ class _DraggableCardState extends State<DraggableCard> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: Duration(seconds: 1));
-    _controller.addStatusListener((status) {
-      if (status == AnimationStatus.dismissed || status == AnimationStatus.completed) {
-        _controller.reset();
-        _currentPosition = _startPosition;
-      }
+    _controller = AnimationController(vsync: this, duration: Duration(seconds: 100));
+    _controller.addListener(() {
+      final x = Tween(begin: _currentPosition!.dx, end: _startPosition!.dx).evaluate(_controller);
+      final y = Tween(begin: _currentPosition!.dy, end: _startPosition!.dy).evaluate(_controller);
+      _currentPosition = Offset(x, y);
     });
+
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _updateStartPosition();
       _addOverlay();
@@ -50,34 +49,32 @@ class _DraggableCardState extends State<DraggableCard> with SingleTickerProvider
     }
   }
 
+  // Offset _getOffset() {
+  //   return _controller.isAnimating
+  //       ? Offset(
+  //           Tween(begin: _currentPosition!.dx, end: _startPosition!.dx).evaluate(_controller),
+  //           Tween(begin: _currentPosition!.dy, end: _startPosition!.dy).evaluate(_controller))
+  //       : _currentPosition!;
+  // }
+
   void _addOverlay() {
     if (_overlay != null) return;
     _overlay = OverlayEntry(
         builder: (context) => AnimatedBuilder(
               animation: _controller,
               builder: (ctx, _) => Positioned(
-                top: isAnimating
-                    ? Tween(begin: _currentPosition!.dy, end: _startPosition!.dy)
-                        .evaluate(_controller)
-                    : _currentPosition?.dy ?? 0,
-                left: isAnimating
-                    ? Tween(begin: _currentPosition!.dx, end: _startPosition!.dx)
-                        .evaluate(_controller)
-                    : _currentPosition?.dx ?? 0,
+                top: _currentPosition!.dy,
+                left: _currentPosition!.dx,
                 child: GestureDetector(
                   onPanDown: (details) {
-                    isAnimating = false;
-                    _controller.stop();
-                    _controller.reset();
+                    if (_controller.isAnimating) _controller.reset();
                   },
                   onPanUpdate: (details) {
-                    isAnimating = false;
                     _currentPosition = _currentPosition! + details.delta;
                     _overlay!.markNeedsBuild();
                   },
                   onPanEnd: (details) {
                     _controller.forward();
-                    isAnimating = true;
                   },
                   child: widget.child,
                 ),
