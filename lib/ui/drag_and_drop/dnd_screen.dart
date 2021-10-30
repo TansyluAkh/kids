@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'custom_dnd.dart';
 import 'dnd_vm.dart';
 
 class DndTest extends StatelessWidget {
@@ -79,16 +80,18 @@ class DndTest extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: Draggable<Word>(
-                    data: vm.currentWord,
-                    feedback: Image.network(
-                      vm.currentWord.imageUrl,
-                      height: 250,
+                  child: DraggableCard(
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.black, width: 10),
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                          child: Image.network(vm.currentWord.imageUrl)),
                     ),
-                    childWhenDragging: Image.network(vm.currentWord.imageUrl),
-                    child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                        child: Image.network(vm.currentWord.imageUrl)),
                   ),
                 ),
               ],
