@@ -9,20 +9,43 @@ class DraggableCard extends StatefulWidget {
   _DraggableCardState createState() => _DraggableCardState();
 }
 
+class AnimationOffset {
+  Tween<double>? dx;
+  Tween<double>? dy;
+
+  AnimationOffset(Offset from, Offset to) {
+    dx = Tween(begin: from.dx, end: to.dx);
+    dy = Tween(begin: from.dy, end: to.dy);
+  }
+
+  Offset evaluate(AnimationController controller) {
+    return Offset(dx!.evaluate(controller), dy!.evaluate(controller));
+  }
+}
+
 class _DraggableCardState extends State<DraggableCard> with SingleTickerProviderStateMixin {
   OverlayEntry? _overlay;
   late AnimationController _controller;
-  Offset? _currentPosition;
+  AnimationOffset? __animationOffset;
+  AnimationOffset? get _animationOffset => __animationOffset;
+  set _animationOffset(AnimationOffset? value) => __animationOffset = value;
+  Offset? _draggingPosition;
   Offset? _startPosition;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: Duration(seconds: 100));
+    _controller = AnimationController(vsync: this, duration: Duration(seconds: 1));
     _controller.addListener(() {
-      final x = Tween(begin: _currentPosition!.dx, end: _startPosition!.dx).evaluate(_controller);
-      final y = Tween(begin: _currentPosition!.dy, end: _startPosition!.dy).evaluate(_controller);
-      _currentPosition = Offset(x, y);
+      _overlay!.markNeedsBuild();
+    });
+    _controller.addStatusListener((status) {
+      switch (status) {
+        case AnimationStatus.completed:
+          _draggingPosition = _animationOffset!.evaluate(_controller);
+          _animationOffset = null;
+          break;
+      }
     });
 
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
@@ -39,14 +62,27 @@ class _DraggableCardState extends State<DraggableCard> with SingleTickerProvider
     super.dispose();
   }
 
+  Offset _getCurrentPosition() {
+    if (_controller.isAnimating)
+      return _animationOffset?.evaluate(_controller) ?? AnimationOffset(_draggingPosition!, _startPosition!).evaluate(_controller);
+    else
+      return _draggingPosition ?? Offset.zero;
+  }
+
   void _updateStartPosition() {
     if (_startPosition == null) {
       final box = context.findRenderObject() as RenderBox;
       final offset = box.localToGlobal(Offset.zero);
 
       _startPosition = offset;
-      _currentPosition = _startPosition;
+      _draggingPosition = _startPosition;
     }
+  }
+
+  void _runAnimation() {
+    _animationOffset = AnimationOffset(_getCurrentPosition(), _startPosition!);
+    _controller.reset();
+    _controller.forward(from: 0);
   }
 
   // Offset _getOffset() {
@@ -60,26 +96,26 @@ class _DraggableCardState extends State<DraggableCard> with SingleTickerProvider
   void _addOverlay() {
     if (_overlay != null) return;
     _overlay = OverlayEntry(
-        builder: (context) => AnimatedBuilder(
-              animation: _controller,
-              builder: (ctx, _) => Positioned(
-                top: _currentPosition!.dy,
-                left: _currentPosition!.dx,
-                child: GestureDetector(
-                  onPanDown: (details) {
-                    if (_controller.isAnimating) _controller.reset();
-                  },
-                  onPanUpdate: (details) {
-                    _currentPosition = _currentPosition! + details.delta;
-                    _overlay!.markNeedsBuild();
-                  },
-                  onPanEnd: (details) {
-                    _controller.forward();
-                  },
-                  child: widget.child,
-                ),
+        builder: (context) {
+          final currentPosition = _getCurrentPosition();
+          return Positioned(
+              top: currentPosition.dy,
+              left: currentPosition.dx,
+              child: GestureDetector(
+                onPanDown: (details) {
+                  if (_controller.isAnimating) _controller.reset();
+                },
+                onPanUpdate: (details) {
+                  _draggingPosition = details.globalPosition;
+                  _overlay!.markNeedsBuild();
+                },
+                onPanEnd: (details) {
+                  _runAnimation();
+                },
+                child: widget.child,
               ),
-            ));
+            );
+        });
 
     Overlay.of(context)!.insert(_overlay!);
   }
