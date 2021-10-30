@@ -26,9 +26,7 @@ class AnimationOffset {
 class _DraggableCardState extends State<DraggableCard> with SingleTickerProviderStateMixin {
   OverlayEntry? _overlay;
   late AnimationController _controller;
-  AnimationOffset? __animationOffset;
-  AnimationOffset? get _animationOffset => __animationOffset;
-  set _animationOffset(AnimationOffset? value) => __animationOffset = value;
+  AnimationOffset? _animationOffset;
   Offset? _draggingPosition;
   Offset? _startPosition;
 
@@ -85,14 +83,6 @@ class _DraggableCardState extends State<DraggableCard> with SingleTickerProvider
     _controller.forward(from: 0);
   }
 
-  // Offset _getOffset() {
-  //   return _controller.isAnimating
-  //       ? Offset(
-  //           Tween(begin: _currentPosition!.dx, end: _startPosition!.dx).evaluate(_controller),
-  //           Tween(begin: _currentPosition!.dy, end: _startPosition!.dy).evaluate(_controller))
-  //       : _currentPosition!;
-  // }
-
   void _addOverlay() {
     if (_overlay != null) return;
     _overlay = OverlayEntry(
@@ -106,7 +96,7 @@ class _DraggableCardState extends State<DraggableCard> with SingleTickerProvider
                   if (_controller.isAnimating) _controller.reset();
                 },
                 onPanUpdate: (details) {
-                  _draggingPosition = details.globalPosition;
+                  _draggingPosition = _draggingPosition! + details.delta;
                   _overlay!.markNeedsBuild();
                 },
                 onPanEnd: (details) {
