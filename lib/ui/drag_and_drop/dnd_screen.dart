@@ -66,9 +66,9 @@ class DndTest extends StatelessWidget {
                               ? AppColors.red
                               : AppColors.white;
 
-                      return DragTarget<Word>(
-                        onAccept: (word) => vm.makeMatch(pair.word, word),
-                        builder: (_, __, ___) => ColorFiltered(
+                      return DropTarget<Word>(
+                        onAccept: (word) => vm.makeMatch(pair.word, word!),
+                        builder: (_) => ColorFiltered(
                             colorFilter: ColorFilter.mode(
                               filterColor,
                               BlendMode.saturation,
@@ -81,13 +81,13 @@ class DndTest extends StatelessWidget {
                 ),
                 Expanded(
                   child: DraggableCard(
+                    data: vm.currentWord,
                     child: Container(
                       width: 120,
                       height: 120,
                       decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.black, width: 10),
-                        borderRadius: BorderRadius.circular(10)
-                      ),
+                          border: Border.all(color: AppColors.black, width: 10),
+                          borderRadius: BorderRadius.circular(10)),
                       child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                           child: Image.network(vm.currentWord.imageUrl)),
