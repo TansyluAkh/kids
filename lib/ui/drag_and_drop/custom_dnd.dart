@@ -1,4 +1,6 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:flutter/gestures.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/material.dart';
 
 class DraggableCard extends StatefulWidget {
   const DraggableCard({required this.child, Key? key}) : super(key: key);
@@ -14,24 +16,24 @@ class OffsetTween extends Tween<Offset?> {
 
   @override
   Offset? lerp(double t) {
-    return Offset(
-        Tween(begin: begin!.dx, end: end!.dx).transform(t),
+    return Offset(Tween(begin: begin!.dx, end: end!.dx).transform(t),
         Tween(begin: begin!.dy, end: end!.dy).transform(t));
   }
 }
 
 class _DraggableCardState extends State<DraggableCard> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  OffsetTween? _offsetTween;
-  Offset _currentPosition = Offset.zero;
-  Offset _startPosition = Offset.zero;
+  Animation<Offset?>? _animation;
+  Offset _localPosition = Offset.zero;
+
+  bool get isDragging => _localPosition == Offset.zero;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this, duration: Duration(seconds: 1));
     _controller.addListener(() {
-      _currentPosition = _offsetTween!.evaluate(_controller)!;
+      _localPosition = _animation!.value!;
       setState(() {});
     });
   }
@@ -43,28 +45,50 @@ class _DraggableCardState extends State<DraggableCard> with SingleTickerProvider
   }
 
   void _runAnimation() {
-    _offsetTween = OffsetTween(begin: _currentPosition, end: _startPosition);
+    _animation = OffsetTween(begin: _localPosition, end: Offset.zero).animate(_controller);
     _controller.reset();
     _controller.forward(from: 0);
   }
 
+  Offset _getGlobalPosition() {
+    final box = context.findRenderObject() as RenderBox;
+    final globalPosition = box.localToGlobal(Offset.zero);
+    return globalPosition + _localPosition;
+  }
+
+  void checkTargets() {
+    final HitTestResult result = HitTestResult();
+    WidgetsBinding.instance!.hitTest(result, _getGlobalPosition());
+    for (final HitTestEntry entry in result.path) {
+      final HitTestTarget target = entry.target;
+      if (target is RenderMetaData) {
+        final dynamic metaData = target.metaData;
+        //metaData._.onAccept(null);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onPanDown: (details) {
-        if (_controller.isAnimating) {
-          _currentPosition = _offsetTween!.evaluate(_controller)!;
-          _controller.stop();
-        }
-      },
-      onPanUpdate: (details) {
-        _currentPosition = _currentPosition + details.delta;
-        setState(() {});
-      },
-      onPanEnd: (details) {
-        _runAnimation();
-      },
-      child: Transform.translate(offset: _currentPosition, child: widget.child),
+    return Transform.translate(
+      offset: _localPosition,
+      child: GestureDetector(
+        onPanDown: (details) {
+          if (_controller.isAnimating) {
+            _localPosition = _animation!.value!;
+            _controller.stop();
+          }
+        },
+        onPanUpdate: (details) {
+          _localPosition = _localPosition + details.delta;
+          setState(() {});
+        },
+        onPanEnd: (details) {
+          checkTargets();
+          _runAnimation();
+        },
+        child: widget.child,
+      ),
     );
   }
 }
